@@ -20,6 +20,13 @@
     "jsx": "react"
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "extends": "./tsconfig.paths.json"
 }
