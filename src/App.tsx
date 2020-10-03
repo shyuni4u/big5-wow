@@ -1,25 +1,49 @@
 import React from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
-function App() {
+import Button from '@components/atoms/Button'
+
+import Test from '@views/Test'
+import './App.scss'
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <BrowserRouter>
+      {/* <BackgroundJob />
+      <SaveProject />
+      <TitleBar />
+      <TabList />
+      <Toast /> */}
+
+      <Switch>
+        <Route
+          path="/"
+          exact={true}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Button onClick={() => undefined}>test</Button>
+        </Route>
+        <Route
+          path="/test"
+        >
+          <Test />
+        </Route>
+        {/* <Route
+          path="/data"
+        >
+          <Data />
+        </Route>
+        <Route path="/learners">
+          <Learner />
+        </Route>
+        {/* <Route path="/learners/analysis">
+          <Learner />
+        </Route> */}
+        <Redirect
+          path="*"
+          to="/"
+        />
+      </Switch>
+    </BrowserRouter>
   )
 }
 
