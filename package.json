@@ -2,6 +2,16 @@
   "name": "wow-big5",
   "version": "0.1.0",
   "private": true,
+  "description": "Test your propensity to choose a World of Warcraft class",
+  "author": "sunwoo.Kim",
+  "build": {
+    "appId": "com.shyuniz.wow-big5",
+    "productName": "wow-big5",
+    "copyright": "Copyright © 2020 ${author}",
+    "directories": {
+      "buildResources": "public"
+    }
+  },
   "dependencies": {
     "@craco/craco": "^5.7.0",
     "@testing-library/jest-dom": "^4.2.4",
@@ -23,7 +33,7 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=8888 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
