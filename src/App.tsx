@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
-import Button from '@components/atoms/Button'
+import Button from '@components/atoms/Button2'
 
 import Test from '@views/Test'
 import './App.scss'
