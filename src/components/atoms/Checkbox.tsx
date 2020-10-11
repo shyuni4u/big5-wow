@@ -35,11 +35,8 @@ export type CheckboxProps = {
    */
   onChange?: () => void
 }
-type ThemeCheckboxProps = {
-  theme?: any
-} & CheckboxProps
 
-const StyledCheckboxLabel = styled.label<ThemeCheckboxProps>`
+const StyledCheckboxLabel = styled.label<CheckboxProps>`
   display: inline-block;
   position: relative;
   font-family: ${({theme}) => theme.fontFamily};
@@ -57,7 +54,7 @@ const StyledCheckboxLabel = styled.label<ThemeCheckboxProps>`
   cursor: pointer;
 `
 
-const StyledCheckboxText = styled.span<ThemeCheckboxProps>`
+const StyledCheckboxText = styled.span<CheckboxProps>`
   position: absolute;
   top: 8px;
   left: 25px;
@@ -71,20 +68,20 @@ const StyledCheckboxText = styled.span<ThemeCheckboxProps>`
 
 const StyledCheckbox = styled.input.attrs({
   type: 'checkbox'
-})<ThemeCheckboxProps>`
+})<CheckboxProps>`
   position: absolute;
   opacity: 0;
   height: 0;
   width: 0;
 `
 
-const StyledCheckboxMarkIn = styled.span<ThemeCheckboxProps>`
+const StyledCheckboxMarkIn = styled.span<CheckboxProps>`
   position: absolute;
   top: calc(8px + 3px);
   left: calc(0px + 7px);
   width: 7px;
   height: 12px;
-  border: solid ${props => props.disabled ? ({theme}) => theme.colors.grayE : ({theme}) => theme.colors.main};
+  border: solid ${props => props.disabled ? ({theme}) => theme.colors.grayE : ({theme}) => theme.colors.primary};
   border-radius: 2px;
   margin-right: 5px;
   background-color: ${({theme}) => theme.colors.white};
@@ -95,7 +92,7 @@ const StyledCheckboxMarkIn = styled.span<ThemeCheckboxProps>`
   display: ${props => props.checked ? 'inherit' : 'none'};
 `
 
-const StyledCheckboxMarkOut = styled.span<ThemeCheckboxProps>`
+const StyledCheckboxMarkOut = styled.span<CheckboxProps>`
   position: absolute;
   top: 8px;
   left: 0px;
@@ -108,26 +105,25 @@ const StyledCheckboxMarkOut = styled.span<ThemeCheckboxProps>`
     props => props.disabled
     ? ({theme}) => theme.colors.grayE
     : props.checked
-      ? ({theme}) => theme.colors.main
+      ? ({theme}) => theme.colors.primary
       : ({theme}) => theme.colors.Gray8
   };
 `
 
-const StyledRadioButtonMarkIn = styled.span<ThemeCheckboxProps>`
+const StyledRadioButtonMarkIn = styled.span<CheckboxProps>`
   position: absolute;
   top: calc(8px + 4px);
   left: calc(0px + 4px);
   width: 12px;
   height: 12px;
-  border: solid ${props => props.disabled ? ({theme}) => theme.colors.grayE : ({theme}) => theme.colors.main};
+  border: solid ${props => props.disabled ? ({theme}) => theme.colors.grayE : ({theme}) => theme.colors.primary};
   border-radius: 50%;
-  background-color: ${props => props.disabled ? ({theme}) => theme.colors.grayE : ({theme}) => theme.colors.main};
+  background-color: ${props => props.disabled ? ({theme}) => theme.colors.grayE : ({theme}) => theme.colors.primary};
   border-width: 0;
-
   display: ${props => props.checked ? 'inherit' : 'none'};
 `
 
-const StyledRadioButtonMarkOut = styled.span<ThemeCheckboxProps>`
+const StyledRadioButtonMarkOut = styled.span<CheckboxProps>`
   position: absolute;
   top: 8px;
   left: 0px;
@@ -136,19 +132,16 @@ const StyledRadioButtonMarkOut = styled.span<ThemeCheckboxProps>`
   border-radius: 50%;
   margin-right: 5px;
   background-color: ${({theme}) => theme.colors.white};
-
   border: solid 1px ${
     props => props.disabled
     ? ({theme}) => theme.colors.grayE
     : props.checked
-      ? ({theme}) => theme.colors.main
+      ? ({theme}) => theme.colors.primary
       : ({theme}) => theme.colors.Gray8
   };
 `
 
 export const Checkbox: React.FC<CheckboxProps> = (props: CheckboxProps) => {
-  const checked = props.checked || false
-
   return (
     <StyledCheckboxLabel
       style={props.style}>
@@ -156,27 +149,27 @@ export const Checkbox: React.FC<CheckboxProps> = (props: CheckboxProps) => {
         name={props.name}
         value={props.value}
         disabled={props.disabled}
-        checked={checked}
+        checked={props.checked}
         onChange={props.onChange}
       />
       { props.radio && <>
         <StyledRadioButtonMarkOut
-          checked={checked}
+          checked={props.checked}
           disabled={props.disabled}
         />
         <StyledRadioButtonMarkIn
-          checked={checked}
+          checked={props.checked}
           disabled={props.disabled}
         />
       </>
       }
       { !props.radio && <>
         <StyledCheckboxMarkOut
-          checked={checked}
+          checked={props.checked}
           disabled={props.disabled}
         />
         <StyledCheckboxMarkIn
-          checked={checked}
+          checked={props.checked}
           disabled={props.disabled}
         />
       </>

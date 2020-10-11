@@ -50,8 +50,8 @@ Object.keys(sizes).reduce((acc: Media, label: string) => {
 }, media)
 
 const colors = {
-	main: '#4424a7',
-	sub: '#7038fa',
+	main: '#272A34',
+	sub: '#727985',
 	hover: '#ECE9F6',	// hover text color
 	black: '#222222',
 	gray8: '#888888',
@@ -60,8 +60,11 @@ const colors = {
 	grayE: '#eeeeee',
 	grayF: '#f5f5f5',
 	background: '#f8f9fa',
-	red: '#f85150',
-	redbg: '#fff9f9',
+	primary: '#272A34',
+	secondary: '#727985',
+	danger: '#e95656',
+	warning: '#e95656',
+	info: '#889f85',
 	white: '#ffffff'
 }
 
@@ -86,3 +89,6 @@ const theme = {
 export type Theme = typeof theme
 export const styled = baseStyled as ThemedStyledInterface<Theme>
 export default theme
+
+// https://dribbble.com/shots/4048862-Notes
+// https://dribbble.com/shots/1740688-Product-Dashboard-Activity-Feed-UI-UX

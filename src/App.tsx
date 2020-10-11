@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 
-import Test from './views/test/Test'
+// import Test from './components/organisms/Test'
+import Test from './views/Test'
 import './App.scss'
 
 export type BoxProps = {
@@ -62,9 +63,7 @@ export const App: React.FC = () => {
           <button onClick={() => history.push('/')}>home</button>
           <button onClick={() => history.push('/test')}>test</button>
           <button onClick={() => history.push('/test2')}>test2</button>
-          <div>
-            <Test />
-          </div>
+          <Test />
         </Route>
         <Route
           path="/test2"
