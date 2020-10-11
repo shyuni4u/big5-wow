@@ -2,28 +2,40 @@ import React from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 
-import Test from './views/Test'
+import Test from './views/test/Test'
 import './App.scss'
 
-export interface BoxProps {
+export type BoxProps = {
   text?: string
 }
 
 const Box = styled.div<BoxProps>`
   width: 200px;
   height: 200px;
-  border: 1px solid red;
+  border: 1px solid ${({theme}) => theme.colors.red};
   ${({theme}) => theme.media.desktop`
-    border: 2px solid blue;
-    ${(props: BoxProps) => `&::before{content:"데스크톱 ${props.text}"}`};
+    ${(props: BoxProps) => `
+      color: ${theme.colors.red};
+      &::before {
+        content:"데스크톱 ${props.text}";
+      }
+    `};
   `}
   ${({theme}) => theme.media.tablet`
-    border: 2px solid yellow;
-    ${(props: BoxProps) => `&::before{content:"태블릿 ${props.text}"}`};
+    ${(props: BoxProps) => `
+      color: yellow;
+      &::before {
+        content:"데스크톱 ${props.text}";
+      }
+    `};
   `}
   ${({theme}) => theme.media.mobile`
-    border: 2px solid purple;
-    ${(props: BoxProps) => `&::before{content:"모바일  ${props.text}"}`};
+    ${(props: BoxProps) => `
+      color: green;
+      &::before {
+        content:"데스크톱 ${props.text}";
+      }
+    `};
   `}
 `
 
@@ -39,9 +51,9 @@ export const App: React.FC = () => {
           <button onClick={() => history.push('/')}>home</button>
           <button onClick={() => history.push('/test')}>test</button>
           <button onClick={() => history.push('/test2')}>test2</button>
-          <p>
+          <div>
             <span>HOME</span>
-          </p>
+          </div>
         </Route>
         <Route
           path="/test"
@@ -50,9 +62,9 @@ export const App: React.FC = () => {
           <button onClick={() => history.push('/')}>home</button>
           <button onClick={() => history.push('/test')}>test</button>
           <button onClick={() => history.push('/test2')}>test2</button>
-          <p>
+          <div>
             <Test />
-          </p>
+          </div>
         </Route>
         <Route
           path="/test2"
@@ -61,9 +73,9 @@ export const App: React.FC = () => {
           <button onClick={() => history.push('/')}>home</button>
           <button onClick={() => history.push('/test')}>test</button>
           <button onClick={() => history.push('/test2')}>test2</button>
-          <p>
-            <Box text='size' />
-          </p>
+          <div>
+            <Box text='size'>TEST</Box>
+          </div>
         </Route>
         <Redirect
           path="*"
