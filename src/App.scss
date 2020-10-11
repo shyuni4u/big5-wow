@@ -1,11 +1,10 @@
-.no-select {
-  -ms-user-select: none;
-  -moz-user-select: -moz-none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  user-select: none;
-}
-
+// .no-select {
+//   -ms-user-select: none;
+//   -moz-user-select: -moz-none;
+//   -webkit-user-select: none;
+//   -khtml-user-select: none;
+//   user-select: none;
+// }
 * { font-family: 'Spoqa Han Sans', 'Sans-serif'; }
 
 @font-face {
@@ -36,34 +35,3 @@
   src: url("./fonts/Spoqa\ Han\ Sans\ Bold.woff2") format("woff2"),
     url("./fonts/Spoqa\ Han\ Sans\ Bold.woff") format("woff");
 }
-
-ul, li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-button, select {
-  text-transform: none;
-}
-button, input {
-  overflow: visible;
-}
-button, input, optgroup, select, textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-button {
-  border-radius: 0;
-}
-*, ::after, ::before {
-  box-sizing: border-box;
-}
-label {
-  display: inline-block;
-}
-// p {
-//   margin-top: 0;
-//   margin-bottom: 1rem;
-// }
