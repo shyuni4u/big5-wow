@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import Checkbox from '../atoms/Checkbox'
+import React, { useState, useEffect } from 'react';
+import Checkbox from '../atoms/Checkbox';
 
 /**
-  * 1-6번, 10-12번의 경우 전혀 아니다를 1로 시작해서 매우 그렇다를 5로 두고,
-  * 7-9번은 전혀 아니다 5로 시작해서 매우 그렇다를 1로 두고 계산합니다.
-  * 각 성격타입은 다음과 같으며, 해당 문항을 더한 것이 자신의 점수입니다.
-  * 외향성 1+6
-  * 신경성 5+10
-  * 성실성 4+9
-  * 친화성 2+7+12
-  * 개방성 3+8+11
-*/
+ * 1-6번, 10-12번의 경우 전혀 아니다를 1로 시작해서 매우 그렇다를 5로 두고,
+ * 7-9번은 전혀 아니다 5로 시작해서 매우 그렇다를 1로 두고 계산합니다.
+ * 각 성격타입은 다음과 같으며, 해당 문항을 더한 것이 자신의 점수입니다.
+ * 외향성 1+6
+ * 신경성 5+10
+ * 성실성 4+9
+ * 친화성 2+7+12
+ * 개방성 3+8+11
+ */
 const testList = [
   {
     question: '모르는 사람에게 먼저 말을 건다',
@@ -63,7 +63,7 @@ const testList = [
     question: '타인의 감정에 공감한다',
     type: 'agreeableness'
   }
-]
+];
 
 const strValues = [
   '전혀 아니다',
@@ -71,44 +71,45 @@ const strValues = [
   '보통이다',
   '약간 그렇다',
   '매우 그렇다'
-]
+];
 
 // type TestItem = typeof testList
 
 export const Test: React.FC = () => {
-  const [processIndex, setProcessIndex] = useState<number>(0)
-  const [valueList, setValueList] = useState<number[]>([])
-  const MAX_SCORE = 5
+  const [processIndex, setProcessIndex] = useState<number>(0);
+  const [valueList, setValueList] = useState<number[]>([]);
+  const MAX_SCORE = 5;
 
   useEffect(() => {
-    setValueList(testList.map(() => -1))
-  }, [])
+    setValueList(testList.map(() => -1));
+  }, []);
 
   return (
     <>
-      <p>
-        Big5 TEST
-      </p>
+      <p>Big5 TEST</p>
       <main>
         {testList.map((item, index) => (
           <div
             key={index}
             style={{ display: index === processIndex ? 'inherit' : 'none' }}
           >
-            <div>
-              {item.question}
-            </div>
+            <div>{item.question}</div>
             <div>
               {strValues.map((subItem, subIndex) => (
                 <Checkbox
                   key={subIndex}
                   radio={true}
                   label={subItem}
-                  checked={valueList[index] === (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)}
+                  checked={
+                    valueList[index] ===
+                    (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)
+                  }
                   onChange={() => {
-                    const tmp = [...valueList]
-                    tmp[index] = item.reverse ? MAX_SCORE - subIndex : subIndex + 1
-                    setValueList(tmp)
+                    const tmp = [...valueList];
+                    tmp[index] = item.reverse
+                      ? MAX_SCORE - subIndex
+                      : subIndex + 1;
+                    setValueList(tmp);
                   }}
                 />
               ))}
@@ -117,28 +118,34 @@ export const Test: React.FC = () => {
         ))}
       </main>
       <div>
-        <button type='button'
+        <button
+          type="button"
           disabled={processIndex === 0}
           onClick={() => {
-            const tmp = [...valueList]
-            tmp[processIndex] = -1
-            setValueList(tmp)
-            setProcessIndex(prev => prev - 1)
+            const tmp = [...valueList];
+            tmp[processIndex] = -1;
+            setValueList(tmp);
+            setProcessIndex((prev) => prev - 1);
           }}
         >
           이전
         </button>
         {processIndex + 1} / {testList.length}
-        <button type='button'
+        <button
+          type="button"
           disabled={valueList[processIndex] === -1}
-          onClick={() => processIndex + 1 === testList.length ? alert('결과창 이동') : setProcessIndex(prev => prev + 1)}
+          onClick={() =>
+            processIndex + 1 === testList.length
+              ? alert('결과창 이동')
+              : setProcessIndex((prev) => prev + 1)
+          }
         >
           {processIndex + 1 === testList.length ? '결과보기' : '다음'}
         </button>
       </div>
       <div>{valueList.join(', ')}</div>
     </>
-  )
-}
+  );
+};
 
-export default Test
+export default Test;

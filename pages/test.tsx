@@ -1,7 +1,7 @@
-import React from 'react'
-import Wrapper from '../components/organisms/Wrapper'
-import ClassForm from '../components/organisms/Class'
-import TestForm from '../components/organisms/Test'
+import React from 'react';
+import Wrapper from '../components/organisms/Wrapper';
+import ClassForm from '../components/organisms/Class';
+import TestForm from '../components/organisms/Test';
 
 export const Test: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ export const Test: React.FC = () => {
       <ClassForm />
       <TestForm />
     </Wrapper>
-  )
-}
+  );
+};
 
-export default Test
+export default Test;

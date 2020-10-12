@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 // import Checkbox from '../atoms/Checkbox'
 
 // type TestItem = typeof testList
@@ -14,11 +14,9 @@ export const Test: React.FC = () => {
 
   return (
     <>
-      <p>
-        Class Seleect
-      </p>
+      <p>Class Seleect</p>
     </>
-  )
-}
+  );
+};
 
-export default Test
+export default Test;

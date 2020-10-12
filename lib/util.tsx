@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 export const Util = {
   test: 'test'
-}
+};
 
-export default Util
+export default Util;

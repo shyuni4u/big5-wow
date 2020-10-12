@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const Temp: React.FC = () => {
-  return (
-    <>
-      hooks/h.tsx
-    </>
-  )
-}
+  return <>hooks/h.tsx</>;
+};
 
-export default Temp
+export default Temp;
