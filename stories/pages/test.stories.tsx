@@ -10,10 +10,6 @@ export default {
   component: Test
 } as Meta;
 
-const Template: Story = (args) => (
-  <Wrapper>
-    <Test {...args} />
-  </Wrapper>
-);
+const Template: Story = (args) => <Test {...args} />;
 
 export const TestView = Template.bind({});

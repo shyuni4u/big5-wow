@@ -4,10 +4,24 @@ import styled, { css } from 'styled-components';
 const StyledWrapper = styled.article`
   background-color: ${({ theme }) => theme.colors.white};
   padding: 40px;
+  width: 100%;
+  height: 100%;
+  ${({ theme }) => theme.media.tablet`
+    padding: 15px;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    padding: 15px;
+  `}
 `;
 const StyledTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.h2};
   margin: 40px 0 20px;
+  ${({ theme }) => theme.media.tablet`
+    margin: 20px 0 10px;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    margin: 20px 0 10px;
+  `}
 `;
 const StyledQuestionWrapper = styled.div`
   /* font-size: ${({ theme }) => theme.fontSizes.body14}; */
@@ -66,9 +80,15 @@ const StyledExample = styled.div<StyledExampleProp>`
 `;
 const StyledBottomWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   padding: 0 0 40px;
   margin: 0;
+  ${({ theme }) => theme.media.tablet`
+    padding: 0;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    padding: 0;
+  `}
 `;
 const StyledPrevButton = styled.button`
   flex: 1 0 49%;
@@ -80,6 +100,12 @@ const StyledPrevButton = styled.button`
   &:disabled {
     color: ${({ theme }) => theme.colors.grayC};
   }
+  ${({ theme }) => theme.media.tablet`
+    padding-top: 0px;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    padding-top: 0px;
+  `}
 `;
 const StyledNextButton = styled.button`
   flex: 1 0 49%;
@@ -179,7 +205,7 @@ export const Test: React.FC = () => {
   return (
     <StyledWrapper>
       <StyledTitle>
-        Big 5 성향 테스트 {processIndex + 1} / {testList.length}
+        성향 테스트 {processIndex + 1} / {testList.length}
       </StyledTitle>
       {testList.map((item, index) => (
         <StyledQuestionWrapper

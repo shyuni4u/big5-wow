@@ -7,7 +7,8 @@ import baseStyled, {
 const sizes: { [key: string]: number } = {
   mobile: 320,
   tablet: 768,
-  desktop: 1024
+  // desktop: 1024
+  desktop: 1200
 };
 
 type BackQuoteArgs = string[];

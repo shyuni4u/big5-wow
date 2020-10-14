@@ -6,10 +6,8 @@ import theme from '../../styles/theme';
 import { ThemeProvider } from '../../styles/themed-components';
 
 const StyledWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   min-height: 100%;
-  overflow: hidden;
 `;
 
 export const Wrapper: React.FC = ({ children }) => {
