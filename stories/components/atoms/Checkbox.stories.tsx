@@ -14,11 +14,9 @@ export default {
 } as Meta;
 
 const Template: Story<CheckboxProps> = (args) => (
-  <>
-    <Wrapper>
-      <Checkbox {...args} />
-    </Wrapper>
-  </>
+  <Wrapper>
+    <Checkbox {...args} />
+  </Wrapper>
 );
 
 export const Basic = Template.bind({});

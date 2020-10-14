@@ -11,11 +11,9 @@ export default {
 } as Meta;
 
 const Template: Story = (args) => (
-  <>
-    <Wrapper>
-      <Test />
-    </Wrapper>
-  </>
+  <Wrapper>
+    <Test />
+  </Wrapper>
 );
 
 export const Basic = Template.bind({});

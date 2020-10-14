@@ -61,11 +61,13 @@ const colors = {
   gray8: '#888888',
   grayA: '#aaaaaa',
   grayC: '#cccccc', //	disabled text color
-  grayE: '#eeeeee',
+  grayD: '#dadce0',
+  grayE: '#e8eaed',
   grayF: '#f5f5f5',
   background: '#f8f9fa',
   primary: '#272A34',
   secondary: '#727985',
+  success: '#137333',
   danger: '#e95656',
   warning: '#e95656',
   info: '#889f85',
@@ -75,11 +77,12 @@ const colors = {
 const secondaryColors = {};
 const fontFamily = ['SpoqaHanSans', 'Arial', 'Courier'].join(',');
 const fontSizes = {
-  headline24: '24px',
-  headline20: '20px',
-  subtitle16: '16px',
-  body14: '14px',
-  cation12: '12px'
+  h1: '32px',
+  h2: '24px',
+  h3: '20px',
+  subtitle16: '16px', //  h4
+  body14: '14px', //  h5
+  cation12: '12px' //  h6
 };
 
 const theme = {

@@ -1,5 +1,97 @@
 import React, { useState, useEffect } from 'react';
-import Checkbox from '../atoms/Checkbox';
+import styled, { css } from 'styled-components';
+
+const StyledWrapper = styled.article`
+  background-color: ${({ theme }) => theme.colors.white};
+  padding: 40px;
+`;
+const StyledTitle = styled.h2`
+  font-size: ${({ theme }) => theme.fontSizes.h2};
+  margin: 40px 0 20px;
+`;
+const StyledQuestionWrapper = styled.div`
+  /* font-size: ${({ theme }) => theme.fontSizes.body14}; */
+  display: block;
+  margin: 16px 0;
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+const StyledQuestion = styled.div`
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSizes.body14};
+  padding: 16px 24px;
+  background-color: ${({ theme }) => theme.colors.grayE};
+  border: 1px solid ${({ theme }) => theme.colors.grayD};
+  border-bottom: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+`;
+type StyledExampleProp = {
+  selected?: boolean;
+};
+const StyledExample = styled.div<StyledExampleProp>`
+  position: relative;
+  font-size: ${({ theme }) => theme.fontSizes.body14};
+  font-weight: 400;
+  padding: 16px 24px;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-left: 1px solid ${({ theme }) => theme.colors.grayD};
+  border-right: 1px solid ${({ theme }) => theme.colors.grayD};
+  border-top: 1px solid ${({ theme }) => theme.colors.grayD};
+  cursor: pointer;
+  ${(props) =>
+    props.selected
+      ? css`
+          background-color: #f8fbf9;
+          &::after {
+            position: absolute;
+            top: 12px;
+            right: 24px;
+            width: 7px;
+            height: 12px;
+            border: solid #137333;
+            border-radius: 2px;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            content: '';
+          }
+        `
+      : css``}
+  &:last-child {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.grayD};
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+`;
+const StyledBottomWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 40px;
+  margin: 0;
+`;
+const StyledPrevButton = styled.button`
+  flex: 1 0 49%;
+  padding-top: 24px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  color: ${({ theme }) => theme.colors.primary};
+  &:disabled {
+    color: ${({ theme }) => theme.colors.grayC};
+  }
+`;
+const StyledNextButton = styled.button`
+  flex: 1 0 49%;
+  padding-top: 24px;
+  padding-right: 10px;
+  font-weight: 600;
+  text-align: right;
+  color: ${({ theme }) => theme.colors.primary};
+  &:disabled {
+    color: ${({ theme }) => theme.colors.grayC};
+  }
+`;
 
 /**
  * 1-6번, 10-12번의 경우 전혀 아니다를 1로 시작해서 매우 그렇다를 5로 두고,
@@ -85,40 +177,36 @@ export const Test: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <p>Big5 TEST</p>
-      <main>
-        {testList.map((item, index) => (
-          <div
-            key={index}
-            style={{ display: index === processIndex ? 'inherit' : 'none' }}
-          >
-            <div>{item.question}</div>
-            <div>
-              {strValues.map((subItem, subIndex) => (
-                <Checkbox
-                  key={subIndex}
-                  radio={true}
-                  label={subItem}
-                  checked={
-                    valueList[index] ===
-                    (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)
-                  }
-                  onChange={() => {
-                    const tmp = [...valueList];
-                    tmp[index] = item.reverse
-                      ? MAX_SCORE - subIndex
-                      : subIndex + 1;
-                    setValueList(tmp);
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
-      </main>
-      <div>
-        <button
+    <StyledWrapper>
+      <StyledTitle>
+        Big 5 성향 테스트 {processIndex + 1} / {testList.length}
+      </StyledTitle>
+      {testList.map((item, index) => (
+        <StyledQuestionWrapper
+          key={index}
+          style={{ display: index === processIndex ? 'inherit' : 'none' }}
+        >
+          <StyledQuestion>{item.question}</StyledQuestion>
+          {strValues.map((subItem, subIndex) => (
+            <StyledExample
+              key={subIndex}
+              selected={
+                valueList[index] ===
+                (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)
+              }
+              onClick={() => {
+                const tmp = [...valueList];
+                tmp[index] = item.reverse ? MAX_SCORE - subIndex : subIndex + 1;
+                setValueList(tmp);
+              }}
+            >
+              {subItem}
+            </StyledExample>
+          ))}
+        </StyledQuestionWrapper>
+      ))}
+      <StyledBottomWrapper>
+        <StyledPrevButton
           type="button"
           disabled={processIndex === 0}
           onClick={() => {
@@ -129,9 +217,8 @@ export const Test: React.FC = () => {
           }}
         >
           이전
-        </button>
-        {processIndex + 1} / {testList.length}
-        <button
+        </StyledPrevButton>
+        <StyledNextButton
           type="button"
           disabled={valueList[processIndex] === -1}
           onClick={() =>
@@ -141,10 +228,10 @@ export const Test: React.FC = () => {
           }
         >
           {processIndex + 1 === testList.length ? '결과보기' : '다음'}
-        </button>
-      </div>
-      <div>{valueList.join(', ')}</div>
-    </>
+        </StyledNextButton>
+      </StyledBottomWrapper>
+      {/* <div>{valueList.join(', ')}</div> */}
+    </StyledWrapper>
   );
 };
 
