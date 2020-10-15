@@ -70,7 +70,7 @@ const colors = {
   secondary: '#727985',
   success: '#137333',
   danger: '#e95656',
-  warning: '#e95656',
+  warning: '#fdcc5e',
   info: '#889f85',
   white: '#ffffff'
 };

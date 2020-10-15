@@ -5,30 +5,25 @@ import Wrapper from '../components/organisms/Wrapper';
 import ClassForm from '../components/organisms/WowClass';
 import TestForm from '../components/organisms/Test';
 
-// ${({theme}) => theme.media.mobile`
-//     border: 2px solid purple;
-//     ${(props) => `&::before{content:"모바일 ${props.text}"}`};
-// `}
-
 const StyledTest = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 150px;
+  padding-top: 150px;
   ${({ theme }) => theme.media.tablet`
     flex-direction: column;
-    margin-top: 0px;
+    padding-top: 0px;
   `}
   ${({ theme }) => theme.media.mobile`
     flex-direction: column;
-    margin-top: 0px;
+    padding-top: 0px;
   `}
 `;
 const StyleClassWrapper = styled.section`
   background-color: ${({ theme }) => theme.colors.primary};
   ${({ theme }) => theme.media.desktop`
     flex: 0 0 600px;
-    height: 500px;
+    height: 600px;
   `}
   ${({ theme }) => theme.media.tablet`
     flex-direction: column;
@@ -43,7 +38,7 @@ const StyleTestWrapper = styled.section`
   background-color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.media.desktop`
     flex: 0 0 600px;
-    height: 500px;
+    height: 600px;
   `}
   ${({ theme }) => theme.media.tablet`
     flex-direction: column;

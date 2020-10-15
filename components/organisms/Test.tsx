@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.article`
   background-color: ${({ theme }) => theme.colors.white};
@@ -91,12 +92,14 @@ const StyledBottomWrapper = styled.div`
   `}
 `;
 const StyledPrevButton = styled.button`
+  text-transform: capitalize;
   flex: 1 0 49%;
   padding-top: 24px;
   padding-left: 10px;
   font-weight: 600;
   text-align: left;
   color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
   &:disabled {
     color: ${({ theme }) => theme.colors.grayC};
   }
@@ -108,15 +111,23 @@ const StyledPrevButton = styled.button`
   `}
 `;
 const StyledNextButton = styled.button`
+  text-transform: capitalize;
   flex: 1 0 49%;
   padding-top: 24px;
   padding-right: 10px;
   font-weight: 600;
   text-align: right;
   color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
   &:disabled {
     color: ${({ theme }) => theme.colors.grayC};
   }
+  ${({ theme }) => theme.media.tablet`
+    padding-top: 0px;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    padding-top: 0px;
+  `}
 `;
 
 /**
@@ -194,6 +205,8 @@ const strValues = [
 // type TestItem = typeof testList
 
 export const Test: React.FC = () => {
+  const { t } = useTranslation();
+
   const [processIndex, setProcessIndex] = useState<number>(0);
   const [valueList, setValueList] = useState<number[]>([]);
   const MAX_SCORE = 5;
@@ -242,7 +255,7 @@ export const Test: React.FC = () => {
             setProcessIndex((prev) => prev - 1);
           }}
         >
-          이전
+          {t('prev')}
         </StyledPrevButton>
         <StyledNextButton
           type="button"
@@ -253,7 +266,7 @@ export const Test: React.FC = () => {
               : setProcessIndex((prev) => prev + 1)
           }
         >
-          {processIndex + 1 === testList.length ? '결과보기' : '다음'}
+          {processIndex + 1 === testList.length ? '결과보기' : t('next')}
         </StyledNextButton>
       </StyledBottomWrapper>
       {/* <div>{valueList.join(', ')}</div> */}

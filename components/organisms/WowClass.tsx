@@ -1,278 +1,139 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
-// import ImgDeathKnight from '../../public/Death-Knight.jpg';
+import { toast } from 'react-toastify';
+
+import wowClassList, { ParamWowClassInfo } from '../../lib/WowClassInfo';
 
 const StyledWrapper = styled.article`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   background-color: ${({ theme }) => theme.colors.primary};
   padding: 40px;
   width: 100%;
   height: 100%;
   ${({ theme }) => theme.media.tablet`
+    flex-direction: column;
     padding: 15px;
   `}
   ${({ theme }) => theme.media.mobile`
+    flex-direction: column;
     padding: 15px;
   `}
 `;
+const StyledWowClassItem = styled.div`
+  position: relative;
+  flex: 1 1 50%;
+  min-height: 70px;
+  ${({ theme }) => theme.media.tablet`
+    flex: 1 1 100%;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    flex: 1 1 100%;
+  `}
+`;
+const StyledWowClassName = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50px;
+  font-size: ${({ theme }) => theme.fontSizes.cation12};
+`;
+const StyledWowClassTalents = styled.div`
+  position: absolute;
+  top: 12px;
+  left: 50px;
+  width: calc(100% - 50px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+const StyledWowClassTalentItem = styled.div`
+  text-transform: capitalize;
+  flex: 0 0 50%;
+  padding-top: 5px;
+  font-size: ${({ theme }) => theme.fontSizes.body14};
+  cursor: pointer;
+  ${({ theme }) => theme.media.tablet`
+    padding-top: 5px;
+    padding-bottom: 8px;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    padding-top: 5px;
+    padding-bottom: 8px;
+  `}
+`;
 const StyledWowClassIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 40%;
+  border: 2px solid ${({ theme }) => theme.colors.warning};
+`;
+const StyledSelectedWowwowClassList = styled.div`
+  flex: 1 1 100%;
+  height: 40px;
+  line-height: 40px;
+  color: ${({ theme }) => theme.colors.danger};
+  border: 1px solid #fff;
 `;
 
-const classList = [
-  {
-    name: 'Death-Knight',
-    image: 'Death-Knight',
-    color: '#c41f3b',
-    talents: [
-      {
-        name: 'blood',
-        position: 'tanker'
-      },
-      {
-        name: 'frost',
-        position: 'dealer'
-      },
-      {
-        name: 'unholy',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Demon-Hunter',
-    image: 'Demon-Hunter',
-    color: '#a330c9',
-    talents: [
-      {
-        name: 'havoc',
-        position: 'tanker'
-      },
-      {
-        name: 'vengeance',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Druid',
-    image: 'Druid',
-    color: '#ff7d0a',
-    talents: [
-      {
-        name: 'guardian',
-        position: 'tanker'
-      },
-      {
-        name: 'feral',
-        position: 'dealer'
-      },
-      {
-        name: 'balance',
-        position: 'dealer'
-      },
-      {
-        name: 'restoration',
-        position: 'healer'
-      }
-    ]
-  },
-  {
-    name: 'Hunter',
-    image: 'Hunter',
-    color: '#abd473',
-    talents: [
-      {
-        name: 'beast-mastery',
-        position: 'dealer'
-      },
-      {
-        name: 'marksmanship',
-        position: 'dealer'
-      },
-      {
-        name: 'survival',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Mage',
-    image: 'Mage',
-    color: '#69ccf0',
-    talents: [
-      {
-        name: 'arcane',
-        position: 'dealer'
-      },
-      {
-        name: 'fire',
-        position: 'dealer'
-      },
-      {
-        name: 'frost',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Monk',
-    image: 'Monk',
-    color: '#00ff96',
-    talents: [
-      {
-        name: 'brewmaster',
-        position: 'tanker'
-      },
-      {
-        name: 'mistweaver',
-        position: 'healer'
-      },
-      {
-        name: 'windwalker',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Paladin',
-    image: 'Paladin',
-    color: '#f58cba',
-    talents: [
-      {
-        name: 'protection',
-        position: 'tanker'
-      },
-      {
-        name: 'holy',
-        position: 'healer'
-      },
-      {
-        name: 'retribution',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Priest',
-    image: 'Priest',
-    color: '#ffffff',
-    talents: [
-      {
-        name: 'discipline',
-        position: 'healer'
-      },
-      {
-        name: 'holy',
-        position: 'healer'
-      },
-      {
-        name: 'shadow',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Rogue',
-    image: 'Rogue',
-    color: '#fff569',
-    talents: [
-      {
-        name: 'assassination',
-        position: 'dealer'
-      },
-      {
-        name: 'outlaw',
-        position: 'dealer'
-      },
-      {
-        name: 'subtlety',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Shaman',
-    image: 'Shaman',
-    color: '#0070de',
-    talents: [
-      {
-        name: 'elemental',
-        position: 'dealer'
-      },
-      {
-        name: 'enhancement',
-        position: 'dealer'
-      },
-      {
-        name: 'restoration',
-        position: 'healer'
-      }
-    ]
-  },
-  {
-    name: 'Warlock',
-    image: 'Warlock',
-    color: '#9482c9',
-    talents: [
-      {
-        name: 'affliction',
-        position: 'dealer'
-      },
-      {
-        name: 'demonology',
-        position: 'dealer'
-      },
-      {
-        name: 'destruction',
-        position: 'dealer'
-      }
-    ]
-  },
-  {
-    name: 'Warrior',
-    image: 'Warrior',
-    color: '#c79c6e',
-    talents: [
-      {
-        name: 'protection',
-        position: 'tanker'
-      },
-      {
-        name: 'arms',
-        position: 'dealer'
-      },
-      {
-        name: 'fury',
-        position: 'dealer'
-      }
-    ]
-  }
-];
+type SelectedWowClassType = ParamWowClassInfo & {
+  selected: boolean;
+};
 
 export const Class: React.FC = () => {
-  // const [processIndex, setProcessIndex] = useState<number>(0)
-  // const [valueList, setValueList] = useState<number[]>([])
-  // const MAX_SCORE = 5
+  const { t } = useTranslation();
+  const [selectedWowClass, setSelectedWowClass] = useState<
+    SelectedWowClassType[]
+  >([]);
 
-  // useEffect(() => {
-  //   setValueList(testList.map(() => -1))
-  // }, [])
+  const toastForNewbie = () => {
+    toast.error(t('please-select-talent'), {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined
+    });
+  };
 
   return (
-    <StyledWrapper style={{ width: '100%' }}>
-      {classList.map((item, index) => (
-        <div key={index} style={{ color: item.color }}>
-          {item.name}
-          {item.image && <StyledWowClassIcon src={`/${item.image}.jpg`} />}
-          {item.talents &&
-            item.talents.map((subItem, subIndex) => (
-              <span key={subIndex}>{subItem.name}</span>
-            ))}
-        </div>
+    <StyledWrapper>
+      {wowClassList.map((item, index) => (
+        <StyledWowClassItem key={index} style={{ color: item.color }}>
+          <StyledWowClassName onClick={() => toastForNewbie()}>
+            {t(item.name)}
+          </StyledWowClassName>
+          {item.image && (
+            <StyledWowClassIcon
+              src={`/${item.image}.jpg`}
+              alt={t(item.name)}
+              onClick={() => toastForNewbie()}
+            />
+          )}
+          <StyledWowClassTalents>
+            {item.talents &&
+              item.talents.map((subItem, subIndex) => (
+                <StyledWowClassTalentItem key={subIndex}>
+                  {t(subItem.name)}
+                </StyledWowClassTalentItem>
+              ))}
+          </StyledWowClassTalents>
+        </StyledWowClassItem>
       ))}
+      <StyledSelectedWowwowClassList>
+        {selectedWowClass.length === 0 ? (
+          <div>직업을 최소 1개 이상 선택해주십시오.</div>
+        ) : (
+          <></>
+        )}
+      </StyledSelectedWowwowClassList>
     </StyledWrapper>
   );
 };
