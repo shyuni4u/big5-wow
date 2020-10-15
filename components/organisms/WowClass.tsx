@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// import ImgDeathKnight from '../../assets/Death-Knight.jpg';
+// import ImgDeathKnight from '../../public/Death-Knight.jpg';
 
 const StyledWrapper = styled.article`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -15,11 +15,16 @@ const StyledWrapper = styled.article`
     padding: 15px;
   `}
 `;
+const StyledWowClassIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+`;
 
 const classList = [
   {
     name: 'Death-Knight',
-    image: '../../assets/Death-Knight.jpg',
+    image: 'Death-Knight',
     color: '#c41f3b',
     talents: [
       {
@@ -38,7 +43,7 @@ const classList = [
   },
   {
     name: 'Demon-Hunter',
-    image: '../../assets/Demon-Hunter.jpg',
+    image: 'Demon-Hunter',
     color: '#a330c9',
     talents: [
       {
@@ -53,7 +58,7 @@ const classList = [
   },
   {
     name: 'Druid',
-    image: '../../assets/Druid.jpg',
+    image: 'Druid',
     color: '#ff7d0a',
     talents: [
       {
@@ -76,7 +81,7 @@ const classList = [
   },
   {
     name: 'Hunter',
-    image: '../../assets/Hunter.jpg',
+    image: 'Hunter',
     color: '#abd473',
     talents: [
       {
@@ -95,7 +100,7 @@ const classList = [
   },
   {
     name: 'Mage',
-    image: '../../assets/Mage.jpg',
+    image: 'Mage',
     color: '#69ccf0',
     talents: [
       {
@@ -114,7 +119,7 @@ const classList = [
   },
   {
     name: 'Monk',
-    image: '../../assets/Monk.jpg',
+    image: 'Monk',
     color: '#00ff96',
     talents: [
       {
@@ -133,7 +138,7 @@ const classList = [
   },
   {
     name: 'Paladin',
-    image: '../../assets/Paladin.jpg',
+    image: 'Paladin',
     color: '#f58cba',
     talents: [
       {
@@ -152,7 +157,7 @@ const classList = [
   },
   {
     name: 'Priest',
-    image: '../../assets/Priest.jpg',
+    image: 'Priest',
     color: '#ffffff',
     talents: [
       {
@@ -171,7 +176,7 @@ const classList = [
   },
   {
     name: 'Rogue',
-    image: '../../assets/Rogue.jpg',
+    image: 'Rogue',
     color: '#fff569',
     talents: [
       {
@@ -190,7 +195,7 @@ const classList = [
   },
   {
     name: 'Shaman',
-    image: '../../assets/Shaman.jpg',
+    image: 'Shaman',
     color: '#0070de',
     talents: [
       {
@@ -209,7 +214,7 @@ const classList = [
   },
   {
     name: 'Warlock',
-    image: '../../assets/Warlock.jpg',
+    image: 'Warlock',
     color: '#9482c9',
     talents: [
       {
@@ -228,7 +233,7 @@ const classList = [
   },
   {
     name: 'Warrior',
-    image: '../../assets/Warrior.jpg',
+    image: 'Warrior',
     color: '#c79c6e',
     talents: [
       {
@@ -261,7 +266,7 @@ export const Class: React.FC = () => {
       {classList.map((item, index) => (
         <div key={index} style={{ color: item.color }}>
           {item.name}
-          {item.image && <img src={item.image} />}
+          {item.image && <StyledWowClassIcon src={`/${item.image}.jpg`} />}
           {item.talents &&
             item.talents.map((subItem, subIndex) => (
               <span key={subIndex}>{subItem.name}</span>

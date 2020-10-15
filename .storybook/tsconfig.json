@@ -18,10 +18,7 @@
     "../types.d.ts",
     "../next-env.d.ts",
     "../**/*.stories.ts",
-    "../**/*.stories.tsx",
-    "../**/*.jpg",
-    "../**/*.png",
-    "../**/*.gif"
+    "../**/*.stories.tsx"
   ],
   "exclude": ["node_modules"]
 }
