@@ -232,11 +232,11 @@ export const wowClassList = [
 export type WowClassInfo = typeof wowClassList;
 export type ParamWowClassInfo = {
   name: string;
-  image: string;
+  image?: string;
   color: string;
   talent: string;
   position: string;
-  isMain: boolean;
+  isMain?: boolean;
 };
 
 export default wowClassList;

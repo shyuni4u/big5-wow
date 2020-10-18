@@ -16,7 +16,7 @@ const StyledWrapper = styled.article`
 `;
 const StyledTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.h2};
-  margin: 40px 0 20px;
+  margin: 20px 0;
   ${({ theme }) => theme.media.tablet`
     margin: 20px 0 10px;
   `}
@@ -84,6 +84,7 @@ const StyledBottomWrapper = styled.div`
   flex-direction: row;
   padding: 0 0 40px;
   margin: 0;
+  height: 150px;
   ${({ theme }) => theme.media.tablet`
     padding: 0;
   `}
@@ -218,7 +219,7 @@ export const Test: React.FC = () => {
   return (
     <StyledWrapper>
       <StyledTitle>
-        성향 테스트 {processIndex + 1} / {testList.length}
+        {t('txt-select-big5-test-title')} {processIndex + 1} / {testList.length}
       </StyledTitle>
       {testList.map((item, index) => (
         <StyledQuestionWrapper
