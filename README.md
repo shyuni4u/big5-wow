@@ -2,10 +2,10 @@
 
 ## Index
 
-- [Install](##Install)
-- [Used](##Used)
-- [Available Scripts](##Available-Scripts)
-- [License](##License)
+- [Install](#Install)
+- [Used](#Used)
+- [Available Scripts](#Available-Scripts)
+- [License](#License)
 
 ## Install
 
