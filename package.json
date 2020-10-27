@@ -7,7 +7,6 @@
     "@types/react-i18next": "^8.1.0",
     "@types/react-toastify": "^4.1.0",
     "@types/styled-components": "^5.1.4",
-    "file-loader": "^6.1.1",
     "i18next": "^19.8.2",
     "next": "^9.5.5",
     "next-i18next": "^6.0.3",
@@ -20,9 +19,9 @@
     "styled-reset": "^4.2.3"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "next dev -p 9999",
     "build": "next build && next export",
-    "start": "next start",
+    "start": "next start -p 9999",
     "sb": "start-storybook -s ./public -p 9009"
   },
   "devDependencies": {

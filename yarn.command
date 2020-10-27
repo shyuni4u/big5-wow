@@ -6,7 +6,7 @@ yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
 yarn add -D babel-eslint eslint-plugin-babel
 
 
-// Ctrl + ,
+// vscode addon setting Ctrl + ,
 {
     "workbench.startupEditor": "newUntitledFile",
     "workbench.iconTheme": "vscode-icons",
