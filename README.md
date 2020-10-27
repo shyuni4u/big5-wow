@@ -23,6 +23,8 @@
 - [x] [ReactJS](https://reactjs.org/)
 - [x] [Typescript](https://www.typescriptlang.org/)
 
+---
+
 - [x] [i18next](https://react.i18next.com/)
 - [x] [toastify](https://github.com/fkhadra/react-toastify)
 - [x] [styled-component](https://styled-components.com/)
