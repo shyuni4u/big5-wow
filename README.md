@@ -33,31 +33,37 @@
 
 In the project directory, you can run:
 
-`yarn dev`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:9999](http://localhost:9999) to view it in the browser.
+1. <p>
+   Runs the app in the development mode.<br />
+   Open [http://localhost:9999](http://localhost:9999) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
+</p>
+
+`yarn dev`
+
+2. Develop your app as you normally do with Next.js.
+
 `yarn build`
 
-Develop your app as you normally do with Next.js.
+3. Runs `next start` which starts a Next.js production server.
 
 `yarn start`
 
-Runs `next start` which starts a Next.js production server.
+4. <p>
+   **Storybook comes with two CLI utilities: `start-storybook` and `build-storybook`.**<br />
+   **Pass these commands the following options to alter Storybook's behavior.**<br />
+   </p>
 
 `yarn sb`
 
-**Storybook comes with two CLI utilities: `start-storybook` and `build-storybook`.**<br />
-**Pass these commands the following options to alter Storybook's behavior.**<br />
+#### Learn More
+
 Usage:<br />
 
 `start-storyboook [options]`
-
-#### Learn More
 
 You can learn more in the [start-storybook & build-storybook](https://storybook.js.org/docs/react/api/cli-options).
 
