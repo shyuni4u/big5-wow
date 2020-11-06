@@ -57,21 +57,23 @@ Object.keys(sizes).reduce((acc: Media, label: string) => {
 const colors = {
   main: '#272A34',
   sub: '#727985',
-  hover: '#ECE9F6', // hover text color
   black: '#222222',
   gray8: '#888888',
   grayA: '#aaaaaa',
-  grayC: '#cccccc', //	disabled text color
+  grayC: '#cacaca',
   grayD: '#dadce0',
   grayE: '#e8eaed',
   grayF: '#f5f5f5',
   background: '#f8f9fa',
-  primary: '#272A34',
-  secondary: '#727985',
+  border: '#504137',
+  button: 'rgba(159,22,0,.6)',
+  hover: '#f8b700',
+  primary: '#170e09',
+  secondary: '#c77e19',
   success: '#137333',
-  danger: '#e95656',
+  danger: '#ea3012',
   warning: '#fdcc5e',
-  info: '#889f85',
+  info: '#f7b10a',
   white: '#ffffff'
 };
 
