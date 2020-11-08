@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import styled from 'styled-components';
+
+export type PanelProps = {
+  /**
+   * CSS
+   */
+  style?: CSSProperties;
+};
 
 const StyledPanel = styled.div`
   display: flex;
@@ -12,9 +19,10 @@ const StyledPanel = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.white};
-  width: 100%;
+  width: calc(100% - 20px);
   height: 100%;
   padding: 15px;
+  margin: 0px 10px;
 
   &:not(:last-child) {
     margin-bottom: 10px;
@@ -76,9 +84,9 @@ const StyledPanelContent = styled.div`
 /**
  * Primary UI component for user interaction
  */
-export const Panel: React.FC = ({ ...props }) => {
+export const Panel: React.FC<PanelProps> = ({ style = {}, ...props }) => {
   return (
-    <StyledPanel {...props}>
+    <StyledPanel style={style} {...props}>
       <StyledPanelBox>
         <StyledPanelContent>{props.children}</StyledPanelContent>
       </StyledPanelBox>

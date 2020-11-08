@@ -1,50 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import Router from 'next/router';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
 import { toast } from 'react-toastify';
 
+import Panel from '../atoms/Panel';
+import Button from '../atoms/Button';
+
 import wowClassList, { ParamWowClassInfo } from '../../lib/WowClassInfo';
 
-const StyledWrapper = styled.article`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  background-color: ${({ theme }) => theme.colors.primary};
-  padding: 40px;
-  width: 100%;
-  height: 100%;
-  ${({ theme }) => theme.media.tablet`
-    flex-direction: column;
-    padding: 15px;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    flex-direction: column;
-    padding: 15px;
-  `}
-`;
-const StyledTitle = styled.h2`
-  flex: 1 1 100%;
-  font-size: ${({ theme }) => theme.fontSizes.h2};
-  color: ${({ theme }) => theme.colors.white};
-  margin: 20px 0 20px;
-  ${({ theme }) => theme.media.tablet`
-    margin: 20px 0 10px;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    margin: 20px 0 10px;
-  `}
-`;
 const StyledWowClassItem = styled.div`
   position: relative;
-  flex: 1 1 50%;
-  min-height: 70px;
-  ${({ theme }) => theme.media.tablet`
-    flex: 1 1 100%;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    flex: 1 1 100%;
-  `}
+  flex: 0 1 200px;
+  height: 70px;
+  margin-bottom: 10px;
 `;
 const StyledWowClassName = styled.div`
   position: absolute;
@@ -54,7 +24,7 @@ const StyledWowClassName = styled.div`
 `;
 const StyledWowClassTalents = styled.div`
   position: absolute;
-  top: 12px;
+  top: 18px;
   left: 50px;
   width: calc(100% - 50px);
   display: flex;
@@ -65,15 +35,12 @@ const StyledWowClassTalentItem = styled.div`
   display: flex;
   text-transform: capitalize;
   flex: 0 0 50%;
-  padding-top: 5px;
   font-size: ${({ theme }) => theme.fontSizes.body14};
   cursor: pointer;
   ${({ theme }) => theme.media.tablet`
-    padding-top: 5px;
     padding-bottom: 8px;
   `}
   ${({ theme }) => theme.media.mobile`
-    padding-top: 5px;
     padding-bottom: 8px;
   `}
 `;
@@ -92,19 +59,21 @@ const StyledPositionIcon = styled.img`
   width: 14px;
   height: 14px;
   margin-right: 4px;
+  margin-top: 2px;
 `;
+
 const StyledSelectedWowClassList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  min-height: ${wowClassIconWidth}px;
-  line-height: ${wowClassIconWidth}px;
-  border: 2px solid ${({ theme }) => theme.colors.danger};
-  padding: 5px;
+  text-align: center;
+  justify-content: space-around;
 `;
 const StyledSelectedWowClassListEmpty = styled.span`
   color: ${({ theme }) => theme.colors.danger};
-  padding-left: 12px;
+  height: 40px;
+  line-height: 40px;
+  overflow: hidden;
+
   ${({ theme }) => theme.media.tablet`
     margin-bottom: 5px;
   `}
@@ -113,20 +82,17 @@ const StyledSelectedWowClassListEmpty = styled.span`
   `}
 `;
 
-const selectedWowClassItemWidth = 120;
 const StyledSelectedWowClassItem = styled.div`
   position: relative;
   display: inline-block;
-  flex: 0 0 ${selectedWowClassItemWidth}px;
+  flex: 0 0 33%;
   min-height: ${wowClassIconWidth}px;
   cursor: pointer;
   ${({ theme }) => theme.media.tablet`
-    flex: 0 0 50%;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   `}
   ${({ theme }) => theme.media.mobile`
-    flex: 0 0 50%;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   `}
 `;
 const StyledWowSelectedClassName = styled.div`
@@ -137,6 +103,7 @@ const StyledWowSelectedClassName = styled.div`
   height: ${wowClassIconWidth / 2}px;
   width: calc(100% - ${wowClassIconWidth + 5}px);
   font-size: ${({ theme }) => theme.fontSizes.body14};
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -150,6 +117,7 @@ const StyledSelectedWowClassTalent = styled.div`
   height: ${wowClassIconWidth / 2}px;
   width: calc(100% - ${wowClassIconWidth + 5}px);
   font-size: ${({ theme }) => theme.fontSizes.body14};
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -212,66 +180,91 @@ export const Class: React.FC = () => {
   };
 
   return (
-    <StyledWrapper>
-      <StyledTitle>{t('txt-select-wow-class-title')}</StyledTitle>
-      {wowClassList.map((item, index) => (
-        <StyledWowClassItem key={index} style={{ color: item.color }}>
-          <StyledWowClassName onClick={() => toastForNewbie()}>
-            {t(item.name)}
-          </StyledWowClassName>
-          {item.image && (
-            <StyledWowClassIcon
-              src={`/class/${item.image}.jpg`}
-              alt={t(item.name)}
-              onClick={() => toastForNewbie()}
-            />
-          )}
-          <StyledWowClassTalents>
-            {item.talents &&
-              item.talents.map((subItem, subIndex) => (
-                <StyledWowClassTalentItem
-                  key={subIndex}
-                  onClick={() => selectWowClass(item, subItem)}
-                >
-                  <StyledPositionIcon
-                    src={`/class/${subItem.position}.svg`}
-                    alt={t(subItem.position)}
-                  />
-                  {t(subItem.name)}
-                </StyledWowClassTalentItem>
-              ))}
-          </StyledWowClassTalents>
-        </StyledWowClassItem>
-      ))}
-      <StyledSelectedWowClassList>
-        {selectedWowClass.length === 0 ? (
-          <StyledSelectedWowClassListEmpty>
-            {t('tw-select-wow-class')}
-          </StyledSelectedWowClassListEmpty>
-        ) : (
-          selectedWowClass.map((item, index) => (
-            <StyledSelectedWowClassItem
-              key={index}
-              style={{ color: item.color }}
-              onClick={() => unselectWowClass(item)}
-            >
-              <StyledWowSelectedClassName>
+    <>
+      <div style={{ marginBottom: '10px' }}></div>
+      <Panel>
+        <h3 className={'panel-sub-title'}>하고 싶은 직업을 선택하세요.</h3>
+        <h2 className={'panel-title'}>와우 직업 선택</h2>
+        <div
+          className={'panel-text'}
+          style={{ display: 'flex', flexWrap: 'wrap' }}
+        >
+          {wowClassList.map((item, index) => (
+            <StyledWowClassItem key={index} style={{ color: item.color }}>
+              <StyledWowClassName onClick={() => toastForNewbie()}>
                 {t(item.name)}
-              </StyledWowSelectedClassName>
-              {item.name && (
+              </StyledWowClassName>
+              {item.image && (
                 <StyledWowClassIcon
-                  src={`/class/${item.name}.jpg`}
+                  src={`/class/${item.image}.jpg`}
                   alt={t(item.name)}
+                  onClick={() => toastForNewbie()}
                 />
               )}
-              <StyledSelectedWowClassTalent>
-                {t(item.talent)}
-              </StyledSelectedWowClassTalent>
-            </StyledSelectedWowClassItem>
-          ))
-        )}
-      </StyledSelectedWowClassList>
-    </StyledWrapper>
+              <StyledWowClassTalents>
+                {item.talents &&
+                  item.talents.map((subItem, subIndex) => (
+                    <StyledWowClassTalentItem
+                      key={subIndex}
+                      onClick={() => selectWowClass(item, subItem)}
+                    >
+                      <StyledPositionIcon
+                        src={`/class/${subItem.position}.svg`}
+                        alt={t(subItem.position)}
+                      />
+                      {t(subItem.name)}
+                    </StyledWowClassTalentItem>
+                  ))}
+              </StyledWowClassTalents>
+            </StyledWowClassItem>
+          ))}
+        </div>
+      </Panel>
+      <Panel>
+        <StyledSelectedWowClassList>
+          {selectedWowClass.length === 0 ? (
+            <StyledSelectedWowClassListEmpty>
+              {t('tw-select-wow-class')}
+            </StyledSelectedWowClassListEmpty>
+          ) : (
+            selectedWowClass.map((item, index) => (
+              <StyledSelectedWowClassItem
+                key={index}
+                style={{ color: item.color }}
+                onClick={() => unselectWowClass(item)}
+              >
+                <StyledWowSelectedClassName>
+                  {t(item.name)}
+                </StyledWowSelectedClassName>
+                {item.name && (
+                  <StyledWowClassIcon
+                    src={`/class/${item.name}.jpg`}
+                    alt={t(item.name)}
+                  />
+                )}
+                <StyledSelectedWowClassTalent>
+                  {t(item.talent)}
+                </StyledSelectedWowClassTalent>
+              </StyledSelectedWowClassItem>
+            ))
+          )}
+        </StyledSelectedWowClassList>
+      </Panel>
+      <div style={{ width: '100%', textAlign: 'center' }}>
+        <Button
+          onClick={() => {
+            if (selectedWowClass.length > 0) {
+              Router.push({
+                pathname: './test',
+                query: { newbie: true }
+              });
+            }
+          }}
+        >
+          성향 검사 시작
+        </Button>
+      </div>
+    </>
   );
 };
 

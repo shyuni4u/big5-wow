@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Head from 'next/head';
 import '../../locales/i18n';
 
 import GlobalStyle from '../../styles/global-styles';
@@ -10,24 +9,27 @@ import { ThemeProvider } from '../../styles/themed-components';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const StyledWrapper = styled.section`
-  width: 100%;
-  min-height: 100%;
+const StyledWrapper = styled.div`
+  width: 680px;
+  height: 100%;
+  margin: 0px auto;
+  position: relative;
+  ${({ theme }) => theme.media.tablet`
+    width: 100%;
+  `}
+  ${({ theme }) => theme.media.mobile`
+    width: 100%;
+  `}
 `;
 
 export const Wrapper: React.FC = ({ children }) => {
   return (
     <>
-      <Head>
-        <title>WoW - Big 5 TEST</title>
-        <script dangerouslySetInnerHTML={{ __html: `<!--googleoff: all-->` }} />
-        <noscript>Sorry. My page needs script.</noscript>
-      </Head>
-      <StyledWrapper>
-        <ToastContainer />
-        <GlobalStyle />
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      </StyledWrapper>
+      <ToastContainer />
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <StyledWrapper>{children}</StyledWrapper>
+      </ThemeProvider>
     </>
   );
 };

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import styled from 'styled-components';
 
 export type ButtonProps = {
+  /**
+   * CSS
+   */
+  style?: CSSProperties;
   /**
    * Is primary
    */
@@ -47,10 +51,12 @@ const StyledButton = styled.button`
  */
 export const Button: React.FC<ButtonProps> = ({
   primary = false,
+  style = {},
   ...props
 }) => {
   return (
     <StyledButton
+      style={style}
       type={'button'}
       className={primary ? 'primary' : ''}
       {...props}

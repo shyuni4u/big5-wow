@@ -1,24 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
+import Router from 'next/router';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import Panel from '../components/atoms/Panel';
 import Button from '../components/atoms/Button';
 import Wrapper from '../components/organisms/Wrapper';
-
-const StyledWrapper = styled.div`
-  width: 900px;
-  height: 100%;
-  margin: 0px auto;
-  position: relative;
-  ${({ theme }) => theme.media.tablet`
-    width: 100%;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    width: 100%;
-  `}
-`;
 // const StyledLang = styled.div`
 //   position: absolute;
 //   top: 5px;
@@ -45,8 +32,7 @@ export const Index: React.FC = () => {
   // const changelanguageToEn = () => i18n.changeLanguage('en');
   return (
     <Wrapper>
-      <StyledWrapper>
-        {/* <StyledLang>
+      {/* <StyledLang>
           <StyledLangButton type={'button'} onClick={changelanguageToKo}>
             한국어
           </StyledLangButton>
@@ -54,53 +40,71 @@ export const Index: React.FC = () => {
             English
           </StyledLangButton>
         </StyledLang> */}
+      <img
+        src={'/logo-wow-small.png'}
+        alt={'WOW LOGO'}
+        style={{
+          width: '40px',
+          height: '40px',
+          margin: '10px auto'
+        }}
+      />
+      <Panel>
+        <h3 className={'panel-sub-title'}>WoW 직업 선택</h3>
+        <h2 className={'panel-title'}>Big 5 테스트란?</h2>
+        <div className={'panel-text'}>
+          인간의 성격을 5가지의 상호 독립적인 요인들로 설명하는 성격심리학적
+          모형.
+          <br /> 학계에서 논의된 5요인 모형을 기반으로 한다.
+          <br /> 대중에게는 그다지 알려지지 않은 모형이지만 전세계의
+          성격심리학자들에게 엄청난 신뢰를 받고 있는 검증된 이론이다.
+          <br />
+          <StyledGoDetail
+            href={'https://namu.wiki/w/Big5'}
+            title={'[나무위키] Big 5 테스트'}
+            target={'_blank'}
+          >
+            자세히
+          </StyledGoDetail>
+        </div>
+      </Panel>
+      <Panel>
         <img
-          src={'/logo-wow-small.png'}
+          src={'/logo-wow.png'}
           alt={'WOW LOGO'}
           style={{
-            width: '40px',
-            height: '40px',
-            margin: '10px auto'
+            maxWidth: '380px',
+            margin: '0 auto'
           }}
         />
-        <Panel>
-          <h3 className={'panel-sub-title'}>WoW 직업 선택</h3>
-          <h2 className={'panel-title'}>Big 5 테스트란?</h2>
-          <div className={'panel-text'}>
-            인간의 성격을 5가지의 상호 독립적인 요인들로 설명하는 성격심리학적
-            모형.
-            <br /> 학계에서 논의된 5요인 모형을 기반으로 한다.
-            <br /> 대중에게는 그다지 알려지지 않은 모형이지만 전세계의
-            성격심리학자들에게 엄청난 신뢰를 받고 있는 검증된 이론이다.
-            <br />
-            <StyledGoDetail
-              href={'https://namu.wiki/w/Big5'}
-              title={'[나무위키] Big 5 테스트'}
-              target={'_blank'}
-            >
-              자세히
-            </StyledGoDetail>
-          </div>
-        </Panel>
-        <Panel>
-          <img
-            src={'/logo-wow.png'}
-            alt={'WOW LOGO'}
-            style={{
-              maxWidth: '380px',
-              margin: '0 auto'
+        <div className={'panel-text'}>
+          <h3 className={'panel-sub-title'}>
+            월드오브워크래프트를 플레이해보신 적이 있습니까?
+          </h3>
+          <br />
+          <Button
+            primary={true}
+            onClick={() => {
+              Router.push({
+                pathname: './wowclass',
+                query: { newbie: false }
+              });
             }}
-          />
-          <div className={'panel-text'}>
-            <h3 className={'panel-sub-title'}>
-              월드오브워크래프트를 플레이해보신 적이 있습니까?
-            </h3>
-            <br />
-            <Button primary={true}>예</Button>
-            <Button>아니요</Button>
-          </div>
-        </Panel>
-      </StyledWrapper>
+          >
+            예
+          </Button>
+          <Button
+            onClick={() => {
+              Router.push({
+                pathname: './test',
+                query: { newbie: true }
+              });
+            }}
+          >
+            아니요
+          </Button>
+        </div>
+      </Panel>
     </Wrapper>
   );
 };

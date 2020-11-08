@@ -76,8 +76,8 @@ const resources = {
       'tw-max-select': '최대 선택: {{max}}',
       'tw-select-wow-class': '직업을 1개 이상 선택해주십시오.',
 
-      'txt-select-wow-class-title': '1. WOW 직업 선택',
-      'txt-select-big5-test-title': '2. 성향 테스트',
+      'txt-select-wow-class-title': 'WOW 직업 선택',
+      'txt-select-big5-test-title': '성향 테스트',
 
       'btn-test-start': '시작하기',
 
