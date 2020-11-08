@@ -8,8 +8,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Spoqa Han Sans', 'Sans-serif';
   }
   body {
-    background-color: #e8eaed;
-    /* background-color: #ffffff; */
+    /* background-color: #e8eaed; */
+    background-color: #000;
   }
   a {
     color: inherit;

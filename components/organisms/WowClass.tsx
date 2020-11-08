@@ -221,7 +221,7 @@ export const Class: React.FC = () => {
           </StyledWowClassName>
           {item.image && (
             <StyledWowClassIcon
-              src={`/${item.image}.jpg`}
+              src={`/class/${item.image}.jpg`}
               alt={t(item.name)}
               onClick={() => toastForNewbie()}
             />
@@ -234,7 +234,7 @@ export const Class: React.FC = () => {
                   onClick={() => selectWowClass(item, subItem)}
                 >
                   <StyledPositionIcon
-                    src={`/${subItem.position}.svg`}
+                    src={`/class/${subItem.position}.svg`}
                     alt={t(subItem.position)}
                   />
                   {t(subItem.name)}
@@ -260,7 +260,7 @@ export const Class: React.FC = () => {
               </StyledWowSelectedClassName>
               {item.name && (
                 <StyledWowClassIcon
-                  src={`/${item.name}.jpg`}
+                  src={`/class/${item.name}.jpg`}
                   alt={t(item.name)}
                 />
               )}

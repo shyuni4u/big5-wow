@@ -64,7 +64,7 @@ const colors = {
   grayD: '#dadce0',
   grayE: '#e8eaed',
   grayF: '#f5f5f5',
-  background: '#f8f9fa',
+  background: '#211510',
   border: '#504137',
   button: 'rgba(159,22,0,.6)',
   hover: '#f8b700',
