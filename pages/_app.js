@@ -1,6 +1,10 @@
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
+import { createWrapper } from 'next-redux-wrapper';
+import { createStore } from 'redux';
+
+import reducerModule from '../modules';
 
 const styles = {
   layout: {
@@ -27,21 +31,24 @@ const styles = {
   }
 };
 
-export default class RootApp extends App {
+const configureStore = () => {
+  const store = createStore(reducerModule);
+  return store;
+};
+
+const wrapper = createWrapper(configureStore, {
+  debug: process.env.NODE_ENV === 'development,'
+});
+
+export class RootApp extends App {
   render() {
     const { Component, other } = this.props;
     return (
       <>
         <Head>
-          <title>WoW - Big 5 TEST</title>
-          {/* <Head>
-            <title>WoW - Big 5 TEST</title>
-            <script dangerouslySetInnerHTML={{ __html: `<!--googleoff: all-->` }} />
-            <noscript>Sorry. My page needs script.</noscript>
-          </Head> */}
+          <title>WoW - Big 5 test</title>
         </Head>
         <div style={styles.layout}>
-          {/* <header style={styles.header}>Header</header> */}
           <main style={styles.main}>
             <Component {...other} />
           </main>
@@ -51,3 +58,5 @@ export default class RootApp extends App {
     );
   }
 }
+
+export default wrapper.withRedux(RootApp);

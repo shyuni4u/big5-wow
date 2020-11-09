@@ -49,7 +49,7 @@ const StyledPanel = styled.div`
     text-transform: uppercase;
   }
 
-  & div.panel-text {
+  & div.panel-content {
     font-size: 13px;
     line-height: 1.5;
     font-family: Open Sans, Arial, Helvetica, sans-serif;

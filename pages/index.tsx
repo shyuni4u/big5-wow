@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import Panel from '../components/atoms/Panel';
 import Button from '../components/atoms/Button';
 import Wrapper from '../components/organisms/Wrapper';
+
+import reducerCount from '../reducers/reducerCount';
 // const StyledLang = styled.div`
 //   position: absolute;
 //   top: 5px;
@@ -27,6 +29,7 @@ const StyledGoDetail = styled.a`
 
 export const Index: React.FC = () => {
   const { t } = useTranslation();
+  const { gCount } = reducerCount();
 
   // const changelanguageToKo = () => i18n.changeLanguage('ko');
   // const changelanguageToEn = () => i18n.changeLanguage('en');
@@ -104,6 +107,11 @@ export const Index: React.FC = () => {
             아니요
           </Button>
         </div>
+      </Panel>
+      <Panel>
+        <span>{gCount.get()}</span>
+        <Button onClick={() => gCount.plus()}>plus</Button>
+        <Button onClick={() => gCount.minus()}>minus</Button>
       </Panel>
     </Wrapper>
   );

@@ -11,6 +11,10 @@ export type ButtonProps = {
    */
   primary?: boolean;
   /**
+   * Is disabled
+   */
+  disabled?: boolean;
+  /**
    * onClick
    */
   onClick?: () => void;
@@ -33,8 +37,8 @@ const StyledButton = styled.button`
     color: #ffd36b;
     outline-width: 0;
   }
-  /* -webkit-transition: background .2s,color .2s;
-  transition: background .2s,color .2s; */
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
   &.primary {
     background: rgba(159, 22, 0, 0.6);
     border: 1px solid #ea3012;
@@ -52,12 +56,14 @@ const StyledButton = styled.button`
 export const Button: React.FC<ButtonProps> = ({
   primary = false,
   style = {},
+  disabled = false,
   ...props
 }) => {
   return (
     <StyledButton
       style={style}
       type={'button'}
+      disabled={disabled}
       className={primary ? 'primary' : ''}
       {...props}
     >

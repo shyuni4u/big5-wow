@@ -9,8 +9,37 @@ import { ThemeProvider } from '../../styles/themed-components';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const StyledToastContainer = styled(ToastContainer).attrs({
+  className: 'toast-container',
+  toastClassName: 'toast',
+  bodyClassName: 'body',
+  progressClassName: 'progress'
+})`
+  /* .toast-container */
+  height: 32px;
+
+  /* .toast is passed to toastClassName */
+  .toast {
+    border-radius: 20px;
+    min-height: auto;
+  }
+
+  button[aria-label='close'] {
+    /* display: none; */
+  }
+
+  /* .body is passed to bodyClassName */
+  .body {
+    text-indent: 10px;
+  }
+
+  /* .progress is passed to progressClassName */
+  .progress {
+  }
+`;
+
 const StyledWrapper = styled.div`
-  width: 680px;
+  width: 100%;
   height: 100%;
   margin: 0px auto;
   position: relative;
@@ -25,7 +54,7 @@ const StyledWrapper = styled.div`
 export const Wrapper: React.FC = ({ children }) => {
   return (
     <>
-      <ToastContainer />
+      <StyledToastContainer />
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <StyledWrapper>{children}</StyledWrapper>
@@ -35,19 +64,3 @@ export const Wrapper: React.FC = ({ children }) => {
 };
 
 export default Wrapper;
-
-// <!--
-// Copyright 2017 The Kubernetes Authors.
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-//     http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// -->
