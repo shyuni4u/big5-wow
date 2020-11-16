@@ -39,6 +39,7 @@ const StyledToastContainer = styled(ToastContainer).attrs({
 `;
 
 const StyledWrapper = styled.div`
+  max-width: 460px;
   width: 100%;
   height: 100%;
   margin: 0px auto;
