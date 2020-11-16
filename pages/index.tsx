@@ -7,7 +7,7 @@ import Panel from '../components/atoms/Panel';
 import Button from '../components/atoms/Button';
 import Wrapper from '../components/organisms/Wrapper';
 
-import reducerCount from '../reducers/reducerCount';
+import reducerTest from '../reducers/reducerTest';
 // const StyledLang = styled.div`
 //   position: absolute;
 //   top: 5px;
@@ -29,8 +29,14 @@ const StyledGoDetail = styled.a`
 
 export const Index: React.FC = () => {
   const { t } = useTranslation();
-  const { gCount } = reducerCount();
+  const { testInfo } = reducerTest();
 
+  const goWowClass = (newbie: boolean) => {
+    const temp = testInfo.get;
+    temp.newbie = newbie;
+    testInfo.set(temp);
+    Router.push('./wowclass');
+  };
   // const changelanguageToKo = () => i18n.changeLanguage('ko');
   // const changelanguageToEn = () => i18n.changeLanguage('en');
   return (
@@ -85,33 +91,11 @@ export const Index: React.FC = () => {
             월드오브워크래프트를 플레이해보신 적이 있습니까?
           </h3>
           <br />
-          <Button
-            primary={true}
-            onClick={() => {
-              Router.push({
-                pathname: './wowclass',
-                query: { newbie: false }
-              });
-            }}
-          >
+          <Button primary={true} onClick={() => goWowClass(true)}>
             예
           </Button>
-          <Button
-            onClick={() => {
-              Router.push({
-                pathname: './test',
-                query: { newbie: true }
-              });
-            }}
-          >
-            아니요
-          </Button>
+          <Button onClick={() => goWowClass(false)}>아니요</Button>
         </div>
-      </Panel>
-      <Panel>
-        <span>{gCount.get()}</span>
-        <Button onClick={() => gCount.plus()}>plus</Button>
-        <Button onClick={() => gCount.minus()}>minus</Button>
       </Panel>
     </Wrapper>
   );

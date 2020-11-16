@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Wrapper from '../components/organisms/Wrapper';
-import TestForm from '../components/organisms/Test';
+import ResultForm from '../components/organisms/Result';
 
-const StyledTest = styled.section`
+const StyledResult = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -26,11 +26,11 @@ const StyleTestWrapper = styled.section`
 export const Test: React.FC = () => {
   return (
     <Wrapper>
-      <StyledTest>
+      <StyledResult>
         <StyleTestWrapper>
-          <TestForm />
+          <ResultForm />
         </StyleTestWrapper>
-      </StyledTest>
+      </StyledResult>
     </Wrapper>
   );
 };

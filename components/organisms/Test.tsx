@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Router from 'next/router';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
+import reducerTest from '../../reducers/reducerTest';
+
 const StyledWrapper = styled.article`
-  background-color: ${({ theme }) => theme.colors.white};
+  position: relative;
+  background-color: ${({ theme }) => theme.colors.background};
   padding: 40px;
   width: 100%;
   height: 100%;
@@ -13,6 +17,19 @@ const StyledWrapper = styled.article`
   ${({ theme }) => theme.media.mobile`
     padding: 15px;
   `}
+`;
+type StyledProgressProp = {
+  progress: string;
+};
+const StyledProgress = styled.div<StyledProgressProp>`
+  position: absolute;
+  background-color: orange;
+  top: 0;
+  left: 0;
+  width: ${(props) => props.progress};
+  height: 5px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
 `;
 const StyledTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.h2};
@@ -28,14 +45,14 @@ const StyledQuestionWrapper = styled.div`
   /* font-size: ${({ theme }) => theme.fontSizes.body14}; */
   display: block;
   margin: 16px 0;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 const StyledQuestion = styled.div`
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.body14};
   padding: 16px 24px;
-  background-color: ${({ theme }) => theme.colors.grayE};
-  border: 1px solid ${({ theme }) => theme.colors.grayD};
+  background-color: ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 0;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -48,15 +65,16 @@ const StyledExample = styled.div<StyledExampleProp>`
   font-size: ${({ theme }) => theme.fontSizes.body14};
   font-weight: 400;
   padding: 16px 24px;
-  background-color: ${({ theme }) => theme.colors.white};
-  border-left: 1px solid ${({ theme }) => theme.colors.grayD};
-  border-right: 1px solid ${({ theme }) => theme.colors.grayD};
-  border-top: 1px solid ${({ theme }) => theme.colors.grayD};
+  background-color: ${({ theme }) => theme.colors.background};
+  border-left: 1px solid ${({ theme }) => theme.colors.border};
+  border-right: 1px solid ${({ theme }) => theme.colors.border};
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  user-select: none;
   cursor: pointer;
   ${(props) =>
     props.selected
       ? css`
-          background-color: #f8fbf9;
+          background-color: ${({ theme }) => theme.colors.gray8};
           &::after {
             position: absolute;
             top: 12px;
@@ -74,63 +92,11 @@ const StyledExample = styled.div<StyledExampleProp>`
         `
       : css``}
   &:last-child {
-    border-bottom: 1px solid ${({ theme }) => theme.colors.grayD};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
 `;
-const StyledBottomWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 0 0 40px;
-  margin: 0;
-  height: 150px;
-  ${({ theme }) => theme.media.tablet`
-    padding: 0;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    padding: 0;
-  `}
-`;
-const StyledPrevButton = styled.button`
-  text-transform: capitalize;
-  flex: 1 0 49%;
-  padding-top: 24px;
-  padding-left: 10px;
-  font-weight: 600;
-  text-align: left;
-  color: ${({ theme }) => theme.colors.primary};
-  cursor: pointer;
-  &:disabled {
-    color: ${({ theme }) => theme.colors.grayC};
-  }
-  ${({ theme }) => theme.media.tablet`
-    padding-top: 0px;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    padding-top: 0px;
-  `}
-`;
-const StyledNextButton = styled.button`
-  text-transform: capitalize;
-  flex: 1 0 49%;
-  padding-top: 24px;
-  padding-right: 10px;
-  font-weight: 600;
-  text-align: right;
-  color: ${({ theme }) => theme.colors.primary};
-  cursor: pointer;
-  &:disabled {
-    color: ${({ theme }) => theme.colors.grayC};
-  }
-  ${({ theme }) => theme.media.tablet`
-    padding-top: 0px;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    padding-top: 0px;
-  `}
-`;
-
 /**
  * 1-6번, 10-12번의 경우 전혀 아니다를 1로 시작해서 매우 그렇다를 5로 두고,
  * 7-9번은 전혀 아니다 5로 시작해서 매우 그렇다를 1로 두고 계산합니다.
@@ -152,7 +118,7 @@ const testList = [
   },
   {
     question: '그림, 글, 음악을 창작한다',
-    type: 'openness to experience'
+    type: 'opennessToExperience'
   },
   {
     question: '모든 일을 사전에 준비한다',
@@ -173,7 +139,7 @@ const testList = [
   },
   {
     question: '철학적이거나 영적인 문제들을 생각한다',
-    type: 'openness to experience',
+    type: 'opennessToExperience',
     reverse: true
   },
   {
@@ -187,7 +153,7 @@ const testList = [
   },
   {
     question: '어려운 단어를 사용한다',
-    type: 'openness to experience'
+    type: 'opennessToExperience'
   },
   {
     question: '타인의 감정에 공감한다',
@@ -208,18 +174,38 @@ const strValues = [
 export const Test: React.FC = () => {
   const { t } = useTranslation();
 
+  const { testInfo } = reducerTest();
+
   const [processIndex, setProcessIndex] = useState<number>(0);
-  const [valueList, setValueList] = useState<number[]>([]);
+  const [valueList, setValueList] = useState<number[]>(testList.map(() => -1));
   const MAX_SCORE = 5;
 
   useEffect(() => {
-    setValueList(testList.map(() => -1));
-  }, []);
+    if (valueList[processIndex] !== -1) {
+      processIndex + 1 === testList.length
+        ? goResult()
+        : setProcessIndex((prev) => prev + 1);
+    }
+  }, [valueList]);
+
+  const goResult = () => {
+    const temp = testInfo.get;
+
+    valueList.forEach((item, index) => {
+      temp[`${testList[index].type}Score`] += item;
+      temp[`${testList[index].type}Count`] += 1;
+    });
+
+    testInfo.set(temp);
+    Router.push('./result');
+  };
 
   return (
     <StyledWrapper>
+      <StyledProgress progress={`${(processIndex / testList.length) * 100}%`} />
       <StyledTitle>
-        {t('txt-select-big5-test-title')} {processIndex + 1} / {testList.length}
+        {/* {t('txt-select-big5-test-title')} */}
+        TEST
       </StyledTitle>
       {testList.map((item, index) => (
         <StyledQuestionWrapper
@@ -245,32 +231,6 @@ export const Test: React.FC = () => {
           ))}
         </StyledQuestionWrapper>
       ))}
-      <StyledBottomWrapper>
-        <StyledPrevButton
-          type="button"
-          disabled={processIndex === 0}
-          onClick={() => {
-            const tmp = [...valueList];
-            tmp[processIndex] = -1;
-            setValueList(tmp);
-            setProcessIndex((prev) => prev - 1);
-          }}
-        >
-          {t('prev')}
-        </StyledPrevButton>
-        <StyledNextButton
-          type="button"
-          disabled={valueList[processIndex] === -1}
-          onClick={() =>
-            processIndex + 1 === testList.length
-              ? alert('결과창 이동')
-              : setProcessIndex((prev) => prev + 1)
-          }
-        >
-          {processIndex + 1 === testList.length ? '결과보기' : t('next')}
-        </StyledNextButton>
-      </StyledBottomWrapper>
-      {/* <div>{valueList.join(', ')}</div> */}
     </StyledWrapper>
   );
 };

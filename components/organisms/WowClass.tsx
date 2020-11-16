@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import Panel from '../atoms/Panel';
 import Button from '../atoms/Button';
 
+import reducerTest from '../../reducers/reducerTest';
+
 import wowClassList, { ParamWowClassInfo } from '../../lib/WowClassInfo';
 
 const StyledWowClassItem = styled.div`
@@ -120,6 +122,9 @@ const MAX_SELECT = 3;
 
 export const Class: React.FC = () => {
   const { t } = useTranslation();
+
+  const { testInfo } = reducerTest();
+
   const [selectedWowClass, setSelectedWowClass] = useState<ParamWowClassInfo[]>(
     []
   );
@@ -170,6 +175,24 @@ export const Class: React.FC = () => {
         (el) => !(el.name === item.name && el.talent === item.talent)
       )
     );
+  };
+
+  const goTest = () => {
+    const temp = testInfo.get;
+    if (selectedWowClass.length > 2) {
+      temp.thirdClass = selectedWowClass[2].name;
+      temp.thirdTalent = selectedWowClass[2].talent;
+    }
+    if (selectedWowClass.length > 1) {
+      temp.secondClass = selectedWowClass[1].name;
+      temp.secondTalent = selectedWowClass[1].talent;
+    }
+    if (selectedWowClass.length > 0) {
+      temp.firstClass = selectedWowClass[0].name;
+      temp.firstTalent = selectedWowClass[0].talent;
+    }
+    testInfo.set(temp);
+    Router.push('./test');
   };
 
   return (
@@ -249,10 +272,7 @@ export const Class: React.FC = () => {
         <Button
           onClick={() => {
             if (selectedWowClass.length > 0) {
-              Router.push({
-                pathname: './test',
-                query: { newbie: true }
-              });
+              goTest();
             }
           }}
         >
