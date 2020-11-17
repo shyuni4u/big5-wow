@@ -1,9 +1,9 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/_error": "pages/_error.js",
   "/": "pages/index.js",
-  "/test": "pages/test.js",
   "/result": "pages/result.js",
-  "/wowclass": "pages/wowclass.js"
+  "/test": "pages/test.js",
+  "/wowclass": "pages/wowclass.js",
+  "/_error": "pages/_error.js"
 }
