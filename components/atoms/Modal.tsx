@@ -73,6 +73,7 @@ const StyledModalClose = styled.button.attrs({
   font-size: 1.8rem;
   line-height: 1.8rem;
   color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
   & > span {
     opacity: 0.7;
     &:hover {
