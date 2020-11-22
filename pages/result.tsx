@@ -18,18 +18,12 @@ const StyledResult = styled.section`
     padding-top: 0px;
   `}
 `;
-const StyleTestWrapper = styled.section`
-  background-color: ${({ theme }) => theme.colors.white};
-  flex: 0 0 100%;
-`;
 
 export const Test: React.FC = () => {
   return (
     <Wrapper>
       <StyledResult>
-        <StyleTestWrapper>
-          <ResultForm />
-        </StyleTestWrapper>
+        <ResultForm />
       </StyledResult>
     </Wrapper>
   );
