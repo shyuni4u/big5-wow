@@ -4,7 +4,7 @@ import React from 'react';
 import { createWrapper } from 'next-redux-wrapper';
 import { createStore } from 'redux';
 
-import reducerModule from '../modules';
+import reducerModule from '../modules/index.tsx';
 
 const styles = {
   layout: {

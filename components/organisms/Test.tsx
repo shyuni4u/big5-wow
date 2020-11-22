@@ -203,10 +203,7 @@ export const Test: React.FC = () => {
   return (
     <StyledWrapper>
       <StyledProgress progress={`${(processIndex / testList.length) * 100}%`} />
-      <StyledTitle>
-        {/* {t('txt-select-big5-test-title')} */}
-        TEST
-      </StyledTitle>
+      <StyledTitle>{t('txt-select-big5-test-title')}</StyledTitle>
       {testList.map((item, index) => (
         <StyledQuestionWrapper
           key={index}
