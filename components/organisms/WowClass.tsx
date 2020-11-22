@@ -7,31 +7,60 @@ import { toast } from 'react-toastify';
 
 import Panel from '../atoms/Panel';
 import Button from '../atoms/Button';
+import Modal from '../atoms/Modal';
 
 import reducerTest from '../../reducers/reducerTest';
 
-import wowClassList, { ParamWowClassInfo } from '../../lib/WowClassInfo';
+import wowClassList, {
+  WowClassItemInfo,
+  ParamWowClassInfo
+} from '../../lib/WowClassInfo';
 
 const StyledWowClassItem = styled.div`
   position: relative;
-  flex: 0 1 200px;
-  height: 70px;
-  margin-bottom: 10px;
-`;
-const StyledWowClassName = styled.div`
-  position: absolute;
-  top: 0;
-  left: 50px;
-  font-size: ${({ theme }) => theme.fontSizes.cation12};
-`;
-const StyledWowClassTalents = styled.div`
-  position: absolute;
-  top: 18px;
-  left: 50px;
-  width: calc(100% - 50px);
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  align-items: center;
+  flex: 0 1 200px;
+  margin: 5px 2px;
+  user-select: none;
+  cursor: pointer;
+  & > span {
+    font-size: ${({ theme }) => theme.fontSizes.h3};
+    font-weight: 600;
+  }
+`;
+const StyledWowClassTalents = styled.ul`
+  background-color: rgba(53, 32, 17, 0.8);
+  border: 1px solid #f8b700;
+  box-shadow: inset 0 -8px 0 #f8b700;
+  padding: 20px;
+  margin-top: 20px;
+  user-select: none;
+  cursor: pointer;
+  & > .talentInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    & > .img {
+      width: 30px;
+      height: 30px;
+      /* border-radius: 40%;
+      border: 2px solid ${({ theme }) => theme.colors.warning}; */
+      border: 1px solid #888;
+      margin-right: 10px;
+      background-color: #000;
+    }
+    & > .name {
+      font-size: ${({ theme }) => theme.fontSizes.h3};
+    }
+    & > .pos {
+      width: 14px;
+      height: 14px;
+      margin-left: 6px;
+    }
+  }
+  & > .desc {
+  }
 `;
 const StyledWowClassTalentItem = styled.div`
   display: flex;
@@ -49,13 +78,11 @@ const StyledWowClassTalentItem = styled.div`
 
 const wowClassIconWidth = 40;
 const StyledWowClassIcon = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: ${wowClassIconWidth}px;
   height: ${wowClassIconWidth}px;
   border-radius: 40%;
   border: 2px solid ${({ theme }) => theme.colors.warning};
+  margin-right: 10px;
 `;
 const StyledPositionIcon = styled.img`
   width: 14px;
@@ -125,21 +152,13 @@ export const Class: React.FC = () => {
 
   const { testInfo } = reducerTest();
 
+  const [talentList, setTalentList] = useState<WowClassItemInfo>(undefined);
   const [selectedWowClass, setSelectedWowClass] = useState<ParamWowClassInfo[]>(
     []
   );
+  const [showTalent, setShowTalent] = useState<boolean>(false);
 
-  const toastForNewbie = () => {
-    toast.error(t('tw-please-select-talent'), {
-      position: 'top-center',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined
-    });
-  };
+  const showModal = (wowClass: WowClassItemInfo) => {};
 
   const selectWowClass = (wowClass: any, talent: any) => {
     if (
@@ -167,6 +186,7 @@ export const Class: React.FC = () => {
       };
       setSelectedWowClass((old) => [...old, temp]);
     }
+    setShowTalent(false);
   };
 
   const unselectWowClass = (item: ParamWowClassInfo) => {
@@ -200,26 +220,28 @@ export const Class: React.FC = () => {
       <div style={{ marginBottom: '10px' }}></div>
       <Panel>
         <h3 className={'panel-sub-title'}>하고 싶은 직업을 선택하세요.</h3>
-        <div style={{ marginBottom: '10px' }}></div>
         <h2 className={'panel-title'}>와우 직업 선택</h2>
-        <div style={{ marginBottom: '10px' }}></div>
         <div
           className={'panel-text'}
           style={{ display: 'flex', flexWrap: 'wrap' }}
         >
           {wowClassList.map((item, index) => (
-            <StyledWowClassItem key={index} style={{ color: item.color }}>
-              <StyledWowClassName onClick={() => toastForNewbie()}>
-                {t(item.name)}
-              </StyledWowClassName>
+            <StyledWowClassItem
+              key={index}
+              style={{ color: item.color }}
+              onClick={() => {
+                setTalentList(item);
+                setShowTalent(true);
+              }}
+            >
               {item.image && (
                 <StyledWowClassIcon
                   src={`/class/${item.image}.jpg`}
                   alt={t(item.name)}
-                  onClick={() => toastForNewbie()}
                 />
               )}
-              <StyledWowClassTalents>
+              <span>{t(item.name)}</span>
+              {/* <StyledWowClassTalents>
                 {item.talents &&
                   item.talents.map((subItem, subIndex) => (
                     <StyledWowClassTalentItem
@@ -233,7 +255,7 @@ export const Class: React.FC = () => {
                       {t(subItem.name)}
                     </StyledWowClassTalentItem>
                   ))}
-              </StyledWowClassTalents>
+              </StyledWowClassTalents> */}
             </StyledWowClassItem>
           ))}
         </div>
@@ -279,6 +301,38 @@ export const Class: React.FC = () => {
           성향 검사 시작
         </Button>
       </div>
+      <Modal show={showTalent} onClose={() => setShowTalent(false)}>
+        {talentList &&
+          talentList.talents.map((item, index) => (
+            <StyledWowClassTalents
+              key={index}
+              onClick={() =>
+                selectWowClass(
+                  { name: talentList.name, color: talentList.color },
+                  item
+                )
+              }
+            >
+              <li className={'talentInfo'}>
+                <img
+                  className={'img'}
+                  src={`/class/${item.image}`}
+                  alt={t(item.name)}
+                />
+                <span className={'name'}>{t(item.name)}</span>
+                <img
+                  className={'pos'}
+                  src={`/class/${item.position}.svg`}
+                  alt={t(item.position)}
+                />
+              </li>
+              <li className={'desc'}>{item.desc}</li>
+            </StyledWowClassTalents>
+          ))}
+        <div style={{ width: '100%', textAlign: 'center' }}>
+          <Button onClick={() => setShowTalent(false)}>닫기</Button>
+        </div>
+      </Modal>
     </>
   );
 };

@@ -11,6 +11,10 @@ export type ModalProps = {
    */
   show?: boolean;
   /**
+   * Use default close button
+   */
+  useClose?: boolean;
+  /**
    * Close function
    */
   onClose: () => void;
@@ -48,6 +52,7 @@ const StyledModal = styled.div<ModalShowProps>`
   transform: translate(-50%, -50%);
   min-width: 300px;
   max-width: calc(100vw - 20px);
+  max-height: 100vh;
   padding: 10px 20px;
   border: 1px solid ${({ theme }) => theme.colors.secondary};
   border-radius: 5px;
@@ -86,6 +91,7 @@ const StyledModalClose = styled.button.attrs({
 export const Modal: React.FC<ModalProps> = ({
   style = {},
   show = false,
+  useClose = false,
   onClose = () => undefined,
   ...props
 }) => {
@@ -111,7 +117,10 @@ export const Modal: React.FC<ModalProps> = ({
       ></StyledModalBackground>
       <StyledModal show={show} style={style} {...props}>
         <StyledModalContent>
-          <StyledModalClose onClick={() => onClose()}>
+          <StyledModalClose
+            style={{ display: useClose ? 'flex' : 'none' }}
+            onClick={() => onClose()}
+          >
             <span>&times;</span>
           </StyledModalClose>
           {props.children}

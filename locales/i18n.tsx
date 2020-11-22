@@ -74,7 +74,7 @@ const resources = {
       // toast or warning
       'tw-please-select-talent': '✋ 하위 특성을 클릭해주십시오.',
       'tw-max-select': '최대 선택: {{max}}',
-      'tw-select-wow-class': '직업을 1개 이상 선택해주십시오.',
+      'tw-select-wow-class': '직업을 1 ~ 3개 선택해주십시오.',
 
       'txt-select-wow-class-title': 'WOW 직업 선택',
       'txt-select-big5-test-title': '성향 테스트',

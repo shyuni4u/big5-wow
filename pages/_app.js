@@ -47,6 +47,7 @@ export class RootApp extends App {
       <>
         <Head>
           <title>WoW - Big 5 test</title>
+          <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <div style={styles.layout}>
           <main style={styles.main}>

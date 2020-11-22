@@ -181,6 +181,17 @@ export const Test: React.FC = () => {
   const MAX_SCORE = 5;
 
   useEffect(() => {
+    const temp = testInfo.get;
+
+    valueList.forEach((_, index) => {
+      temp[`${testList[index].type}Score`] = 0;
+      temp[`${testList[index].type}Count`] = 0;
+    });
+
+    testInfo.set(temp);
+  }, []);
+
+  useEffect(() => {
     if (valueList[processIndex] !== -1) {
       processIndex + 1 === testList.length
         ? goResult()
@@ -209,7 +220,9 @@ export const Test: React.FC = () => {
           key={index}
           style={{ display: index === processIndex ? 'inherit' : 'none' }}
         >
-          <StyledQuestion>{item.question}</StyledQuestion>
+          <StyledQuestion>
+            {index + 1}. {item.question}
+          </StyledQuestion>
           {strValues.map((subItem, subIndex) => (
             <StyledExample
               key={subIndex}

@@ -28,17 +28,30 @@ export const Result: React.FC = () => {
       <br />
       {testInfo.get.thirdTalent}
       <br />
-      {testInfo.get.agreeablenessCount} : {testInfo.get.agreeablenessScore}
+      {Math.ceil(
+        (testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) *
+          100
+      ) / 100}
       <br />
-      {testInfo.get.conscientiousnessCount} :{' '}
-      {testInfo.get.conscientiousnessScore}
+      {Math.ceil(
+        (testInfo.get.conscientiousnessScore /
+          testInfo.get.conscientiousnessCount) *
+          100
+      ) / 100}
       <br />
-      {testInfo.get.extraversionCount} : {testInfo.get.extraversionScore}
+      {Math.ceil(
+        (testInfo.get.extraversionScore / testInfo.get.extraversionCount) * 100
+      ) / 100}
       <br />
-      {testInfo.get.opennessToExperienceCount} :{' '}
-      {testInfo.get.opennessToExperienceScore}
+      {Math.ceil(
+        (testInfo.get.opennessToExperienceScore /
+          testInfo.get.opennessToExperienceCount) *
+          100
+      ) / 100}
       <br />
-      {testInfo.get.neuroticismCount} : {testInfo.get.neuroticismScore}
+      {Math.ceil(
+        (testInfo.get.neuroticismScore / testInfo.get.neuroticismCount) * 100
+      ) / 100}
       <br />
     </div>
   );

@@ -338,6 +338,7 @@ export const wowClassList = [
 ];
 
 export type WowClassInfo = typeof wowClassList;
+export type WowClassItemInfo = typeof wowClassList[0];
 export type ParamWowClassInfo = {
   name: string;
   image?: string;
