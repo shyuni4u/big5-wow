@@ -217,12 +217,12 @@ export const Class: React.FC = () => {
 
   return (
     <>
-      <div style={{ marginBottom: '10px' }}></div>
+      <div style={{ marginBottom: '10px' }} />
       <Panel>
-        <h3 className={'panel-sub-title'}>하고 싶은 직업을 선택하세요.</h3>
-        <h2 className={'panel-title'}>와우 직업 선택</h2>
+        <h3 className="panel-sub-title">하고 싶은 직업을 선택하세요.</h3>
+        <h2 className="panel-title">와우 직업 선택</h2>
         <div
-          className={'panel-text'}
+          className="panel-text"
           style={{ display: 'flex', flexWrap: 'wrap' }}
         >
           {wowClassList.map((item, index) => (
@@ -313,20 +313,20 @@ export const Class: React.FC = () => {
                 )
               }
             >
-              <li className={'talentInfo'}>
+              <li className="talentInfo">
                 <img
-                  className={'img'}
+                  className="img"
                   src={`/class/${item.image}`}
                   alt={t(item.name)}
                 />
-                <span className={'name'}>{t(item.name)}</span>
+                <span className="name">{t(item.name)}</span>
                 <img
-                  className={'pos'}
+                  className="pos"
                   src={`/class/${item.position}.svg`}
                   alt={t(item.position)}
                 />
               </li>
-              <li className={'desc'}>{item.desc}</li>
+              <li className="desc">{item.desc}</li>
             </StyledWowClassTalents>
           ))}
         <div style={{ width: '100%', textAlign: 'center' }}>

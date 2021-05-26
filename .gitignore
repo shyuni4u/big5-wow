@@ -2,8 +2,9 @@
 
 # dependencies
 /node_modules
-/.next
+/.env
 /.pnp
+/.next
 .pnp.js
 
 # testing
@@ -11,6 +12,7 @@
 
 # production
 /out
+/fonts
 
 # misc
 .DS_Store

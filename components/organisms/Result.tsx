@@ -18,10 +18,8 @@ export const Result: React.FC = () => {
     let unmount = false;
     const onLoadApi = async () => {
       if (testInfo.get.firstClass !== '') {
-        await axios.post(
-          'https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/big5-post',
-          null,
-          {
+        await axios
+          .post('https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/api_wow_big5', null, {
             params: {
               bNew: testInfo.get.newbie,
               sFirstClass: testInfo.get.firstClass,
@@ -31,90 +29,23 @@ export const Result: React.FC = () => {
               sThirdClass: testInfo.get.thirdClass,
               sThirdTalent: testInfo.get.thirdTalent,
               nAgreeableness: `${
-                Math.ceil(
-                  (testInfo.get.agreeablenessScore /
-                    testInfo.get.agreeablenessCount) *
-                    100
-                ) / 100
+                Math.ceil((testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) * 100) / 100
               }`,
               nConscientiousness: `${
-                Math.ceil(
-                  (testInfo.get.conscientiousnessScore /
-                    testInfo.get.conscientiousnessCount) *
-                    100
-                ) / 100
+                Math.ceil((testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount) * 100) / 100
               }`,
               nExtraversion: `${
-                Math.ceil(
-                  (testInfo.get.extraversionScore /
-                    testInfo.get.extraversionCount) *
-                    100
-                ) / 100
+                Math.ceil((testInfo.get.extraversionScore / testInfo.get.extraversionCount) * 100) / 100
               }`,
               nOpennessToExperience: `${
-                Math.ceil(
-                  (testInfo.get.opennessToExperienceScore /
-                    testInfo.get.opennessToExperienceCount) *
-                    100
-                ) / 100
+                Math.ceil((testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount) * 100) / 100
               }`,
-              nNeuroticism: `${
-                Math.ceil(
-                  (testInfo.get.neuroticismScore /
-                    testInfo.get.neuroticismCount) *
-                    100
-                ) / 100
-              }`
+              nNeuroticism: `${Math.ceil((testInfo.get.neuroticismScore / testInfo.get.neuroticismCount) * 100) / 100}`
             }
-          }
-        );
-        await axios
-          .get(
-            'https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/big5-get',
-            {
-              params: {
-                bNew: testInfo.get.newbie,
-                sFirstClass: testInfo.get.firstClass,
-                sFirstTalent: testInfo.get.firstTalent,
-                sSecondClass: testInfo.get.secondClass,
-                sSecondTalent: testInfo.get.secondTalent,
-                sThirdClass: testInfo.get.thirdClass,
-                sThirdTalent: testInfo.get.thirdTalent,
-                nAgreeableness:
-                  Math.ceil(
-                    (testInfo.get.agreeablenessScore /
-                      testInfo.get.agreeablenessCount) *
-                      100
-                  ) / 100,
-                nConscientiousness:
-                  Math.ceil(
-                    (testInfo.get.conscientiousnessScore /
-                      testInfo.get.conscientiousnessCount) *
-                      100
-                  ) / 100,
-                nExtraversion:
-                  Math.ceil(
-                    (testInfo.get.extraversionScore /
-                      testInfo.get.extraversionCount) *
-                      100
-                  ) / 100,
-                nOpennessToExperience:
-                  Math.ceil(
-                    (testInfo.get.opennessToExperienceScore /
-                      testInfo.get.opennessToExperienceCount) *
-                      100
-                  ) / 100,
-                nNeuroticism:
-                  Math.ceil(
-                    (testInfo.get.neuroticismScore /
-                      testInfo.get.neuroticismCount) *
-                      100
-                  ) / 100
-              }
-            }
-          )
+          })
           .then((response) => {
             if (unmount) return;
+            console.log(response.data);
             if (response.status === 200) {
               console.log(response.data);
               setResult(response);
@@ -126,33 +57,64 @@ export const Result: React.FC = () => {
             if (unmount) return;
             console.log('error', error);
           });
+        // await axios
+        //   .get('https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/big5-get', {
+        //     params: {
+        //       bNew: testInfo.get.newbie,
+        //       sFirstClass: testInfo.get.firstClass,
+        //       sFirstTalent: testInfo.get.firstTalent,
+        //       sSecondClass: testInfo.get.secondClass,
+        //       sSecondTalent: testInfo.get.secondTalent,
+        //       sThirdClass: testInfo.get.thirdClass,
+        //       sThirdTalent: testInfo.get.thirdTalent,
+        //       nAgreeableness:
+        //         Math.ceil((testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) * 100) / 100,
+        //       nConscientiousness:
+        //         Math.ceil((testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount) * 100) / 100,
+        //       nExtraversion: Math.ceil((testInfo.get.extraversionScore / testInfo.get.extraversionCount) * 100) / 100,
+        //       nOpennessToExperience:
+        //         Math.ceil((testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount) * 100) /
+        //         100,
+        //       nNeuroticism: Math.ceil((testInfo.get.neuroticismScore / testInfo.get.neuroticismCount) * 100) / 100
+        //     }
+        //   })
+        //   .then((response) => {
+        //     if (unmount) return;
+        //     if (response.status === 200) {
+        //       console.log(response.data);
+        //       setResult(response);
+        //     } else {
+        //       setResult(undefined);
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     if (unmount) return;
+        //     console.log('error', error);
+        //   });
       }
-      await axios
-        .get(
-          'https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/big5-get',
-          {
-            params: {
-              nAgreeableness: '2.5',
-              nConscientiousness: '2.5',
-              nExtraversion: '2.5',
-              nOpennessToExperience: '2.5',
-              nNeuroticism: '2.5'
-            }
-          }
-        )
-        .then((response) => {
-          if (unmount) return;
-          if (response.status === 200) {
-            console.log(response.data);
-            setResult(response);
-          } else {
-            setResult(undefined);
-          }
-        })
-        .catch((error) => {
-          if (unmount) return;
-          console.log('error', error);
-        });
+      // await axios
+      //   .get('https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/big5-get', {
+      //     params: {
+      //       nAgreeableness: '2.5',
+      //       nConscientiousness: '2.5',
+      //       nExtraversion: '2.5',
+      //       nOpennessToExperience: '2.5',
+      //       nNeuroticism: '2.5'
+      //     }
+      //   })
+      //   .then((response) => {
+      //     if (unmount) return;
+      //     if (response.status === 200) {
+      //       console.log(response.data);
+      //       setResult(response);
+      //     } else {
+      //       setResult(undefined);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     if (unmount) return;
+      //     console.log('error', error);
+      //   });
     };
 
     onLoadApi();
@@ -163,9 +125,7 @@ export const Result: React.FC = () => {
   }, []);
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {testInfo.get.firstClass === '' && (
         <>
           <Button onClick={() => Router.push('/')}>다시하기</Button>

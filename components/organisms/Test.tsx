@@ -161,13 +161,7 @@ const testList = [
   }
 ];
 
-const strValues = [
-  '전혀 아니다',
-  '별로 아니다',
-  '보통이다',
-  '약간 그렇다',
-  '매우 그렇다'
-];
+const strValues = ['전혀 아니다', '별로 아니다', '보통이다', '약간 그렇다', '매우 그렇다'];
 
 // type TestItem = typeof testList
 
@@ -193,9 +187,7 @@ export const Test: React.FC = () => {
 
   useEffect(() => {
     if (valueList[processIndex] !== -1) {
-      processIndex + 1 === testList.length
-        ? goResult()
-        : setProcessIndex((prev) => prev + 1);
+      processIndex + 1 === testList.length ? goResult() : setProcessIndex((prev) => prev + 1);
     }
   }, [valueList]);
 
@@ -216,20 +208,14 @@ export const Test: React.FC = () => {
       <StyledProgress progress={`${(processIndex / testList.length) * 100}%`} />
       <StyledTitle>{t('txt-select-big5-test-title')}</StyledTitle>
       {testList.map((item, index) => (
-        <StyledQuestionWrapper
-          key={index}
-          style={{ display: index === processIndex ? 'inherit' : 'none' }}
-        >
+        <StyledQuestionWrapper key={index} style={{ display: index === processIndex ? 'inherit' : 'none' }}>
           <StyledQuestion>
             {index + 1}. {item.question}
           </StyledQuestion>
           {strValues.map((subItem, subIndex) => (
             <StyledExample
               key={subIndex}
-              selected={
-                valueList[index] ===
-                (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)
-              }
+              selected={valueList[index] === (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)}
               onClick={() => {
                 const tmp = [...valueList];
                 tmp[index] = item.reverse ? MAX_SCORE - subIndex : subIndex + 1;
