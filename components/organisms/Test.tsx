@@ -133,7 +133,7 @@ const testList = [
     type: 'extraversion'
   },
   {
-    question: '사람들을 모욕한다',
+    question: '타인의 행동에 답답함을 느낀다',
     type: 'agreeableness',
     reverse: true
   },

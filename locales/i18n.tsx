@@ -16,6 +16,12 @@ const resources = {
       prev: 'prev',
       next: 'next',
 
+      agreeableness: 'Agreeableness',
+      conscientiousness: 'Conscientiousness',
+      extraversion: 'Extraversion',
+      opennessToExperience: 'OpennessToExperience',
+      neuroticism: 'Neuroticism',
+
       tanker: 'tanker',
       dealer: 'dealer',
       healer: 'healer',
@@ -83,6 +89,12 @@ const resources = {
 
       prev: '이전',
       next: '다음',
+
+      agreeableness: '우호성',
+      conscientiousness: '성실성',
+      extraversion: '외향성',
+      opennessToExperience: '개방성',
+      neuroticism: '신경성',
 
       tanker: '탱커',
       dealer: '딜러',
