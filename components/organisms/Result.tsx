@@ -80,10 +80,10 @@ export const Result: React.FC = () => {
   const { testInfo } = reducerTest();
   const [result, setResult] = useState<testResult[]>([]);
 
-  const [agree, setAgree] = useState<number>(3);
+  const [agree, setAgree] = useState<number>(1);
   const [consc, setConsc] = useState<number>(1);
-  const [extra, setExtra] = useState<number>(5);
-  const [openn, setOpenn] = useState<number>(3);
+  const [extra, setExtra] = useState<number>(1);
+  const [openn, setOpenn] = useState<number>(1);
   const [neuro, setNeuro] = useState<number>(1);
 
   const [sum, setSum] = useState<number>(0);
