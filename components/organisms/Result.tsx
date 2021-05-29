@@ -232,13 +232,13 @@ export const Result: React.FC = () => {
           성향 정보가 없습니다. 다시 테스트해주세요.
         </>
       )}
-      {testInfo.get.firstClass !== '' && result === undefined && (
+      {testInfo.get.firstClass !== '' && result.length === 0 && (
         <>
           <Loader style={{ marginBottom: '20px' }} />
           성향과 비슷한 직업을 찾고 있습니다.
         </>
       )}
-      {testInfo.get.firstClass !== '' && result && (
+      {testInfo.get.firstClass !== '' && result.length > 0 && (
         <>
           <StyledResult>
             <StyledResultTitle>당신의 성향</StyledResultTitle>
