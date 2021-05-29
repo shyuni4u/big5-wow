@@ -127,7 +127,6 @@ export const Result: React.FC = () => {
           })
           .then((response) => {
             if (unmount) return;
-            console.log(JSON.stringify(response.data));
             if (response.status === 200) {
               setResult(response.data);
             } else {
