@@ -1,1 +1,0 @@
-{"ast":null,"code":"import * as styledComponents from 'styled-components';\nconst {\n  default: styled,\n  css,\n  keyframes,\n  ThemeProvider\n} = styledComponents;\nexport { css, keyframes, ThemeProvider };\nexport default styled;","map":null,"metadata":{},"sourceType":"module"}

@@ -22,6 +22,7 @@ export const Result: React.FC = () => {
           .post('https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/api_wow_big5', null, {
             params: {
               bNew: testInfo.get.newbie,
+              bClassic: testInfo.get.classic,
               sFirstClass: testInfo.get.firstClass,
               sFirstTalent: testInfo.get.firstTalent,
               sSecondClass: testInfo.get.secondClass,
@@ -57,64 +58,7 @@ export const Result: React.FC = () => {
             if (unmount) return;
             console.log('error', error);
           });
-        // await axios
-        //   .get('https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/big5-get', {
-        //     params: {
-        //       bNew: testInfo.get.newbie,
-        //       sFirstClass: testInfo.get.firstClass,
-        //       sFirstTalent: testInfo.get.firstTalent,
-        //       sSecondClass: testInfo.get.secondClass,
-        //       sSecondTalent: testInfo.get.secondTalent,
-        //       sThirdClass: testInfo.get.thirdClass,
-        //       sThirdTalent: testInfo.get.thirdTalent,
-        //       nAgreeableness:
-        //         Math.ceil((testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) * 100) / 100,
-        //       nConscientiousness:
-        //         Math.ceil((testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount) * 100) / 100,
-        //       nExtraversion: Math.ceil((testInfo.get.extraversionScore / testInfo.get.extraversionCount) * 100) / 100,
-        //       nOpennessToExperience:
-        //         Math.ceil((testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount) * 100) /
-        //         100,
-        //       nNeuroticism: Math.ceil((testInfo.get.neuroticismScore / testInfo.get.neuroticismCount) * 100) / 100
-        //     }
-        //   })
-        //   .then((response) => {
-        //     if (unmount) return;
-        //     if (response.status === 200) {
-        //       console.log(response.data);
-        //       setResult(response);
-        //     } else {
-        //       setResult(undefined);
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     if (unmount) return;
-        //     console.log('error', error);
-        //   });
       }
-      // await axios
-      //   .get('https://hkm37mddb1.execute-api.ap-northeast-2.amazonaws.com/big5-get', {
-      //     params: {
-      //       nAgreeableness: '2.5',
-      //       nConscientiousness: '2.5',
-      //       nExtraversion: '2.5',
-      //       nOpennessToExperience: '2.5',
-      //       nNeuroticism: '2.5'
-      //     }
-      //   })
-      //   .then((response) => {
-      //     if (unmount) return;
-      //     if (response.status === 200) {
-      //       console.log(response.data);
-      //       setResult(response);
-      //     } else {
-      //       setResult(undefined);
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     if (unmount) return;
-      //     console.log('error', error);
-      //   });
     };
 
     onLoadApi();

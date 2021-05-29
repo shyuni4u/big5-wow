@@ -1,1 +1,0 @@
-{"ast":null,"code":"var __jsx = React.createElement;\nimport React from 'react';\nimport Test from './test';\nexport default {\n  title: 'Views/Test',\n  component: Test\n};\n\nconst Template = args => __jsx(React.Fragment, null, __jsx(\"div\", null));\n\nexport const TestView = Template.bind({});","map":null,"metadata":{},"sourceType":"module"}
