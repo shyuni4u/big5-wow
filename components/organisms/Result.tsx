@@ -155,7 +155,10 @@ export const Result: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (result.length > 2) setSum(result.map((el) => el.nCount).reduce((a, b) => a + b));
+    let _sum = 0;
+    result.forEach((el) => (_sum += el.nCount));
+    if (_sum === 0) _sum = 1;
+    setSum(_sum);
   }, [result]);
 
   const getOption = () => {

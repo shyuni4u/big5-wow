@@ -53,7 +53,7 @@ export class RootApp extends App {
           <main style={styles.main}>
             <Component {...other} />
           </main>
-          <footer style={styles.footer}>Copyright 2020 shyuniz Authors.</footer>
+          <footer style={styles.footer}>Copyright 2021 shyuniz Authors.</footer>
         </div>
       </>
     );
