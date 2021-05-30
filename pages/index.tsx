@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Panel from '../components/atoms/Panel';
 import Button from '../components/atoms/Button';
 import Wrapper from '../components/organisms/Wrapper';
+import Adfit from '../components/molecules/Adfit';
 
 import reducerTest from '../reducers/reducerTest';
 // const StyledLang = styled.div`
@@ -62,17 +63,11 @@ export const Index: React.FC = () => {
         <h3 className={'panel-sub-title'}>WoW 직업 선택</h3>
         <h2 className={'panel-title'}>Big 5 테스트란?</h2>
         <div className={'panel-text'}>
-          인간의 성격을 5가지의 상호 독립적인 요인들로 설명하는 성격심리학적
-          모형.
+          인간의 성격을 5가지 요인들로 설명하는 성격심리 모형.
           <br /> 학계에서 논의된 5요인 모형을 기반으로 한다.
-          <br /> 대중에게는 그다지 알려지지 않은 모형이지만 전세계의
-          성격심리학자들에게 엄청난 신뢰를 받고 있는 검증된 이론이다.
+          <br /> 성격심리학자들에게 신뢰를 받고 있는 검증된 이론이다.
           <br />
-          <StyledGoDetail
-            href={'https://namu.wiki/w/Big5'}
-            title={'[나무위키] Big 5 테스트'}
-            target={'_blank'}
-          >
+          <StyledGoDetail href={'https://namu.wiki/w/Big5'} title={'[나무위키] Big 5 테스트'} target={'_blank'}>
             자세히
           </StyledGoDetail>
         </div>
@@ -87,9 +82,7 @@ export const Index: React.FC = () => {
           }}
         />
         <div className={'panel-text'}>
-          <h3 className={'panel-sub-title'}>
-            월드오브워크래프트를 플레이해보신 적이 있습니까?
-          </h3>
+          <h3 className={'panel-sub-title'}>월드오브워크래프트를 플레이해보신 적이 있습니까?</h3>
           <br />
           <Button primary={true} onClick={() => goWowClass(true)}>
             예
@@ -97,6 +90,7 @@ export const Index: React.FC = () => {
           <Button onClick={() => goWowClass(false)}>아니요</Button>
         </div>
       </Panel>
+      <Adfit />
     </Wrapper>
   );
 };

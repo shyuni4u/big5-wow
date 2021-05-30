@@ -10,6 +10,7 @@ import API from '../../lib/info.json';
 
 import Button from '../atoms/Button';
 import Loader from '../atoms/Loader';
+import Adfit from '../molecules/Adfit';
 
 import reducerTest from '../../reducers/reducerTest';
 
@@ -293,6 +294,8 @@ export const Result: React.FC = () => {
           </Button>
         </>
       )}
+      <div style={{ height: '10px' }}></div>
+      <Adfit />
     </div>
   );
 };

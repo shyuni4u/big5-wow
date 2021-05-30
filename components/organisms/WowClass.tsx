@@ -8,13 +8,11 @@ import { toast } from 'react-toastify';
 import Panel from '../atoms/Panel';
 import Button from '../atoms/Button';
 import Modal from '../atoms/Modal';
+import Adfit from '../molecules/Adfit';
 
 import reducerTest from '../../reducers/reducerTest';
 
-import wowClassList, {
-  WowClassItemInfo,
-  ParamWowClassInfo
-} from '../../lib/WowClassInfo';
+import wowClassList, { WowClassItemInfo, ParamWowClassInfo } from '../../lib/WowClassInfo';
 
 const StyledWowClassItem = styled.div`
   position: relative;
@@ -62,19 +60,6 @@ const StyledWowClassTalents = styled.ul`
   & > .desc {
   }
 `;
-const StyledWowClassTalentItem = styled.div`
-  display: flex;
-  text-transform: capitalize;
-  flex: 0 0 50%;
-  font-size: ${({ theme }) => theme.fontSizes.body14};
-  cursor: pointer;
-  ${({ theme }) => theme.media.tablet`
-    padding-bottom: 8px;
-  `}
-  ${({ theme }) => theme.media.mobile`
-    padding-bottom: 8px;
-  `}
-`;
 
 const wowClassIconWidth = 40;
 const StyledWowClassIcon = styled.img`
@@ -83,12 +68,6 @@ const StyledWowClassIcon = styled.img`
   border-radius: 40%;
   border: 2px solid ${({ theme }) => theme.colors.warning};
   margin-right: 10px;
-`;
-const StyledPositionIcon = styled.img`
-  width: 14px;
-  height: 14px;
-  margin-right: 4px;
-  margin-top: 2px;
 `;
 
 const StyledSelectedWowClassList = styled.div`
@@ -153,19 +132,13 @@ export const Class: React.FC = () => {
   const { testInfo } = reducerTest();
 
   const [talentList, setTalentList] = useState<WowClassItemInfo>(undefined);
-  const [selectedWowClass, setSelectedWowClass] = useState<ParamWowClassInfo[]>(
-    []
-  );
+  const [selectedWowClass, setSelectedWowClass] = useState<ParamWowClassInfo[]>([]);
   const [showTalent, setShowTalent] = useState<boolean>(false);
 
   const showModal = (wowClass: WowClassItemInfo) => {};
 
   const selectWowClass = (wowClass: any, talent: any) => {
-    if (
-      selectedWowClass.some(
-        (el) => el.name === wowClass.name && el.talent === talent.name
-      )
-    ) {
+    if (selectedWowClass.some((el) => el.name === wowClass.name && el.talent === talent.name)) {
       //  Do nothing.
     } else if (selectedWowClass.length === MAX_SELECT) {
       toast.error(t('tw-max-select', { max: MAX_SELECT }), {
@@ -190,11 +163,7 @@ export const Class: React.FC = () => {
   };
 
   const unselectWowClass = (item: ParamWowClassInfo) => {
-    setSelectedWowClass(
-      selectedWowClass.filter(
-        (el) => !(el.name === item.name && el.talent === item.talent)
-      )
-    );
+    setSelectedWowClass(selectedWowClass.filter((el) => !(el.name === item.name && el.talent === item.talent)));
   };
 
   const goTest = () => {
@@ -221,10 +190,7 @@ export const Class: React.FC = () => {
       <Panel>
         <h3 className="panel-sub-title">하고 싶은 직업을 선택하세요.</h3>
         <h2 className="panel-title">와우 직업 선택</h2>
-        <div
-          className="panel-text"
-          style={{ display: 'flex', flexWrap: 'wrap' }}
-        >
+        <div className="panel-text" style={{ display: 'flex', flexWrap: 'wrap' }}>
           {wowClassList.map((item, index) => (
             <StyledWowClassItem
               key={index}
@@ -234,12 +200,7 @@ export const Class: React.FC = () => {
                 setShowTalent(true);
               }}
             >
-              {item.image && (
-                <StyledWowClassIcon
-                  src={`/class/${item.image}.jpg`}
-                  alt={t(item.name)}
-                />
-              )}
+              {item.image && <StyledWowClassIcon src={`/class/${item.image}.jpg`} alt={t(item.name)} />}
               <span>{t(item.name)}</span>
               {/* <StyledWowClassTalents>
                 {item.talents &&
@@ -263,28 +224,13 @@ export const Class: React.FC = () => {
       <Panel>
         <StyledSelectedWowClassList>
           {selectedWowClass.length === 0 ? (
-            <StyledSelectedWowClassListEmpty>
-              {t('tw-select-wow-class')}
-            </StyledSelectedWowClassListEmpty>
+            <StyledSelectedWowClassListEmpty>{t('tw-select-wow-class')}</StyledSelectedWowClassListEmpty>
           ) : (
             selectedWowClass.map((item, index) => (
-              <StyledSelectedWowClassItem
-                key={index}
-                style={{ color: item.color }}
-                onClick={() => unselectWowClass(item)}
-              >
-                <StyledWowSelectedClassName>
-                  {t(item.name)}
-                </StyledWowSelectedClassName>
-                {item.name && (
-                  <StyledWowClassIcon
-                    src={`/class/${item.name}.jpg`}
-                    alt={t(item.name)}
-                  />
-                )}
-                <StyledSelectedWowClassTalent>
-                  {t(item.talent)}
-                </StyledSelectedWowClassTalent>
+              <StyledSelectedWowClassItem key={index} style={{ color: item.color }} onClick={() => unselectWowClass(item)}>
+                <StyledWowSelectedClassName>{t(item.name)}</StyledWowSelectedClassName>
+                {item.name && <StyledWowClassIcon src={`/class/${item.name}.jpg`} alt={t(item.name)} />}
+                <StyledSelectedWowClassTalent>{t(item.talent)}</StyledSelectedWowClassTalent>
               </StyledSelectedWowClassItem>
             ))
           )}
@@ -301,30 +247,15 @@ export const Class: React.FC = () => {
           성향 검사 시작
         </Button>
       </div>
+      <Adfit />
       <Modal show={showTalent} onClose={() => setShowTalent(false)}>
         {talentList &&
           talentList.talents.map((item, index) => (
-            <StyledWowClassTalents
-              key={index}
-              onClick={() =>
-                selectWowClass(
-                  { name: talentList.name, color: talentList.color },
-                  item
-                )
-              }
-            >
+            <StyledWowClassTalents key={index} onClick={() => selectWowClass({ name: talentList.name, color: talentList.color }, item)}>
               <li className="talentInfo">
-                <img
-                  className="img"
-                  src={`/class/${item.image}`}
-                  alt={t(item.name)}
-                />
+                <img className="img" src={`/class/${item.image}`} alt={t(item.name)} />
                 <span className="name">{t(item.name)}</span>
-                <img
-                  className="pos"
-                  src={`/class/${item.position}.svg`}
-                  alt={t(item.position)}
-                />
+                <img className="pos" src={`/class/${item.position}.svg`} alt={t(item.position)} />
               </li>
               <li className="desc">{item.desc}</li>
             </StyledWowClassTalents>

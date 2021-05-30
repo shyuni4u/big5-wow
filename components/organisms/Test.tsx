@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import reducerTest from '../../reducers/reducerTest';
 
+import Adfit from '../molecules/Adfit';
+
 const StyledWrapper = styled.article`
   position: relative;
   background-color: ${({ theme }) => theme.colors.background};
@@ -204,30 +206,33 @@ export const Test: React.FC = () => {
   };
 
   return (
-    <StyledWrapper>
-      <StyledProgress progress={`${(processIndex / testList.length) * 100}%`} />
-      <StyledTitle>{t('txt-select-big5-test-title')}</StyledTitle>
-      {testList.map((item, index) => (
-        <StyledQuestionWrapper key={index} style={{ display: index === processIndex ? 'inherit' : 'none' }}>
-          <StyledQuestion>
-            {index + 1}. {item.question}
-          </StyledQuestion>
-          {strValues.map((subItem, subIndex) => (
-            <StyledExample
-              key={subIndex}
-              selected={valueList[index] === (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)}
-              onClick={() => {
-                const tmp = [...valueList];
-                tmp[index] = item.reverse ? MAX_SCORE - subIndex : subIndex + 1;
-                setValueList(tmp);
-              }}
-            >
-              {subItem}
-            </StyledExample>
-          ))}
-        </StyledQuestionWrapper>
-      ))}
-    </StyledWrapper>
+    <>
+      <StyledWrapper>
+        <StyledProgress progress={`${(processIndex / testList.length) * 100}%`} />
+        <StyledTitle>{t('txt-select-big5-test-title')}</StyledTitle>
+        {testList.map((item, index) => (
+          <StyledQuestionWrapper key={index} style={{ display: index === processIndex ? 'inherit' : 'none' }}>
+            <StyledQuestion>
+              {index + 1}. {item.question}
+            </StyledQuestion>
+            {strValues.map((subItem, subIndex) => (
+              <StyledExample
+                key={subIndex}
+                selected={valueList[index] === (item.reverse ? MAX_SCORE - subIndex : subIndex + 1)}
+                onClick={() => {
+                  const tmp = [...valueList];
+                  tmp[index] = item.reverse ? MAX_SCORE - subIndex : subIndex + 1;
+                  setValueList(tmp);
+                }}
+              >
+                {subItem}
+              </StyledExample>
+            ))}
+          </StyledQuestionWrapper>
+        ))}
+      </StyledWrapper>
+      <Adfit />
+    </>
   );
 };
 
