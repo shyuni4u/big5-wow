@@ -63,6 +63,13 @@ const StyledResultList = styled.ul`
   }
 `;
 
+const StyledYouLi = styled.li`
+  padding: 4px 0;
+  & > span {
+    font-weight: 600;
+  }
+`;
+
 const wowClassIconWidth = 40;
 const StyledWowClassIcon = styled.img`
   width: ${wowClassIconWidth}px;
@@ -255,6 +262,25 @@ export const Result: React.FC = () => {
                 position: 'relative'
               }}
             />
+          </StyledResult>
+          <StyledResult>
+            <ul>
+              <StyledYouLi>
+                <span style={{ color: '#ffd50e' }}>{t('agreeableness')}: </span>대인 관계에서 보이는 질적인 측면을 확인하는 요인.
+              </StyledYouLi>
+              <StyledYouLi>
+                <span style={{ color: '#ffa53a' }}>{t('conscientiousness')}: </span>개인의 조직화된 정도를 확인하는 요인.
+              </StyledYouLi>
+              <StyledYouLi>
+                <span style={{ color: '#89dd26' }}>{t('extraversion')}: </span>개인이 열정적으로 타인을 찾고 환경과 상호작용하는 것을 확인하는 요인.
+              </StyledYouLi>
+              <StyledYouLi>
+                <span style={{ color: '#e980ff' }}>{t('opennessToExperience')}: </span>광범위한 주제에서 "새로운 것"에 대해 개인이 판단하는 경향을 확인하는 요인.
+              </StyledYouLi>
+              <StyledYouLi>
+                <span style={{ color: '#36b1ff' }}>{t('neuroticism')}: </span>개인이 일상 속에서 발생하는 힘든 경험들에 부정적 정서를 얼마나 자주 경험하는지를 확인하는 요인.
+              </StyledYouLi>
+            </ul>
           </StyledResult>
           <StyledResult>
             <StyledResultTitle>성향별 직업 선호도</StyledResultTitle>

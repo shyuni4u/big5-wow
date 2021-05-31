@@ -188,7 +188,7 @@ export const Class: React.FC = () => {
     <>
       <div style={{ marginBottom: '10px' }} />
       <Panel>
-        <h3 className="panel-sub-title">하고 싶은 직업을 선택하세요.</h3>
+        <h3 className="panel-sub-title">당신의 직업을 선택하세요. (최대 3개)</h3>
         <h2 className="panel-title">와우 직업 선택</h2>
         <div className="panel-text" style={{ display: 'flex', flexWrap: 'wrap' }}>
           {wowClassList.map((item, index) => (
