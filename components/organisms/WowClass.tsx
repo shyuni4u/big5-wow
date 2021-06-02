@@ -12,7 +12,7 @@ import Adfit from '../molecules/Adfit';
 
 import reducerTest from '../../reducers/reducerTest';
 
-import wowClassList, { WowClassItemInfo, ParamWowClassInfo } from '../../lib/WowClassInfo';
+import wowClassList, { WowClassItemInfo, ParamWowClassInfo } from '../../lib/GameClassInfo';
 
 const StyledWowClassItem = styled.div`
   position: relative;
