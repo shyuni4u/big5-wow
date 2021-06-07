@@ -202,14 +202,18 @@ export const Test: React.FC = () => {
     });
 
     testInfo.set(temp);
-    Router.push('./result');
+    if (testInfo.get.newbie) {
+      Router.push('./result');
+    } else {
+      Router.push('./gameclass');
+    }
   };
 
   return (
     <>
       <StyledWrapper>
         <StyledProgress progress={`${(processIndex / testList.length) * 100}%`} />
-        <StyledTitle>{t('txt-select-big5-test-title')}</StyledTitle>
+        <StyledTitle>{t('test.title')}</StyledTitle>
         {testList.map((item, index) => (
           <StyledQuestionWrapper key={index} style={{ display: index === processIndex ? 'inherit' : 'none' }}>
             <StyledQuestion>

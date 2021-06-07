@@ -2,7 +2,6 @@ export const TEST_INFO_SET = 'TEST-INFO/SET';
 
 export type testInfoState = {
   newbie: boolean;
-  classic: boolean;
   firstClass: string;
   firstTalent: string;
   secondClass: string;
@@ -23,7 +22,6 @@ export type testInfoState = {
 
 export const initialState: testInfoState = {
   newbie: false,
-  classic: false,
   firstClass: '',
   firstTalent: '',
   secondClass: '',
@@ -45,7 +43,6 @@ export const initialState: testInfoState = {
 export const setTestIfno = (obj: testInfoState) => ({
   type: TEST_INFO_SET,
   newbie: obj.newbie,
-  classic: obj.classic,
   firstClass: obj.firstClass,
   firstTalent: obj.firstTalent,
   secondClass: obj.secondClass,
@@ -74,7 +71,6 @@ const reducer = (state: testInfoState = initialState, action: actions): testInfo
       return {
         ...state,
         newbie: action.newbie,
-        classic: action.classic,
         firstClass: action.firstClass,
         firstTalent: action.firstTalent,
         secondClass: action.secondClass,

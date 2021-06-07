@@ -89,6 +89,21 @@ const StyledSelectedGameClassItem = styled.div`
   flex: 0 0 33%;
   min-height: ${GameClassIconWidth}px;
   cursor: pointer;
+
+  & > div.close {
+    position: absolute;
+    top: 0px;
+    right: 14px;
+    width: 20px;
+    height: 20px;
+    color: #fff;
+    border: 1px solid #fff;
+    background-color: red;
+    font-weight: 600;
+    border-radius: 4px;
+    opacity: 0.7;
+  }
+
   ${({ theme }) => theme.media.tablet`
     margin-bottom: 10px;
   `}
@@ -135,13 +150,11 @@ export const GameClass: React.FC = () => {
   const [selectedGameClass, setSelectedGameClass] = useState<ParamGameClassInfo[]>([]);
   const [showTalent, setShowTalent] = useState<boolean>(false);
 
-  const showModal = (wowClass: GameClassItemInfo) => {};
-
   const selectGameClass = (wowClass: any, talent: any) => {
     if (selectedGameClass.some((el) => el.name === wowClass.name && el.talent === talent.name)) {
       //  Do nothing.
     } else if (selectedGameClass.length === MAX_SELECT) {
-      toast.error(t('tw-max-select', { max: MAX_SELECT }), {
+      toast.error(t('gameclass.maxSelectText', { max: MAX_SELECT }), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: false,
@@ -181,15 +194,15 @@ export const GameClass: React.FC = () => {
       temp.firstTalent = selectedGameClass[0].talent;
     }
     testInfo.set(temp);
-    Router.push('./test');
+    Router.push('./result');
   };
 
   return (
     <>
       <div style={{ marginBottom: '10px' }} />
       <Panel>
-        <h3 className="panel-sub-title">당신의 직업을 선택하세요. (최대 3개)</h3>
-        <h2 className="panel-title">와우 직업 선택</h2>
+        <h3 className="panel-sub-title">{t('gameclass.selectClassComment')}</h3>
+        <h2 className="panel-title">{t('gameclass.selectClassTitle')}</h2>
         <div className="panel-text" style={{ display: 'flex', flexWrap: 'wrap' }}>
           {GameClassList.map((item, index) => (
             <StyledGameClassItem
@@ -200,8 +213,8 @@ export const GameClass: React.FC = () => {
                 setShowTalent(true);
               }}
             >
-              {item.image && <StyledGameClassIcon src={`/class/${item.image}.jpg`} alt={t(item.name)} />}
-              <span>{t(item.name)}</span>
+              {item.image && <StyledGameClassIcon src={`/class/${item.image}.jpg`} alt={t(`gameclass.${item.name}`)} />}
+              <span>{t(`gameclass.${item.name}`)}</span>
             </StyledGameClassItem>
           ))}
         </div>
@@ -209,13 +222,14 @@ export const GameClass: React.FC = () => {
       <Panel>
         <StyledSelectedGameClassList>
           {selectedGameClass.length === 0 ? (
-            <StyledSelectedGameClassListEmpty>{t('tw-select-wow-class')}</StyledSelectedGameClassListEmpty>
+            <StyledSelectedGameClassListEmpty>{t('gameclass.selectClassEmpty')}</StyledSelectedGameClassListEmpty>
           ) : (
             selectedGameClass.map((item, index) => (
               <StyledSelectedGameClassItem key={index} style={{ color: item.color }} onClick={() => unselectGameClass(item)}>
-                <StyledGameSelectedClassName>{t(item.name)}</StyledGameSelectedClassName>
-                {item.name && <StyledGameClassIcon src={`/class/${item.name}.jpg`} alt={t(item.name)} />}
-                <StyledSelectedGameClassTalent>{t(item.talent)}</StyledSelectedGameClassTalent>
+                <div className={'close'}>X</div>
+                <StyledGameSelectedClassName>{t(`gameclass.${item.name}`)}</StyledGameSelectedClassName>
+                {item.name && <StyledGameClassIcon src={`/class/${item.name}.jpg`} alt={t(`gameclass.${item.name}`)} />}
+                <StyledSelectedGameClassTalent>{t(`gameclass.${item.talent}`)}</StyledSelectedGameClassTalent>
               </StyledSelectedGameClassItem>
             ))
           )}
@@ -229,7 +243,7 @@ export const GameClass: React.FC = () => {
             }
           }}
         >
-          성향 검사 시작
+          {t('gameclass.goResult')}
         </Button>
       </div>
       <Adfit />
@@ -238,9 +252,9 @@ export const GameClass: React.FC = () => {
           talentList.talents.map((item, index) => (
             <StyledGameClassTalents key={index} onClick={() => selectGameClass({ name: talentList.name, color: talentList.color }, item)}>
               <li className="talentInfo">
-                <img className="img" src={`/class/${item.image}`} alt={t(item.name)} />
-                <span className="name">{t(item.name)}</span>
-                <img className="pos" src={`/class/${item.position}.svg`} alt={t(item.position)} />
+                <img className="img" src={`/class/${item.image}`} alt={t(`gameclass.${item.name}`)} />
+                <span className="name">{t(`gameclass.${item.name}`)}</span>
+                <img className="pos" src={`/class/${item.position}.svg`} alt={t(`gameclass.${item.position}`)} />
               </li>
               <li className="desc">{item.desc}</li>
             </StyledGameClassTalents>

@@ -27,7 +27,7 @@ export const Index: React.FC = () => {
     const temp = testInfo.get;
     temp.newbie = newbie;
     testInfo.set(temp);
-    Router.push('./gameclass');
+    Router.push('./test');
   };
   return (
     <Wrapper>
@@ -41,9 +41,11 @@ export const Index: React.FC = () => {
         }}
       />
       <Panel>
-        <h3 className={'panel-sub-title'}>WoW 직업 선택</h3>
+        <h3 className={'panel-sub-title'}>
+          {t('home.big5Test')} + {t('home.statClass')}
+        </h3>
         <h2 className={'panel-title'}>Big 5 테스트란?</h2>
-        <div className={'panel-text'}>
+        <div className={'panel-content'}>
           인간의 성격을 5가지 요인들로 설명하는 성격심리 모형.
           <br /> 학계에서 논의된 5요인 모형을 기반으로 한다.
           <br /> 성격심리학자들에게 신뢰를 받고 있는 검증된 이론이다.
@@ -54,21 +56,21 @@ export const Index: React.FC = () => {
         </div>
       </Panel>
       <Panel>
-        <img
-          src={'/logo-wow.png'}
-          alt={'WOW LOGO'}
-          style={{
-            maxWidth: '380px',
-            margin: '0 auto'
-          }}
-        />
         <div className={'panel-text'}>
-          <h3 className={'panel-sub-title'}>월드오브워크래프트를 플레이해보신 적이 있습니까?</h3>
+          <img
+            src={'/logo-wow.png'}
+            alt={'WOW LOGO'}
+            style={{
+              maxWidth: '380px',
+              margin: '0 auto'
+            }}
+          />
+          <h3 className={'panel-sub-title'}>{t('home.checkNewbie')}</h3>
           <br />
           <Button primary={true} onClick={() => goGameClass(true)}>
-            예
+            {t('home.yes')}
           </Button>
-          <Button onClick={() => goGameClass(false)}>아니요</Button>
+          <Button onClick={() => goGameClass(false)}>{t('home.no')}</Button>
         </div>
       </Panel>
       <Adfit />

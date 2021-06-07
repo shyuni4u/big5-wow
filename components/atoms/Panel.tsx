@@ -51,7 +51,7 @@ const StyledPanel = styled.div`
 
   & div.panel-content {
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 2;
     font-family: Open Sans, Arial, Helvetica, sans-serif;
     color: #ebdec2;
     text-shadow: 0 0 1px transparent, 0 1px 2px rgba(0, 0, 0, 0.8);
