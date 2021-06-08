@@ -184,6 +184,7 @@ export const Result: React.FC = () => {
   const { testInfo } = reducerTest();
   const [result, setResult] = useState<testResult[]>([]);
   const [resultRatio, setResultRatio] = useState<testResult[]>([]);
+  const [resultTotal, setResultTotal] = useState<testResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [agree, setAgree] = useState<number>(1);
@@ -196,8 +197,10 @@ export const Result: React.FC = () => {
   const [sum, setSum] = useState<number>(0);
   const [max, setMax] = useState<number>(1);
   const [maxRatio, setMaxRatio] = useState<number>(100);
+  const [maxTotal, setMaxTotal] = useState<number>(1);
   const [more, setMore] = useState<boolean>(false);
   const [moreRatio, setMoreRatio] = useState<boolean>(false);
+  const [moreTotal, setMoreTotal] = useState<boolean>(false);
 
   const numberWithCommas = (x: number) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -242,6 +245,7 @@ export const Result: React.FC = () => {
             setTotal(response.data.count[0].nCnt);
             setResult(response.data.list);
             setResultRatio(response.data.ratio);
+            setResultTotal(response.data.total);
           } else {
             setResult(undefined);
           }
@@ -281,6 +285,11 @@ export const Result: React.FC = () => {
     if (resultRatio.length > 0) setMaxRatio(resultRatio[0].nSum);
     else setMaxRatio(100);
   }, [resultRatio]);
+
+  useEffect(() => {
+    if (resultTotal.length > 0) setMaxTotal(resultTotal[0].nSum);
+    else setMaxTotal(1);
+  }, [resultTotal]);
 
   const getOption = () => {
     return {
@@ -482,6 +491,45 @@ export const Result: React.FC = () => {
               {result.length > 5 && !more && (
                 <li>
                   <Button onClick={() => setMore(true)}>{t('result.more')}</Button>
+                </li>
+              )}
+            </StyledResultList>
+          </StyledResult>
+          <StyledResult>
+            <StyledResultTitle>
+              <BsTextLeft />
+              {t('result.totalcount')}
+            </StyledResultTitle>
+            <StyledResultList>
+              {resultTotal.map((el: testResult, elIdx: number) => {
+                if (!moreTotal && elIdx > 4) return undefined;
+
+                const _class = WowClassInfo.find((v) => v.name == el.sClass);
+                const _talent = _class.talents.find((v) => v.name == el.sTalent);
+
+                return (
+                  <li key={elIdx}>
+                    <StyledResultListItems>
+                      <li className={'image'}>
+                        <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
+                      </li>
+                      <li className={'name'}>
+                        {t(`gameclass.${_class.name}`)}
+                        <br />
+                        {t(`gameclass.${_talent.name}`)}
+                      </li>
+                      <li className={'progress'}>
+                        <div className={'progressBar'} style={{ width: Math.round((el.nSum / maxTotal) * 10000) / 100 + '%', backgroundColor: _class.color }}>
+                          <div className={'progressValue'}>{el.nSum}</div>
+                        </div>
+                      </li>
+                    </StyledResultListItems>
+                  </li>
+                );
+              })}
+              {resultTotal.length > 5 && !moreTotal && (
+                <li>
+                  <Button onClick={() => setMoreTotal(true)}>{t('result.more')}</Button>
                 </li>
               )}
             </StyledResultList>
