@@ -545,8 +545,6 @@ export const Result: React.FC = () => {
           </Button>
         </>
       )}
-      <div style={{ height: '10px' }}></div>
-      <Adfit />
     </div>
   );
 };

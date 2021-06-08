@@ -251,7 +251,6 @@ export const GameClass: React.FC = () => {
           {t('gameclass.goResult')}
         </Button>
       </div>
-      <Adfit />
       <Modal show={showTalent} onClose={() => setShowTalent(false)}>
         {talentList &&
           talentList.talents.map((item, index) => (
