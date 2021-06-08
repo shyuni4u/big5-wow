@@ -176,12 +176,14 @@ const StyledWowClassIcon = styled.img`
 type testResult = {
   sClass: string;
   sTalent: string;
-  nCount: number;
+  nCount?: number;
+  nSum?: number;
 };
 export const Result: React.FC = () => {
   const { t } = useTranslation();
   const { testInfo } = reducerTest();
   const [result, setResult] = useState<testResult[]>([]);
+  const [resultRatio, setResultRatio] = useState<testResult[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [agree, setAgree] = useState<number>(1);
@@ -193,16 +195,18 @@ export const Result: React.FC = () => {
   const [total, setTotal] = useState<number>(0);
   const [sum, setSum] = useState<number>(0);
   const [max, setMax] = useState<number>(1);
+  const [maxRatio, setMaxRatio] = useState<number>(100);
   const [more, setMore] = useState<boolean>(false);
+  const [moreRatio, setMoreRatio] = useState<boolean>(false);
 
   const numberWithCommas = (x: number) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   const parseRange = (val: number) => {
-    if (val >= 1 && val < 3) return 1;
-    if (val == 3) return 3;
-    if (val > 3 && val <= 5) return 5;
+    if (val >= 1 && val < 2.5) return 1;
+    if (val >= 2.5 && val <= 3.5) return 3;
+    if (val > 3.5 && val <= 5) return 5;
     return 0;
   };
 
@@ -237,6 +241,7 @@ export const Result: React.FC = () => {
           if (response.status === 200) {
             setTotal(response.data.count[0].nCnt);
             setResult(response.data.list);
+            setResultRatio(response.data.ratio);
           } else {
             setResult(undefined);
           }
@@ -271,6 +276,11 @@ export const Result: React.FC = () => {
 
     setSum(_sum);
   }, [result]);
+
+  useEffect(() => {
+    if (resultRatio.length > 0) setMaxRatio(resultRatio[0].nSum);
+    else setMaxRatio(100);
+  }, [resultRatio]);
 
   const getOption = () => {
     return {
@@ -401,7 +411,46 @@ export const Result: React.FC = () => {
           <StyledResult>
             <StyledResultTitle>
               <BsTextLeft />
-              {t('result.likeyou')}
+              {t('result.likeyouratio')}
+            </StyledResultTitle>
+            <StyledResultList>
+              {resultRatio.map((el: testResult, elIdx: number) => {
+                if (!moreRatio && elIdx > 4) return undefined;
+
+                const _class = WowClassInfo.find((v) => v.name == el.sClass);
+                const _talent = _class.talents.find((v) => v.name == el.sTalent);
+
+                return (
+                  <li key={elIdx}>
+                    <StyledResultListItems>
+                      <li className={'image'}>
+                        <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
+                      </li>
+                      <li className={'name'}>
+                        {t(`gameclass.${_class.name}`)}
+                        <br />
+                        {t(`gameclass.${_talent.name}`)}
+                      </li>
+                      <li className={'progress'}>
+                        <div className={'progressBar'} style={{ width: Math.round((el.nSum / maxRatio) * 10000) / 100 + '%', backgroundColor: _class.color }}>
+                          <div className={'progressValue'}>{Math.round(el.nSum * 100) / 100}%</div>
+                        </div>
+                      </li>
+                    </StyledResultListItems>
+                  </li>
+                );
+              })}
+              {resultRatio.length > 5 && !moreRatio && (
+                <li>
+                  <Button onClick={() => setMoreRatio(true)}>{t('result.more')}</Button>
+                </li>
+              )}
+            </StyledResultList>
+          </StyledResult>
+          <StyledResult>
+            <StyledResultTitle>
+              <BsTextLeft />
+              {t('result.likeyoucount')}
             </StyledResultTitle>
             <StyledResultList>
               {result.map((el: testResult, elIdx: number) => {
@@ -423,7 +472,7 @@ export const Result: React.FC = () => {
                       </li>
                       <li className={'progress'}>
                         <div className={'progressBar'} style={{ width: Math.round((el.nCount / max) * 10000) / 100 + '%', backgroundColor: _class.color }}>
-                          <div className={'progressValue'}>{Math.round((el.nCount / (sum === 0 ? el.nCount : sum)) * 10000) / 100}%</div>
+                          <div className={'progressValue'}>{el.nCount}</div>
                         </div>
                       </li>
                     </StyledResultListItems>
