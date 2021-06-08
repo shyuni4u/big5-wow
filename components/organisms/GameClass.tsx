@@ -35,6 +35,11 @@ const StyledGameClassTalents = styled.ul`
   margin-top: 20px;
   user-select: none;
   cursor: pointer;
+
+  &:hover {
+    background-color: #9e661c;
+  }
+
   & > .talentInfo {
     display: flex;
     align-items: center;
