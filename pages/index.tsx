@@ -9,16 +9,7 @@ import Wrapper from '../components/organisms/Wrapper';
 import Adfit from '../components/molecules/Adfit';
 
 import reducerTest from '../reducers/reducerTest';
-// const StyledLang = styled.div`
-//   position: absolute;
-//   top: 5px;
-//   right: 5px;
-//   color: ${({ theme }) => theme.colors.white};
-// `;
-// const StyledLangButton = styled.button`
-//   color: ${({ theme }) => theme.colors.white};
-//   cursor: pointer;
-// `;
+
 const StyledGoDetail = styled.a`
   font-size: 0.6em;
   border: 1px solid ${({ theme }) => theme.colors.primary};
@@ -32,24 +23,14 @@ export const Index: React.FC = () => {
   const { t } = useTranslation();
   const { testInfo } = reducerTest();
 
-  const goWowClass = (newbie: boolean) => {
+  const goGameClass = (newbie: boolean) => {
     const temp = testInfo.get;
     temp.newbie = newbie;
     testInfo.set(temp);
-    Router.push('./wowclass');
+    Router.push('./test');
   };
-  // const changelanguageToKo = () => i18n.changeLanguage('ko');
-  // const changelanguageToEn = () => i18n.changeLanguage('en');
   return (
     <Wrapper>
-      {/* <StyledLang>
-          <StyledLangButton type={'button'} onClick={changelanguageToKo}>
-            한국어
-          </StyledLangButton>
-          <StyledLangButton type={'button'} onClick={changelanguageToEn}>
-            English
-          </StyledLangButton>
-        </StyledLang> */}
       <img
         src={'/logo-wow-small.png'}
         alt={'WOW LOGO'}
@@ -60,9 +41,11 @@ export const Index: React.FC = () => {
         }}
       />
       <Panel>
-        <h3 className={'panel-sub-title'}>WoW 직업 선택</h3>
+        <h3 className={'panel-sub-title'}>
+          {t('home.big5Test')} + {t('home.statClass')}
+        </h3>
         <h2 className={'panel-title'}>Big 5 테스트란?</h2>
-        <div className={'panel-text'}>
+        <div className={'panel-content'}>
           인간의 성격을 5가지 요인들로 설명하는 성격심리 모형.
           <br /> 학계에서 논의된 5요인 모형을 기반으로 한다.
           <br /> 성격심리학자들에게 신뢰를 받고 있는 검증된 이론이다.
@@ -73,21 +56,21 @@ export const Index: React.FC = () => {
         </div>
       </Panel>
       <Panel>
-        <img
-          src={'/logo-wow.png'}
-          alt={'WOW LOGO'}
-          style={{
-            maxWidth: '380px',
-            margin: '0 auto'
-          }}
-        />
         <div className={'panel-text'}>
-          <h3 className={'panel-sub-title'}>월드오브워크래프트를 플레이해보신 적이 있습니까?</h3>
+          <img
+            src={'/logo-wow.png'}
+            alt={'WOW LOGO'}
+            style={{
+              maxWidth: '380px',
+              margin: '0 auto'
+            }}
+          />
+          <h3 className={'panel-sub-title'}>{t('home.checkNewbie')}</h3>
           <br />
-          <Button primary={true} onClick={() => goWowClass(true)}>
-            예
+          <Button primary={true} onClick={() => goGameClass(true)}>
+            {t('home.yes')}
           </Button>
-          <Button onClick={() => goWowClass(false)}>아니요</Button>
+          <Button onClick={() => goGameClass(false)}>{t('home.no')}</Button>
         </div>
       </Panel>
       <Adfit />

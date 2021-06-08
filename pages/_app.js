@@ -48,7 +48,7 @@ export class RootApp extends App {
         <Head>
           <title>WoW - Big 5 test</title>
           <link rel="shortcut icon" href="/favicon.ico" />
-          <meta charset="utf-8" />
+          <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="keywords" content="심리테스트, 직업 선택, 와우, 월드 오브 워크래프트, WOW, World of warcraft, MBTI"></meta>
           <meta name="description" content="월드 오브 워크래프트 직업 선택을 위한 심리 테스트. Big 5 test for selecting world of warcraft class." />
