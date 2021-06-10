@@ -4,7 +4,7 @@ import Router from 'next/router';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import ReactEcharts from 'echarts-for-react';
-import { BsCheck, BsTextLeft } from 'react-icons/bs';
+import { BsBarChart, BsCloud, BsFileText } from 'react-icons/bs';
 
 import Theme from '../../styles/theme';
 import WowClassInfo from '../../lib/GameClassInfo';
@@ -12,7 +12,6 @@ import API from '../../lib/info.json';
 
 import Button from '../atoms/Button';
 import Loader from '../atoms/Loader';
-import Adfit from '../molecules/Adfit';
 
 import reducerTest from '../../reducers/reducerTest';
 
@@ -173,11 +172,26 @@ const StyledWowClassIcon = styled.img`
   border: 2px solid ${({ theme }) => theme.colors.warning};
 `;
 
+const TOKEN = '!?!';
+
 type testResult = {
   sClass: string;
   sTalent: string;
   nCount?: number;
   nSum?: number;
+};
+type mlProp = {
+  sClass: string;
+  sTalent: string;
+  nAgreeableness: string;
+  nConscientiousness: string;
+  nExtraversion: string;
+  nOpennessToExperience: string;
+  nNeuroticism: string;
+};
+type resultNNProp = {
+  label: string;
+  confidence: number;
 };
 export const Result: React.FC = () => {
   const { t } = useTranslation();
@@ -185,6 +199,8 @@ export const Result: React.FC = () => {
   const [result, setResult] = useState<testResult[]>([]);
   const [resultRatio, setResultRatio] = useState<testResult[]>([]);
   const [resultTotal, setResultTotal] = useState<testResult[]>([]);
+  const [resultML, setResultML] = useState<mlProp[]>([]);
+  const [resultNN, setResultNN] = useState<resultNNProp[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [agree, setAgree] = useState<number>(1);
@@ -198,9 +214,12 @@ export const Result: React.FC = () => {
   const [max, setMax] = useState<number>(1);
   const [maxRatio, setMaxRatio] = useState<number>(100);
   const [maxTotal, setMaxTotal] = useState<number>(1);
+  const [showStat, setShowStat] = useState<boolean>(false);
   const [more, setMore] = useState<boolean>(false);
   const [moreRatio, setMoreRatio] = useState<boolean>(false);
   const [moreTotal, setMoreTotal] = useState<boolean>(false);
+
+  let ml5: any = null;
 
   const numberWithCommas = (x: number) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -246,6 +265,7 @@ export const Result: React.FC = () => {
             setResult(response.data.list);
             setResultRatio(response.data.ratio);
             setResultTotal(response.data.total);
+            setResultML(response.data.ml);
           } else {
             setResult(undefined);
           }
@@ -270,6 +290,71 @@ export const Result: React.FC = () => {
       unmount = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (window && ml5 === null && resultML.length > 0) {
+      ml5 = require('ml5');
+
+      // Step 2: set your neural network options
+      const options = {
+        task: 'classification',
+        debug: false
+      };
+      // Step 3: initialize your neural network
+      const nn = ml5.neuralNetwork(options);
+
+      // Step 6: train your neural network
+      const trainingOptions = {
+        epochs: 30,
+        batchSize: 100
+      };
+      // Step 7: use the trained model
+      const finishedTraining = () => {
+        classify();
+      };
+
+      // Step 8: make a classification
+      const classify = () => {
+        const input = {
+          nAgreeableness: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount),
+          nConscientiousness: parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount),
+          nExtraversion: parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount),
+          nOpennessToExperience: parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount),
+          nNeuroticism: parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount)
+        };
+        nn.classify(input, handleResults);
+      };
+
+      // Step 9: define a function to handle the results of your classification
+      const handleResults = (error, result) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        setResultNN(result);
+      };
+
+      // Step 4: add data to the neural network
+      resultML.forEach((el: mlProp) => {
+        const inputs = {
+          nAgreeableness: el.nAgreeableness,
+          nConscientiousness: el.nConscientiousness,
+          nExtraversion: el.nExtraversion,
+          nOpennessToExperience: el.nOpennessToExperience,
+          nNeuroticism: el.nNeuroticism
+        };
+        const output = {
+          sClass: `${el.sClass}${TOKEN}${el.sTalent}`
+        };
+
+        nn.addData(inputs, output);
+      });
+
+      // Step 5: normalize your data;
+      nn.normalizeData();
+      nn.train(trainingOptions, finishedTraining);
+    }
+  }, [resultML]);
 
   useEffect(() => {
     let _sum = 0;
@@ -357,195 +442,238 @@ export const Result: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '6px' }}>
-      {loading ? (
-        <StyledLoadingWrapper>
-          <Loader style={{ marginBottom: '20px' }} />
-          성향과 비슷한 직업을 찾고 있습니다.
-        </StyledLoadingWrapper>
-      ) : (
-        <>
-          <StyledResult>
-            <StyledResultTitle>
-              <BsTextLeft />
-              {t('result.you')}
-            </StyledResultTitle>
-            <ReactEcharts
-              option={getOption()}
-              notMerge={true}
-              lazyUpdate={true}
-              style={{
-                height: '360px',
-                width: '360px',
-                position: 'relative'
-              }}
-            />
-          </StyledResult>
-          <StyledResult>
-            <ul>
-              <StyledYouLi>
-                <span style={{ color: '#ffd50e' }}>{t('result.agreeableness')}: </span>
-                {t('result.agreeablenessDesc')}
-              </StyledYouLi>
-              <StyledYouLi>
-                <span style={{ color: '#ffa53a' }}>{t('result.conscientiousness')}: </span>
-                {t('result.conscientiousnessDesc')}
-              </StyledYouLi>
-              <StyledYouLi>
-                <span style={{ color: '#89dd26' }}>{t('result.extraversion')}: </span>
-                {t('result.extraversionDesc')}
-              </StyledYouLi>
-              <StyledYouLi>
-                <span style={{ color: '#e980ff' }}>{t('result.opennessToExperience')}: </span>
-                {t('result.opennessToExperienceDesc')}
-              </StyledYouLi>
-              <StyledYouLi>
-                <span style={{ color: '#36b1ff' }}>{t('result.neuroticism')}: </span>
-                {t('result.neuroticismDesc')}
-              </StyledYouLi>
-            </ul>
-          </StyledResult>
-          <StyledResult>
-            <StyledResultTitle>
-              <BsTextLeft />
-              {t('result.testcount')}
-            </StyledResultTitle>
-            <StyledResultCount>
-              <span className={'sum'} style={{ color: sum < 10 ? '#F99ED4' : sum < 100 ? '#ffe96b' : '#ABE3A2' }}>
-                {numberWithCommas(sum)}
-              </span>{' '}
-              <span className={'total'}>/ {numberWithCommas(total)}</span>
-            </StyledResultCount>
-          </StyledResult>
-          <StyledResult>
-            <StyledResultTitle>
-              <BsTextLeft />
-              {t('result.likeyouratio')}
-            </StyledResultTitle>
-            <StyledResultList>
-              {resultRatio.map((el: testResult, elIdx: number) => {
-                if (!moreRatio && elIdx > 4) return undefined;
+    <>
+      <StyledLoadingWrapper style={{ display: loading ? 'inherit' : 'none' }}>
+        <Loader style={{ marginBottom: '20px' }} />
+        성향과 비슷한 직업을 찾고 있습니다.
+      </StyledLoadingWrapper>
 
-                const _class = WowClassInfo.find((v) => v.name == el.sClass);
-                const _talent = _class.talents.find((v) => v.name == el.sTalent);
-
-                return (
-                  <li key={elIdx}>
-                    <StyledResultListItems>
-                      <li className={'image'}>
-                        <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
-                      </li>
-                      <li className={'name'}>
-                        {t(`gameclass.${_class.name}`)}
-                        <br />
-                        {t(`gameclass.${_talent.name}`)}
-                      </li>
-                      <li className={'progress'}>
-                        <div className={'progressBar'} style={{ width: Math.round((el.nSum / maxRatio) * 10000) / 100 + '%', backgroundColor: _class.color }}>
-                          <div className={'progressValue'}>{Math.round(el.nSum * 100) / 100}%</div>
-                        </div>
-                      </li>
-                    </StyledResultListItems>
-                  </li>
-                );
-              })}
-              {resultRatio.length > 5 && !moreRatio && (
+      <div style={{ display: loading ? 'none' : 'flex', flexDirection: 'column', alignItems: 'center', padding: '6px' }}>
+        <StyledResult>
+          <StyledResultTitle>
+            <BsBarChart />
+            {t('result.you')}
+          </StyledResultTitle>
+          <ReactEcharts
+            option={getOption()}
+            notMerge={true}
+            lazyUpdate={true}
+            style={{
+              height: '360px',
+              width: '360px',
+              position: 'relative'
+            }}
+          />
+        </StyledResult>
+        <StyledResult>
+          <ul>
+            <StyledYouLi>
+              <span style={{ color: '#ffd50e' }}>{t('result.agreeableness')}: </span>
+              {t('result.agreeablenessDesc')}
+            </StyledYouLi>
+            <StyledYouLi>
+              <span style={{ color: '#ffa53a' }}>{t('result.conscientiousness')}: </span>
+              {t('result.conscientiousnessDesc')}
+            </StyledYouLi>
+            <StyledYouLi>
+              <span style={{ color: '#89dd26' }}>{t('result.extraversion')}: </span>
+              {t('result.extraversionDesc')}
+            </StyledYouLi>
+            <StyledYouLi>
+              <span style={{ color: '#e980ff' }}>{t('result.opennessToExperience')}: </span>
+              {t('result.opennessToExperienceDesc')}
+            </StyledYouLi>
+            <StyledYouLi>
+              <span style={{ color: '#36b1ff' }}>{t('result.neuroticism')}: </span>
+              {t('result.neuroticismDesc')}
+            </StyledYouLi>
+          </ul>
+        </StyledResult>
+        <StyledResult>
+          <StyledResultTitle>
+            <BsCloud />
+            {t('result.machinelearning')}
+          </StyledResultTitle>
+          <StyledResultList>
+            {resultNN.length === 0 && (
+              <>
                 <li>
-                  <Button onClick={() => setMoreRatio(true)}>{t('result.more')}</Button>
+                  <Loader style={{ marginBottom: '20px' }} />
                 </li>
-              )}
-            </StyledResultList>
-          </StyledResult>
-          <StyledResult>
-            <StyledResultTitle>
-              <BsTextLeft />
-              {t('result.likeyoucount')}
-            </StyledResultTitle>
-            <StyledResultList>
-              {result.map((el: testResult, elIdx: number) => {
-                if (!more && elIdx > 4) return undefined;
+                <li>{t('result.training')}</li>
+              </>
+            )}
+            {resultNN.map((el: resultNNProp, elIdx: number) => {
+              if (elIdx > 4) return undefined;
+              const _el = el.label.split(TOKEN);
+              const _class = WowClassInfo.find((v) => v.name == _el[0]);
+              const _talent = _class.talents.find((v) => v.name == _el[1]);
 
-                const _class = WowClassInfo.find((v) => v.name == el.sClass);
-                const _talent = _class.talents.find((v) => v.name == el.sTalent);
+              return (
+                <li key={elIdx}>
+                  <StyledResultListItems>
+                    <li className={'image'}>
+                      <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
+                    </li>
+                    <li className={'name'}>{t(`gameclass.${_talent.name}`)}</li>
+                    <li className={'progress'}>
+                      <div className={'progressBar'} style={{ width: Math.round((el.confidence / resultNN[0].confidence) * 100) + '%', backgroundColor: _class.color }}>
+                        <div className={'progressValue'}>{Math.round(el.confidence * 10000) / 100}</div>
+                      </div>
+                    </li>
+                  </StyledResultListItems>
+                </li>
+              );
+            })}
+          </StyledResultList>
+        </StyledResult>
 
-                return (
-                  <li key={elIdx}>
-                    <StyledResultListItems>
-                      <li className={'image'}>
-                        <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
-                      </li>
-                      <li className={'name'}>
-                        {t(`gameclass.${_class.name}`)}
-                        <br />
-                        {t(`gameclass.${_talent.name}`)}
-                      </li>
-                      <li className={'progress'}>
-                        <div className={'progressBar'} style={{ width: Math.round((el.nCount / max) * 10000) / 100 + '%', backgroundColor: _class.color }}>
-                          <div className={'progressValue'}>{el.nCount}</div>
-                        </div>
-                      </li>
-                    </StyledResultListItems>
+        {!showStat && <Button onClick={() => setShowStat(true)}>{t('result.stat')}</Button>}
+
+        {showStat && (
+          <>
+            <StyledResult>
+              <StyledResultTitle>
+                <BsFileText />
+                {t('result.testcount')}
+              </StyledResultTitle>
+              <StyledResultCount>
+                <span className={'sum'} style={{ color: sum < 10 ? '#F99ED4' : sum < 100 ? '#ffe96b' : '#ABE3A2' }}>
+                  {numberWithCommas(sum)}
+                </span>{' '}
+                <span className={'total'}>/ {numberWithCommas(total)}</span>
+              </StyledResultCount>
+            </StyledResult>
+            <StyledResult>
+              <StyledResultTitle>
+                <BsFileText />
+                {t('result.likeyouratio')}
+              </StyledResultTitle>
+              <StyledResultList>
+                {resultRatio.map((el: testResult, elIdx: number) => {
+                  if (!moreRatio && elIdx > 4) return undefined;
+
+                  const _class = WowClassInfo.find((v) => v.name == el.sClass);
+                  const _talent = _class.talents.find((v) => v.name == el.sTalent);
+
+                  return (
+                    <li key={elIdx}>
+                      <StyledResultListItems>
+                        <li className={'image'}>
+                          <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
+                        </li>
+                        <li className={'name'}>
+                          {t(`gameclass.${_class.name}`)}
+                          <br />
+                          {t(`gameclass.${_talent.name}`)}
+                        </li>
+                        <li className={'progress'}>
+                          <div className={'progressBar'} style={{ width: Math.round((el.nSum / maxRatio) * 10000) / 100 + '%', backgroundColor: _class.color }}>
+                            <div className={'progressValue'}>{Math.round(el.nSum * 100) / 100}%</div>
+                          </div>
+                        </li>
+                      </StyledResultListItems>
+                    </li>
+                  );
+                })}
+                {resultRatio.length > 5 && !moreRatio && (
+                  <li>
+                    <Button onClick={() => setMoreRatio(true)}>{t('result.more')}</Button>
                   </li>
-                );
-              })}
-              {result.length > 5 && !more && (
-                <li>
-                  <Button onClick={() => setMore(true)}>{t('result.more')}</Button>
-                </li>
-              )}
-            </StyledResultList>
-          </StyledResult>
-          <StyledResult>
-            <StyledResultTitle>
-              <BsTextLeft />
-              {t('result.totalcount')}
-            </StyledResultTitle>
-            <StyledResultList>
-              {resultTotal.map((el: testResult, elIdx: number) => {
-                if (!moreTotal && elIdx > 4) return undefined;
+                )}
+              </StyledResultList>
+            </StyledResult>
+            <StyledResult>
+              <StyledResultTitle>
+                <BsFileText />
+                {t('result.likeyoucount')}
+              </StyledResultTitle>
+              <StyledResultList>
+                {result.map((el: testResult, elIdx: number) => {
+                  if (!more && elIdx > 4) return undefined;
 
-                const _class = WowClassInfo.find((v) => v.name == el.sClass);
-                const _talent = _class.talents.find((v) => v.name == el.sTalent);
+                  const _class = WowClassInfo.find((v) => v.name == el.sClass);
+                  const _talent = _class.talents.find((v) => v.name == el.sTalent);
 
-                return (
-                  <li key={elIdx}>
-                    <StyledResultListItems>
-                      <li className={'image'}>
-                        <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
-                      </li>
-                      <li className={'name'}>
-                        {t(`gameclass.${_class.name}`)}
-                        <br />
-                        {t(`gameclass.${_talent.name}`)}
-                      </li>
-                      <li className={'progress'}>
-                        <div className={'progressBar'} style={{ width: Math.round((el.nSum / maxTotal) * 10000) / 100 + '%', backgroundColor: _class.color }}>
-                          <div className={'progressValue'}>{el.nSum}</div>
-                        </div>
-                      </li>
-                    </StyledResultListItems>
+                  return (
+                    <li key={elIdx}>
+                      <StyledResultListItems>
+                        <li className={'image'}>
+                          <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
+                        </li>
+                        <li className={'name'}>
+                          {t(`gameclass.${_class.name}`)}
+                          <br />
+                          {t(`gameclass.${_talent.name}`)}
+                        </li>
+                        <li className={'progress'}>
+                          <div className={'progressBar'} style={{ width: Math.round((el.nCount / max) * 10000) / 100 + '%', backgroundColor: _class.color }}>
+                            <div className={'progressValue'}>{el.nCount}</div>
+                          </div>
+                        </li>
+                      </StyledResultListItems>
+                    </li>
+                  );
+                })}
+                {result.length > 5 && !more && (
+                  <li>
+                    <Button onClick={() => setMore(true)}>{t('result.more')}</Button>
                   </li>
-                );
-              })}
-              {resultTotal.length > 5 && !moreTotal && (
-                <li>
-                  <Button onClick={() => setMoreTotal(true)}>{t('result.more')}</Button>
-                </li>
-              )}
-            </StyledResultList>
-          </StyledResult>
-          <div style={{ margin: '10px 0' }}>
-            {t('result.warning')}
-            <br />
-            <br />
-            {t('result.thankyou')}
-          </div>
-          <Button primary onClick={() => Router.push('/')}>
-            {t('result.retry')}
-          </Button>
-        </>
-      )}
-    </div>
+                )}
+              </StyledResultList>
+            </StyledResult>
+            <StyledResult>
+              <StyledResultTitle>
+                <BsFileText />
+                {t('result.totalcount')}
+              </StyledResultTitle>
+              <StyledResultList>
+                {resultTotal.map((el: testResult, elIdx: number) => {
+                  if (!moreTotal && elIdx > 4) return undefined;
+
+                  const _class = WowClassInfo.find((v) => v.name == el.sClass);
+                  const _talent = _class.talents.find((v) => v.name == el.sTalent);
+
+                  return (
+                    <li key={elIdx}>
+                      <StyledResultListItems>
+                        <li className={'image'}>
+                          <StyledWowClassIcon className="img" src={`/class/${_talent.image}`} alt={`${t(_class.name)} - ${_talent.name}`} />
+                        </li>
+                        <li className={'name'}>
+                          {t(`gameclass.${_class.name}`)}
+                          <br />
+                          {t(`gameclass.${_talent.name}`)}
+                        </li>
+                        <li className={'progress'}>
+                          <div className={'progressBar'} style={{ width: Math.round((el.nSum / maxTotal) * 10000) / 100 + '%', backgroundColor: _class.color }}>
+                            <div className={'progressValue'}>{el.nSum}</div>
+                          </div>
+                        </li>
+                      </StyledResultListItems>
+                    </li>
+                  );
+                })}
+                {resultTotal.length > 5 && !moreTotal && (
+                  <li>
+                    <Button onClick={() => setMoreTotal(true)}>{t('result.more')}</Button>
+                  </li>
+                )}
+              </StyledResultList>
+            </StyledResult>
+          </>
+        )}
+        <div style={{ margin: '10px 0' }}>
+          {t('result.warning')}
+          <br />
+          <br />
+          {t('result.thankyou')}
+        </div>
+        <Button primary onClick={() => Router.push('/')}>
+          {t('result.retry')}
+        </Button>
+      </div>
+    </>
   );
 };
 
