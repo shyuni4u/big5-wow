@@ -251,6 +251,7 @@ export const Result: React.FC = () => {
             sSecondTalent: testInfo.get.secondTalent,
             sThirdClass: testInfo.get.thirdClass,
             sThirdTalent: testInfo.get.thirdTalent,
+            sInput: testInfo.get.inputValues.join(''),
             nAgreeableness: _agree,
             nConscientiousness: _consc,
             nExtraversion: _extra,
