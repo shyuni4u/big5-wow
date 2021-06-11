@@ -296,14 +296,14 @@ export const Result: React.FC = () => {
       // Step 2: set your neural network options
       const options = {
         task: 'classification',
-        debug: false
+        debug: true
       };
       // Step 3: initialize your neural network
       const nn = ml5.neuralNetwork(options);
 
       // Step 6: train your neural network
       const trainingOptions = {
-        epochs: 30,
+        epochs: 50,
         batchSize: 100
       };
       // Step 7: use the trained model
@@ -314,11 +314,11 @@ export const Result: React.FC = () => {
       // Step 8: make a classification
       const classify = () => {
         const input = {
-          v00: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount),
-          v01: parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount),
-          v02: parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount),
-          v03: parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount),
-          v04: parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount)
+          v00: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) * 20,
+          v01: parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount) * 20,
+          v02: parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount) * 20,
+          v03: parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount) * 20,
+          v04: parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount) * 20
         };
         nn.classify(input, handleResults);
       };
@@ -336,11 +336,11 @@ export const Result: React.FC = () => {
       resultML.forEach((el: mlProp) => {
         const _val = el.sR.split('');
         const inputs = {
-          v00: parseInt(_val[0], 10),
-          v01: parseInt(_val[1], 10),
-          v02: parseInt(_val[2], 10),
-          v03: parseInt(_val[3], 10),
-          v04: parseInt(_val[4], 10)
+          v00: parseInt(_val[0], 10) * 20,
+          v01: parseInt(_val[1], 10) * 20,
+          v02: parseInt(_val[2], 10) * 20,
+          v03: parseInt(_val[3], 10) * 20,
+          v04: parseInt(_val[4], 10) * 20
         };
         const output = {
           sClass: `${el.sC}${TOKEN}${el.sT}`
