@@ -181,13 +181,10 @@ type testResult = {
   nSum?: number;
 };
 type mlProp = {
-  sClass: string;
-  sTalent: string;
-  nAgreeableness: string;
-  nConscientiousness: string;
-  nExtraversion: string;
-  nOpennessToExperience: string;
-  nNeuroticism: string;
+  sC: string; //  class
+  sT: string; //  talent
+  sI?: string; //  input
+  sR?: string; //  result
 };
 type resultNNProp = {
   label: string;
@@ -317,11 +314,11 @@ export const Result: React.FC = () => {
       // Step 8: make a classification
       const classify = () => {
         const input = {
-          nAgreeableness: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount),
-          nConscientiousness: parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount),
-          nExtraversion: parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount),
-          nOpennessToExperience: parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount),
-          nNeuroticism: parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount)
+          v00: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount),
+          v01: parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount),
+          v02: parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount),
+          v03: parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount),
+          v04: parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount)
         };
         nn.classify(input, handleResults);
       };
@@ -337,15 +334,16 @@ export const Result: React.FC = () => {
 
       // Step 4: add data to the neural network
       resultML.forEach((el: mlProp) => {
+        const _val = el.sR.split('');
         const inputs = {
-          nAgreeableness: el.nAgreeableness,
-          nConscientiousness: el.nConscientiousness,
-          nExtraversion: el.nExtraversion,
-          nOpennessToExperience: el.nOpennessToExperience,
-          nNeuroticism: el.nNeuroticism
+          v00: parseInt(_val[0], 10),
+          v01: parseInt(_val[1], 10),
+          v02: parseInt(_val[2], 10),
+          v03: parseInt(_val[3], 10),
+          v04: parseInt(_val[4], 10)
         };
         const output = {
-          sClass: `${el.sClass}${TOKEN}${el.sTalent}`
+          sClass: `${el.sC}${TOKEN}${el.sT}`
         };
 
         nn.addData(inputs, output);
