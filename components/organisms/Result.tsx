@@ -296,7 +296,7 @@ export const Result: React.FC = () => {
       // Step 2: set your neural network options
       const options = {
         task: 'classification',
-        debug: true
+        debug: false
       };
       // Step 3: initialize your neural network
       const nn = ml5.neuralNetwork(options);
