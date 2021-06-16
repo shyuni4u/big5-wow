@@ -191,7 +191,7 @@ type resultNNProp = {
   confidence: number;
 };
 export const Result: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { testInfo } = reducerTest();
   const [result, setResult] = useState<testResult[]>([]);
   const [resultRatio, setResultRatio] = useState<testResult[]>([]);
@@ -228,6 +228,10 @@ export const Result: React.FC = () => {
     if (val > 3.5 && val <= 5) return 5;
     return 0;
   };
+
+  useEffect(() => {
+    i18n.changeLanguage(window.localStorage.getItem('lang') || 'en');
+  }, []);
 
   useEffect(() => {
     let unmount = false;
@@ -444,7 +448,7 @@ export const Result: React.FC = () => {
     <>
       <StyledLoadingWrapper style={{ display: loading ? 'inherit' : 'none' }}>
         <Loader style={{ marginBottom: '20px' }} />
-        성향과 비슷한 직업을 찾고 있습니다.
+        {t('result.loading')}
       </StyledLoadingWrapper>
 
       <div style={{ display: loading ? 'none' : 'flex', flexDirection: 'column', alignItems: 'center', padding: '6px' }}>

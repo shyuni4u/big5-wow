@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -146,13 +146,17 @@ const StyledSelectedGameClassTalent = styled.div`
 const MAX_SELECT = 3;
 
 export const GameClass: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { testInfo } = reducerTest();
 
   const [talentList, setTalentList] = useState<GameClassItemInfo>(undefined);
   const [selectedGameClass, setSelectedGameClass] = useState<ParamGameClassInfo[]>([]);
   const [showTalent, setShowTalent] = useState<boolean>(false);
+
+  useEffect(() => {
+    i18n.changeLanguage(window.localStorage.getItem('lang') || 'en');
+  }, []);
 
   const selectGameClass = (wowClass: any, talent: any) => {
     if (selectedGameClass.some((el) => el.name === wowClass.name && el.talent === talent.name)) {
@@ -259,11 +263,11 @@ export const GameClass: React.FC = () => {
                 <span className="name">{t(`gameclass.${item.name}`)}</span>
                 <img className="pos" src={`/class/${item.position}.svg`} alt={t(`gameclass.${item.position}`)} />
               </li>
-              <li className="desc">{item.desc}</li>
+              <li className="desc">{t(`gameclass.${item.desc}`)}</li>
             </StyledGameClassTalents>
           ))}
         <div style={{ width: '100%', textAlign: 'center' }}>
-          <Button onClick={() => setShowTalent(false)}>닫기</Button>
+          <Button onClick={() => setShowTalent(false)}>{t('gameclass.close')}</Button>
         </div>
       </Modal>
     </>
