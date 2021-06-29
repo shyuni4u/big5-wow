@@ -46,15 +46,15 @@ export class RootApp extends App {
     return (
       <>
         <Head>
-          <title>WoW - Big 5 test</title>
+          <title>WoW - Class recommendation by Machine learning</title>
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="keywords" content="심리테스트, 직업 선택, 와우, 월드 오브 워크래프트, WOW, World of warcraft, MBTI, Big five test"></meta>
-          <meta name="description" content="월드 오브 워크래프트 직업 선택을 위한 심리 테스트. Big 5 test for selecting world of warcraft class." />
+          <meta name="description" content="재미로 보는 머신러닝을 통한 와우 직업 추천 / 뉴비를 위한 유저들의 데이터. Big 5 test for selecting wow class. Wow class recommendation through machine learning for fun / by Korean user datas." />
           <meta property="og:type" content="website" />
           <meta property="og:title" content="Big 5 test." />
-          <meta property="og:description" content="월드 오브 워크래프트 직업 선택을 위한 심리 테스트. Big 5 test for selecting world of warcraft class." />
+          <meta property="og:description" content="재미로 보는 머신러닝을 통한 와우 직업 추천 / 뉴비를 위한 유저들의 데이터. Big 5 test for selecting wow class. Wow class recommendation through machine learning for fun / by Korean user datas." />
           <meta property="og:url" content="http://wow.enzo.kr/" />
         </Head>
         <div style={styles.layout}>
