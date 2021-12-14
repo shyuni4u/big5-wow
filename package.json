@@ -44,10 +44,10 @@
     "styled-reset": "^4.2.3"
   },
   "scripts": {
-    "dev": "next dev -p 14000",
+    "dev": "next dev -p 13000",
     "build": "next build && next export",
-    "start": "next start -p 14001",
-    "sb": "start-storybook -s ./public -p 14009"
+    "start": "next start -p 13001",
+    "sb": "start-storybook -s ./public -p 13009"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -72,5 +72,7 @@
     "prettier": "^2.1.2",
     "react-docgen-typescript-loader": "^3.7.2",
     "typescript": "^4.0.3"
-  }
+  },
+  "repository": "https://github.com/shyuni4u/big5-lostark.git",
+  "author": "shyuni4u <shyuniz@naver.com>"
 }
