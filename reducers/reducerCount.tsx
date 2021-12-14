@@ -1,10 +1,10 @@
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../modules'
-import { countPlusAction, countMinusAction, setCountAction } from '../modules/count';
+import { countPlusAction, countMinusAction, setCountAction } from '../modules/count'
 
 const reducerCount = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const gCount = {
     get: () => useSelector((state: RootState) => state.countModule.count),
@@ -16,6 +16,6 @@ const reducerCount = () => {
   return {
     gCount
   }
-};
+}
 
-export default reducerCount;
+export default reducerCount

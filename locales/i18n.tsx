@@ -1,5 +1,5 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
 const resources = {
   en: {
     translation: {
@@ -13,7 +13,7 @@ const resources = {
         big5Test: 'Personality test',
         btnStart: 'Start',
         btnResult: 'Result',
-        comment: 'For smartphones, learning may take 10 to 15 minutes.',
+        comment: 'Machine learning training date: 2021-12-14',
         checkNewbie: 'Do you have a WOW character?',
         yes: 'No',
         no: 'Yes',
@@ -191,7 +191,7 @@ const resources = {
         big5Test: '성향 테스트',
         btnStart: '시작하기',
         btnResult: '결과보기',
-        comment: '스마트폰의 경우 학습이 10 ~ 15분 소요될 수 있습니다.',
+        comment: '머신러닝 학습일: 2021-12-14',
         checkNewbie: '월드오브워크래프트 초보자입니까?',
         yes: '예',
         no: '아니오',
@@ -358,9 +358,9 @@ const resources = {
       }
     }
   }
-};
+}
 i18n.use(initReactI18next).init({
   resources,
   lng: 'ko'
-});
-export default i18n;
+})
+export default i18n
