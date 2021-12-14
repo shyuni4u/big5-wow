@@ -302,25 +302,23 @@ export const Result: React.FC = () => {
   useEffect(() => {
     if (window && ml5 === null && resultML.length > 0) {
       ml5 = require('ml5')
-      // Step 2: set your neural network options
+
       const options = {
         task: 'classification',
         debug: FOR_TRAINING
       }
-      // Step 3: initialize your neural network
+
       const _nn = ml5.neuralNetwork(options)
 
-      // Step 6: train your neural network
       const trainingOptions = {
         epochs: 100,
         batchSize: 50
       }
-      // Step 7: use the trained model
+
       const finishedTraining = () => {
         classify()
       }
 
-      // Step 8: make a classification
       const classify = () => {
         const input = {
           v00: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) * 20,
@@ -332,7 +330,6 @@ export const Result: React.FC = () => {
         _nn.classify(input, handleResults)
       }
 
-      // Step 9: define a function to handle the results of your classification
       const handleResults = (error, result) => {
         if (error) {
           console.error(error)
@@ -341,7 +338,6 @@ export const Result: React.FC = () => {
         setResultNN(result)
       }
 
-      // Step 4: add data to the neural network
       resultML.forEach((el: mlProp) => {
         const _val = el.sR.split('')
         const inputs = {
@@ -358,14 +354,12 @@ export const Result: React.FC = () => {
         _nn.addData(inputs, output)
       })
 
-      // Step 5: normalize your data;
       _nn.normalizeData()
       _nn.train(trainingOptions, finishedTraining)
       setNN(_nn)
     } else if (window && ml5 === null) {
       ml5 = require('ml5')
 
-      // Step 2: set your neural network options
       const options = {
         task: 'classification',
         debug: false
@@ -396,7 +390,6 @@ export const Result: React.FC = () => {
         _nn.classify(input, handleResults)
       }
 
-      // Step 9: define a function to handle the results of your classification
       const handleResults = (error, result) => {
         if (error) {
           console.error(error)
