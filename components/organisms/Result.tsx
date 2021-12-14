@@ -293,7 +293,6 @@ export const Result: React.FC = () => {
     }
 
     setTimeout(() => onLoadApi(), 4 * 1000)
-    // onLoadApi()
 
     return () => {
       unmount = true
