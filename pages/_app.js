@@ -1,6 +1,6 @@
-import App from 'next/app';
-import Head from 'next/head';
-import React from 'react';
+import App from 'next/app'
+import Head from 'next/head'
+import React from 'react'
 import { createStore } from 'redux'
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
