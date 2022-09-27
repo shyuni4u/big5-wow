@@ -1,10 +1,12 @@
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
-import { createWrapper } from 'next-redux-wrapper';
-import { createStore } from 'redux';
+import { createStore } from 'redux'
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 
-import reducerModule from '../modules/index.tsx';
+import { wrapper } from 'store'
+import { persistedReducer } from 'modules'
 
 const styles = {
   layout: {
@@ -29,43 +31,38 @@ const styles = {
     // bottom: '0',
     fontSize: '12px'
   }
-};
-
-const configureStore = () => {
-  const store = createStore(reducerModule);
-  return store;
-};
-
-const wrapper = createWrapper(configureStore, {
-  debug: process.env.NODE_ENV === 'development,'
-});
+}
 
 export class RootApp extends App {
   render() {
-    const { Component, other } = this.props;
+    const { Component, other } = this.props
+    const store = createStore(persistedReducer)
+    const persistor = persistStore(store)
     return (
-      <>
-        <Head>
-          <title>WoW - Class recommendation by Machine learning</title>
-          <link rel="shortcut icon" href="/favicon.ico" />
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="keywords" content="심리테스트, 직업 선택, 와우, 월드 오브 워크래프트, WOW, World of warcraft, MBTI, Big five test"></meta>
-          <meta name="description" content="재미로 보는 머신러닝을 통한 와우 직업 추천 / 뉴비를 위한 유저들의 데이터. Big 5 test for selecting wow class. Wow class recommendation through machine learning for fun / by Korean user datas." />
-          <meta property="og:type" content="website" />
-          <meta property="og:title" content="Big 5 test." />
-          <meta property="og:description" content="재미로 보는 머신러닝을 통한 와우 직업 추천 / 뉴비를 위한 유저들의 데이터. Big 5 test for selecting wow class. Wow class recommendation through machine learning for fun / by Korean user datas." />
-          <meta property="og:url" content="http://wow.enzo.kr/" />
-        </Head>
-        <div style={styles.layout}>
-          <main style={styles.main}>
-            <Component {...other} />
-          </main>
-          <footer style={styles.footer}>Copyright 2021 <a href='mailto:shyuniz1111@gmail.com' style={{ textDecoration: 'underline' }}>shyuniz</a> Authors.</footer>
-        </div>
-      </>
-    );
+      <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+        <React.Fragment>
+          <Head>
+            <title>WoW - Class recommendation by Machine learning</title>
+            <link rel="shortcut icon" href="/favicon.ico" />
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="keywords" content="심리테스트, 직업 선택, 와우, 월드 오브 워크래프트, WOW, World of warcraft, MBTI, Big five test"></meta>
+            <meta name="description" content="재미로 보는 머신러닝을 통한 와우 직업 추천 / 뉴비를 위한 유저들의 데이터. Big 5 test for selecting wow class. Wow class recommendation through machine learning for fun / by Korean user datas." />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="Big 5 test." />
+            <meta property="og:description" content="재미로 보는 머신러닝을 통한 와우 직업 추천 / 뉴비를 위한 유저들의 데이터. Big 5 test for selecting wow class. Wow class recommendation through machine learning for fun / by Korean user datas." />
+            <meta property="og:url" content="http://wow.enzo.kr/" />
+          </Head>
+          <div style={styles.layout}>
+            <main style={styles.main}>
+              <Component {...other} />
+            </main>
+            <footer style={styles.footer}>Copyright 2021 <a href='mailto:shyuniz1111@gmail.com' style={{ textDecoration: 'underline' }}>shyuniz</a> Authors.</footer>
+          </div>
+        </React.Fragment>
+      </PersistGate>
+    )
   }
 }
 
-export default wrapper.withRedux(RootApp);
+export default wrapper.withRedux(RootApp)

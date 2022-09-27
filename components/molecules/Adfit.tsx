@@ -11,7 +11,7 @@ export const Adfit: React.FC = () => {
     scr.src = '//t1.daumcdn.net/kas/static/ba.min.js'
     ins.setAttribute('data-ad-width', '320')
     ins.setAttribute('data-ad-height', '50')
-    ins.setAttribute('data-ad-unit', 'DAN-jZoTO5YwchMEvMh4')
+    ins.setAttribute('data-ad-unit', 'DAN-MeIbICppOyhqMX2E')
 
     document.querySelector('.adfit').appendChild(ins)
     document.querySelector('.adfit').appendChild(scr)
