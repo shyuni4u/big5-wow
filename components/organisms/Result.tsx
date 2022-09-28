@@ -577,7 +577,7 @@ export const Result: React.FC = () => {
           </StyledResultList>
         </StyledResult>
 
-        {!showStat && <Button onClick={() => setShowStat(true)}>{t('result.stat')}</Button>}
+        {/* {!showStat && <Button onClick={() => setShowStat(true)}>{t('result.stat')}</Button>} */}
 
         {showStat && (
           <>
