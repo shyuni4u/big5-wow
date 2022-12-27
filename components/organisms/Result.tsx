@@ -218,22 +218,6 @@ export const Result: React.FC = () => {
       const _openn = parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount)
       const _neuro = parseRange(test.neuroticismScore / test.neuroticismCount)
 
-      console.log({
-        bTraining: FOR_TRAINING ? 'true' : undefined,
-        sFirstClass: test.firstClass,
-        sFirstTalent: test.firstTalent,
-        sSecondClass: test.secondClass,
-        sSecondTalent: test.secondTalent,
-        sThirdClass: test.thirdClass,
-        sThirdTalent: test.thirdTalent,
-        sInput: test.inputValues.join(''),
-        nAgreeableness: _agree,
-        nConscientiousness: _consc,
-        nExtraversion: _extra,
-        nOpennessToExperience: _openn,
-        nNeuroticism: _neuro
-      })
-
       await axios
         .post(API.path, null, {
           params: {
