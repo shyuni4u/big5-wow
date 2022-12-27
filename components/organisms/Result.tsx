@@ -10,14 +10,15 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/grid'
 import { BsBarChart, BsCloud } from 'react-icons/bs'
 
-import Theme from '../../styles/theme'
-import WowClassInfo from '../../lib/GameClassInfo'
-import API from '../../lib/info.json'
+import Theme from '@styles/theme'
+import WowClassInfo from '@lib/GameClassInfo'
+import API from '@lib/info.json'
 
-import Button from '../atoms/Button'
-import Loader from '../atoms/Loader'
+import Button from '@components/atoms/Button'
+import Loader from '@components/atoms/Loader'
 
-import reducerTest from '../../reducers/reducerTest'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectTest } from 'redux-slice/test'
 
 const StyledLoadingWrapper = styled.div`
   width: 100vw;
@@ -179,7 +180,7 @@ const FOR_TRAINING = false
 
 export const Result: React.FC = () => {
   const { t, i18n } = useTranslation()
-  const { testInfo } = reducerTest()
+  const test = useSelector(selectTest)
   const [resultML, setResultML] = useState<mlProp[]>([])
   const [resultNN, setResultNN] = useState<resultNNProp[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -211,23 +212,39 @@ export const Result: React.FC = () => {
 
   useEffect(() => {
     const onLoadApi = async () => {
-      const _agree = parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount)
-      const _consc = parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount)
-      const _extra = parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount)
-      const _openn = parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount)
-      const _neuro = parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount)
+      const _agree = parseRange(test.agreeablenessScore / test.agreeablenessCount)
+      const _consc = parseRange(test.conscientiousnessScore / test.conscientiousnessCount)
+      const _extra = parseRange(test.extraversionScore / test.extraversionCount)
+      const _openn = parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount)
+      const _neuro = parseRange(test.neuroticismScore / test.neuroticismCount)
+
+      console.log({
+        bTraining: FOR_TRAINING ? 'true' : undefined,
+        sFirstClass: test.firstClass,
+        sFirstTalent: test.firstTalent,
+        sSecondClass: test.secondClass,
+        sSecondTalent: test.secondTalent,
+        sThirdClass: test.thirdClass,
+        sThirdTalent: test.thirdTalent,
+        sInput: test.inputValues.join(''),
+        nAgreeableness: _agree,
+        nConscientiousness: _consc,
+        nExtraversion: _extra,
+        nOpennessToExperience: _openn,
+        nNeuroticism: _neuro
+      })
 
       await axios
         .post(API.path, null, {
           params: {
             bTraining: FOR_TRAINING ? 'true' : undefined,
-            sFirstClass: testInfo.get.firstClass,
-            sFirstTalent: testInfo.get.firstTalent,
-            sSecondClass: testInfo.get.secondClass,
-            sSecondTalent: testInfo.get.secondTalent,
-            sThirdClass: testInfo.get.thirdClass,
-            sThirdTalent: testInfo.get.thirdTalent,
-            sInput: testInfo.get.inputValues.join(''),
+            sFirstClass: test.firstClass,
+            sFirstTalent: test.firstTalent,
+            sSecondClass: test.secondClass,
+            sSecondTalent: test.secondTalent,
+            sThirdClass: test.thirdClass,
+            sThirdTalent: test.thirdTalent,
+            sInput: test.inputValues.join(''),
             nAgreeableness: _agree,
             nConscientiousness: _consc,
             nExtraversion: _extra,
@@ -278,11 +295,11 @@ export const Result: React.FC = () => {
 
       const classify = () => {
         const input = {
-          v00: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) * 20,
-          v01: parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount) * 20,
-          v02: parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount) * 20,
-          v03: parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount) * 20,
-          v04: parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount) * 20
+          v00: parseRange(test.agreeablenessScore / test.agreeablenessCount) * 20,
+          v01: parseRange(test.conscientiousnessScore / test.conscientiousnessCount) * 20,
+          v02: parseRange(test.extraversionScore / test.extraversionCount) * 20,
+          v03: parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount) * 20,
+          v04: parseRange(test.neuroticismScore / test.neuroticismCount) * 20
         }
         _nn.classify(input, handleResults)
       }
@@ -338,11 +355,11 @@ export const Result: React.FC = () => {
 
       const classfy = () => {
         const input = {
-          v00: parseRange(testInfo.get.agreeablenessScore / testInfo.get.agreeablenessCount) * 20,
-          v01: parseRange(testInfo.get.conscientiousnessScore / testInfo.get.conscientiousnessCount) * 20,
-          v02: parseRange(testInfo.get.extraversionScore / testInfo.get.extraversionCount) * 20,
-          v03: parseRange(testInfo.get.opennessToExperienceScore / testInfo.get.opennessToExperienceCount) * 20,
-          v04: parseRange(testInfo.get.neuroticismScore / testInfo.get.neuroticismCount) * 20
+          v00: parseRange(test.agreeablenessScore / test.agreeablenessCount) * 20,
+          v01: parseRange(test.conscientiousnessScore / test.conscientiousnessCount) * 20,
+          v02: parseRange(test.extraversionScore / test.extraversionCount) * 20,
+          v03: parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount) * 20,
+          v04: parseRange(test.neuroticismScore / test.neuroticismCount) * 20
         }
         _nn.classify(input, handleResults)
       }

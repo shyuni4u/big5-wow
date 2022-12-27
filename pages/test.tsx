@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Wrapper from '../components/organisms/Wrapper'
-import TestForm from '../components/organisms/Test'
-import Adfit from '../components/molecules/Adfit'
+import Wrapper from '@components/organisms/Wrapper'
+import TestForm from '@components/organisms/Test'
+import Adfit from '@components/molecules/Adfit'
 
 const StyledTest = styled.section`
   display: flex;

@@ -3,12 +3,13 @@ import Router from 'next/router'
 import { useTranslation } from 'react-i18next'
 import styled, { keyframes } from 'styled-components'
 
-import Panel from '../components/atoms/Panel'
-import Button from '../components/atoms/Button'
-import Wrapper from '../components/organisms/Wrapper'
-import Adfit from '../components/molecules/Adfit'
+import Panel from '@components/atoms/Panel'
+import Button from '@components/atoms/Button'
+import Wrapper from '@components/organisms/Wrapper'
+import Adfit from '@components/molecules/Adfit'
 
-import reducerTest from '../reducers/reducerTest'
+import { useDispatch, useSelector } from 'react-redux'
+import { set, selectTest } from 'redux-slice/test'
 
 const StyledGoDetail = styled.a`
   font-size: 0.6em;
@@ -18,7 +19,6 @@ const StyledGoDetail = styled.a`
   user-select: none;
   cursor: pointer;
 `
-
 const ring = keyframes`
   0% {
     width: 30px;
@@ -31,7 +31,6 @@ const ring = keyframes`
     opacity: 0;
   }
 `
-
 const StyledLanguage = styled.button`
   color: #fff;
   font-weight: 600;
@@ -52,12 +51,13 @@ const StyledLanguage = styled.button`
     animation: ${ring} 1.5s infinite;
   }
 `
-
 const DEFAULT_LANGUAGE = 'kr'
 
 export const Index: React.FC = () => {
   const { t, i18n } = useTranslation()
-  const { testInfo } = reducerTest()
+  const dispatch = useDispatch()
+  const test = useSelector(selectTest)
+
   const [lang, setLang] = useState<string>(DEFAULT_LANGUAGE)
 
   useEffect(() => {
@@ -79,9 +79,15 @@ export const Index: React.FC = () => {
   }
 
   const goGameClass = (newbie: boolean) => {
-    const temp = testInfo.get
-    temp.newbie = newbie
-    testInfo.set(temp)
+    const temp = {
+      firstClass: '',
+      firstTalent: '',
+      secondClass: '',
+      secondTalent: '',
+      thirdClass: '',
+      thirdTalent: ''
+    }
+    dispatch(set({ ...temp, newbie: newbie }))
     Router.push('./test')
   }
 
