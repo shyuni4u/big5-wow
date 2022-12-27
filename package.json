@@ -50,7 +50,7 @@
   },
   "scripts": {
     "dev": "next dev -p 11000",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && next build && next export",
+    "build": "next build && next export",
     "deploy": "next build && next export",
     "sb": "start-storybook -s ./public -p 11009",
     "storybook": "start-storybook -p 6006",

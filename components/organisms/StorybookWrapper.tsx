@@ -1,16 +1,12 @@
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import withReduxEnhancer from 'addon-redux/enhancer'
-import rootReducer from '../../modules'
+// import { storybookStore } from 'redux/slice'
 import Wrapper from './Wrapper'
-
-const store = createStore(rootReducer, withReduxEnhancer)
 
 export const StorybookWrapper: React.FC = ({ children }) => {
   return (
-    <Provider store={store}>
-      <Wrapper>{children}</Wrapper>
-    </Provider>
+    // <Provider store={storybookStore}>
+    <Wrapper>{children}</Wrapper>
+    // </Provider>
   )
 }
 
