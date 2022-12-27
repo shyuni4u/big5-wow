@@ -298,18 +298,37 @@ export const GameClassList = [
         desc: 'furyDesc'
       }
     ]
+  },
+  {
+    name: 'Evoker',
+    image: 'Evoker',
+    color: '#33937f',
+    talents: [
+      {
+        name: 'devastation',
+        position: 'dealer',
+        image: 'ability_evoker_devastation.jpg',
+        desc: 'devastationDesc'
+      },
+      {
+        name: 'preservation',
+        position: 'healer',
+        image: 'ability_evoker_preservation.jpg',
+        desc: 'preservationDesc'
+      }
+    ]
   }
-];
+]
 
-export type GameClassInfo = typeof GameClassList;
-export type GameClassItemInfo = typeof GameClassList[0];
+export type GameClassInfo = typeof GameClassList
+export type GameClassItemInfo = typeof GameClassList[0]
 export type ParamGameClassInfo = {
-  name: string;
-  image?: string;
-  color: string;
-  talent: string;
-  position: string;
-  isMain?: boolean;
-};
+  name: string
+  image?: string
+  color: string
+  talent: string
+  position: string
+  isMain?: boolean
+}
 
-export default GameClassList;
+export default GameClassList

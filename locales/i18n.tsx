@@ -148,7 +148,13 @@ const resources = {
         fury: 'Fury',
         'protection-wDesc': 'A stalwart protector who uses a shield to safeguard herself and her allies. Preferred Weapon: Axe, Mace, Sword, and Shield',
         armsDesc: 'A battle-hardened master of weapons, using mobility and overpowering attacks to strike her opponents down. Preferred Weapon: Two-Handed Axe, Mace, Sword',
-        furyDesc: 'A furious berserker unleashing a flurry of attacks to carve her opponents to pieces. Preferred Weapons: Dual Axes, Maces, Swords'
+        furyDesc: 'A furious berserker unleashing a flurry of attacks to carve her opponents to pieces. Preferred Weapons: Dual Axes, Maces, Swords',
+
+        Evoker: 'Evoker',
+        devastation: 'Devastation',
+        preservation: 'Preservation',
+        devastationDesc: 'Releases innate power as chaotic Red flames or focused Blue magic to bathe the battlefield in destruction. Preferred Weapon: Staff, Sword, Dagger, Mace',
+        preservationDesc: 'Calls upon the Emerald Dream to rejuvenate life, and the Bronze sands of time to prevent harm. Preferred Weapon: Staff, Sword, Dagger, Mace'
       },
       result: {
         title: 'Personality test',
@@ -326,7 +332,13 @@ const resources = {
         fury: '분노',
         'protection-wDesc': '방패를 사용하여 자신과 아군을 안전하게 보호하는 강인한 수호자입니다. 선호 무기: 도끼, 둔기, 도검, 방패',
         armsDesc: '무기를 잘 활용하는 전투의 달인입니다. 기동성과 압도적인 공격력을 바탕으로 적을 쓰러뜨립니다. 선호 무기: 양손 도끼, 둔기, 도검',
-        furyDesc: '광폭하게 적을 공격하는 광전사입니다. 적을 질풍과 같이 공격하여 산산조각냅니다. 선호 무기: 쌍수 도끼, 둔기, 도검'
+        furyDesc: '광폭하게 적을 공격하는 광전사입니다. 적을 질풍과 같이 공격하여 산산조각냅니다. 선호 무기: 쌍수 도끼, 둔기, 도검',
+
+        Evoker: '기원사',
+        devastation: '황폐',
+        preservation: '보존',
+        devastationDesc: '내면의 힘을 혼란스러운 붉은 불길이나 집중된 푸른 마법으로 방출해 전장을 파멸로 뒤덮습니다. 선호 무기: 지팡이, 도검, 단검, 둔기',
+        preservationDesc: '에메랄드의 꿈의 힘을 일으켜 생명을 불어넣고 청동색 시간의 모래로 해악을 방지합니다. 선호 무기: 지팡이, 도검, 단검, 둔기'
       },
       result: {
         title: '성향 테스트',
