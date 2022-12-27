@@ -17,7 +17,7 @@ import API from '@lib/info.json'
 import Button from '@components/atoms/Button'
 import Loader from '@components/atoms/Loader'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectTest } from 'redux-slice/test'
 
 const StyledLoadingWrapper = styled.div`

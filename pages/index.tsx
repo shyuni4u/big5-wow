@@ -8,8 +8,8 @@ import Button from '@components/atoms/Button'
 import Wrapper from '@components/organisms/Wrapper'
 import Adfit from '@components/molecules/Adfit'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { set, selectTest } from 'redux-slice/test'
+import { useDispatch } from 'react-redux'
+import { set } from 'redux-slice/test'
 
 const StyledGoDetail = styled.a`
   font-size: 0.6em;
@@ -56,7 +56,6 @@ const DEFAULT_LANGUAGE = 'kr'
 export const Index: React.FC = () => {
   const { t, i18n } = useTranslation()
   const dispatch = useDispatch()
-  const test = useSelector(selectTest)
 
   const [lang, setLang] = useState<string>(DEFAULT_LANGUAGE)
 
