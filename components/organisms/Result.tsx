@@ -208,16 +208,23 @@ export const Result: React.FC = () => {
 
   useEffect(() => {
     i18n.changeLanguage(window.localStorage.getItem('lang') || 'en')
-  }, [])
 
-  useEffect(() => {
+    const param = Router.query.param
+    if (param) {
+      setAgree(parseInt((param as string).slice(0, 1), 10))
+      setConsc(parseInt((param as string).slice(1, 2), 10))
+      setExtra(parseInt((param as string).slice(2, 3), 10))
+      setOpenn(parseInt((param as string).slice(3, 4), 10))
+      setNeuro(parseInt((param as string).slice(4, 5), 10))
+    } else {
+      setAgree(parseRange(test.agreeablenessScore / test.agreeablenessCount))
+      setConsc(parseRange(test.conscientiousnessScore / test.conscientiousnessCount))
+      setExtra(parseRange(test.extraversionScore / test.extraversionCount))
+      setOpenn(parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount))
+      setNeuro(parseRange(test.neuroticismScore / test.neuroticismCount))
+    }
+
     const onLoadApi = async () => {
-      const _agree = parseRange(test.agreeablenessScore / test.agreeablenessCount)
-      const _consc = parseRange(test.conscientiousnessScore / test.conscientiousnessCount)
-      const _extra = parseRange(test.extraversionScore / test.extraversionCount)
-      const _openn = parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount)
-      const _neuro = parseRange(test.neuroticismScore / test.neuroticismCount)
-
       await axios
         .post(API.path, null, {
           params: {
@@ -229,11 +236,11 @@ export const Result: React.FC = () => {
             sThirdClass: test.thirdClass,
             sThirdTalent: test.thirdTalent,
             sInput: test.inputValues.join(''),
-            nAgreeableness: _agree,
-            nConscientiousness: _consc,
-            nExtraversion: _extra,
-            nOpennessToExperience: _openn,
-            nNeuroticism: _neuro
+            nAgreeableness: agree,
+            nConscientiousness: consc,
+            nExtraversion: extra,
+            nOpennessToExperience: openn,
+            nNeuroticism: neuro
           }
         })
         .then((response) => {
@@ -244,14 +251,7 @@ export const Result: React.FC = () => {
         .catch((error) => {
           console.error(error)
         })
-        .finally(() => {
-          setLoading(false)
-          setAgree(_agree)
-          setConsc(_consc)
-          setExtra(_extra)
-          setOpenn(_openn)
-          setNeuro(_neuro)
-        })
+        .finally(() => setLoading(false))
     }
 
     onLoadApi()
@@ -279,11 +279,11 @@ export const Result: React.FC = () => {
 
       const classify = () => {
         const input = {
-          v00: parseRange(test.agreeablenessScore / test.agreeablenessCount) * 20,
-          v01: parseRange(test.conscientiousnessScore / test.conscientiousnessCount) * 20,
-          v02: parseRange(test.extraversionScore / test.extraversionCount) * 20,
-          v03: parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount) * 20,
-          v04: parseRange(test.neuroticismScore / test.neuroticismCount) * 20
+          v00: agree * 20,
+          v01: consc * 20,
+          v02: extra * 20,
+          v03: openn * 20,
+          v04: neuro * 20
         }
         _nn.classify(input, handleResults)
       }
@@ -339,11 +339,11 @@ export const Result: React.FC = () => {
 
       const classfy = () => {
         const input = {
-          v00: parseRange(test.agreeablenessScore / test.agreeablenessCount) * 20,
-          v01: parseRange(test.conscientiousnessScore / test.conscientiousnessCount) * 20,
-          v02: parseRange(test.extraversionScore / test.extraversionCount) * 20,
-          v03: parseRange(test.opennessToExperienceScore / test.opennessToExperienceCount) * 20,
-          v04: parseRange(test.neuroticismScore / test.neuroticismCount) * 20
+          v00: agree * 20,
+          v01: consc * 20,
+          v02: extra * 20,
+          v03: openn * 20,
+          v04: neuro * 20
         }
         _nn.classify(input, handleResults)
       }
@@ -356,7 +356,7 @@ export const Result: React.FC = () => {
         setResultNN(result)
       }
     }
-  }, [resultML])
+  }, [agree, consc, extra, openn, neuro, resultML])
 
   const getOption = () => {
     return {
@@ -369,12 +369,8 @@ export const Result: React.FC = () => {
         left: 0,
         right: 0,
         bottom: 0
-        // show: true,
-        // borderColor: _color,
-        // borderWidth: '2'
       },
       radar: {
-        // shape: 'circle',
         indicator: [
           { name: t('result.agreeableness'), max: 5 },
           { name: t('result.conscientiousness'), max: 5 },
@@ -519,6 +515,9 @@ export const Result: React.FC = () => {
         </div>
         <Button primary onClick={() => Router.push('/')}>
           {t('result.retry')}
+        </Button>
+        <Button primary onClick={() => Router.push({ pathname: 'http://lostark.enzo.kr/result', query: { param: [agree, consc, extra, openn, neuro].join('') } })}>
+          {t('result.golostark')}
         </Button>
         {FOR_TRAINING ? (
           <Button primary onClick={() => nn.save()}>
